@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { routeUtils } from '@/core/router/routes';
-import { useUsers } from '@/features/users/hooks/useUsers';
+import { useUsers, type User } from '@/features/users/hooks/useUsers';
 import { LoadingSpinner } from '@/core/layout/LoadingSpinner';
 
 /**
@@ -9,11 +9,24 @@ import { LoadingSpinner } from '@/core/layout/LoadingSpinner';
  * Displays a list of all users with search and filtering capabilities
  */
 const UsersListPage = () => {
-  const { users, loading, error, refetch } = useUsers();
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // React Query hook with search filtering
+  const { 
+    data: users = [], 
+    isLoading, 
+    error, 
+    refetch,
+    isRefetching
+  } = useUsers({
+    filters: { 
+      search: searchTerm || undefined,
+      limit: 20 
+    }
+  });
 
-  // Filter users based on search term
-  const filteredUsers = users.filter((user: any) =>
+  // Filter users based on search term (client-side filtering for better UX)
+  const filteredUsers = users.filter((user: User) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -22,7 +35,11 @@ const UsersListPage = () => {
     refetch();
   };
 
-  if (loading) {
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -43,15 +60,19 @@ const UsersListPage = () => {
             type="text"
             placeholder="Search users by name or email..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="search-input"
           />
           <span className="search-icon">🔍</span>
         </div>
         
         <div className="action-buttons">
-          <button onClick={handleRetry} className="refresh-button">
-            🔄 Refresh
+          <button 
+            onClick={handleRetry} 
+            className="refresh-button"
+            disabled={isRefetching}
+          >
+            {isRefetching ? '⏳' : '🔄'} Refresh
           </button>
         </div>
       </div>
@@ -63,7 +84,7 @@ const UsersListPage = () => {
             <span className="error-icon">⚠️</span>
             <div className="error-text">
               <h3>Failed to load users</h3>
-              <p>{error}</p>
+              <p>{error instanceof Error ? error.message : 'An unexpected error occurred'}</p>
             </div>
             <button onClick={handleRetry} className="retry-button">
               Try Again
@@ -89,10 +110,10 @@ const UsersListPage = () => {
       {/* Users Grid */}
       {!error && filteredUsers.length > 0 && (
         <div className="users-grid">
-          {filteredUsers.map((user: any) => (
+          {filteredUsers.map((user: User) => (
             <Link
               key={user.id}
-              to={routeUtils.userDetail(user.id)}
+              to={routeUtils.userDetail(user.id.toString())}
               className="user-card"
             >
               <div className="user-avatar">
@@ -104,6 +125,9 @@ const UsersListPage = () => {
               <div className="user-info">
                 <h3 className="user-name">{user.name}</h3>
                 <p className="user-email">{user.email}</p>
+                {user.username && (
+                  <p className="user-username">@{user.username}</p>
+                )}
                 <span className="user-id">ID: {user.id}</span>
               </div>
               
@@ -116,7 +140,7 @@ const UsersListPage = () => {
       )}
 
       {/* Empty State */}
-      {!error && !loading && filteredUsers.length === 0 && (
+      {!error && !isLoading && filteredUsers.length === 0 && (
         <div className="empty-state">
           <div className="empty-content">
             <span className="empty-icon">👤</span>
@@ -137,7 +161,7 @@ const UsersListPage = () => {
             
             {searchTerm && (
               <button
-                onClick={() => setSearchTerm('')}
+                onClick={() => handleSearchChange('')}
                 className="clear-search-button"
               >
                 Clear Search
@@ -367,6 +391,13 @@ const UsersListPage = () => {
           color: #ccc;
           margin: 0 0 0.5rem 0;
           word-break: break-word;
+        }
+
+        .user-username {
+          color: #61dafb;
+          margin: 0 0 0.5rem 0;
+          font-style: italic;
+          font-size: 0.95rem;
         }
 
         .user-id {

@@ -22,5 +22,24 @@ export {
   type ApiError 
 } from '@/core/api/client';
 
+// Query exports (React Query/TanStack Query)
+export {
+  queryClient,
+  QueryProvider,
+  queryKeys,
+  useInvalidateQueries,
+  useRemoveQueries,
+  useOptimisticUpdate,
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+  useSuspenseQuery,
+  type MutationOptions,
+  type UseQueryOptions,
+  type UseMutationOptions,
+  type UseInfiniteQueryOptions,
+} from '@/core/query';
+
 // Type exports for routing
 export type { RouteKeys, RouteValues } from '@/core/router/routes';

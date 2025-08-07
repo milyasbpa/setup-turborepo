@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/core/router/routes';
+import { useQuery } from '@/core/query';
 import { apiClient, API_ENDPOINTS } from '@/core/api/client';
+import { useUsers } from '@/features/users/hooks/useUsers';
 
 interface BackendStatus {
   status: string;
@@ -12,26 +13,43 @@ interface BackendStatus {
 /**
  * Home Page Component
  * Main landing page with app overview and backend status
+ * Demonstrates React Query usage
  */
 const HomePage = () => {
-  const [backendStatus, setBackendStatus] = useState<string>('Checking...');
-  const [backendData, setBackendData] = useState<BackendStatus | null>(null);
+  // React Query for backend health check
+  const { 
+    data: backendData, 
+    isLoading: isLoadingHealth,
+    error: healthError 
+  } = useQuery({
+    queryKey: ['health'],
+    queryFn: async (): Promise<BackendStatus> => {
+      const response = await apiClient.get<BackendStatus>(API_ENDPOINTS.HEALTH);
+      return response.data;
+    },
+    refetchInterval: 30000, // Refetch every 30 seconds
+    staleTime: 10000, // Consider data stale after 10 seconds
+  });
 
-  useEffect(() => {
-    // Check backend health
-    const checkBackendHealth = async () => {
-      try {
-        const response = await apiClient.get<BackendStatus>(API_ENDPOINTS.HEALTH);
-        setBackendStatus(`✅ ${response.data.status}`);
-        setBackendData(response.data);
-      } catch (err) {
-        setBackendStatus('❌ Backend unavailable');
-        console.error('Backend health check failed:', err);
-      }
-    };
+  // React Query for users count (demonstrates reusing existing hooks)
+  const { 
+    data: users = [], 
+    isLoading: isLoadingUsers 
+  } = useUsers({
+    filters: { limit: 5 }, // Just get first 5 users for count
+  });
 
-    checkBackendHealth();
-  }, []);
+  const getBackendStatus = () => {
+    if (isLoadingHealth) return '⏳ Checking...';
+    if (healthError) return '❌ Backend unavailable';
+    if (backendData) return `✅ ${backendData.status}`;
+    return '❓ Unknown';
+  };
+
+  const getUsersStatus = () => {
+    if (isLoadingUsers) return '⏳ Loading...';
+    return `👥 ${users.length} users loaded`;
+  };
 
   const features = [
     {
@@ -42,12 +60,12 @@ const HomePage = () => {
     {
       icon: '🚀',
       title: 'Modern Tech Stack',
-      description: 'React 18, TypeScript, Vite, React Router DOM',
+      description: 'React 18, TypeScript, Vite, React Router DOM, React Query',
     },
     {
       icon: '🔄',
       title: 'API Integration',
-      description: 'Connected to Express.js backend with Prisma ORM',
+      description: 'Connected to Express.js backend with caching and error handling',
     },
     {
       icon: '🎨',
@@ -103,10 +121,19 @@ const HomePage = () => {
               <span className="status-icon">⚡</span>
               <h3>Backend API</h3>
             </div>
-            <p className="status-value">{backendStatus}</p>
+            <p className="status-value">{getBackendStatus()}</p>
             {backendData && (
               <small>Uptime: {Math.round(backendData.uptime)}s</small>
             )}
+          </div>
+
+          <div className="status-card">
+            <div className="status-header">
+              <span className="status-icon">📊</span>
+              <h3>Data Cache</h3>
+            </div>
+            <p className="status-value">{getUsersStatus()}</p>
+            <small>React Query Cache</small>
           </div>
         </div>
       </section>
