@@ -6,10 +6,15 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
-    "clean": "turbo clean"
+    "clean": "turbo clean",
+    "prepare": "husky",
+    "commitlint": "commitlint --edit --verbose"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@turbo/gen": "^2.5.5",
+    "husky": "^9.1.7",
     "turbo": "^2.5.5"
   },
   "packageManager": "npm@10.2.4",

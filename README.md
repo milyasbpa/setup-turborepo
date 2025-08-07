@@ -122,6 +122,55 @@ npm run lint       # ESLint
 npm run type-check # TypeScript validation
 ```
 
+### 🪝 Git Hooks & Code Quality
+
+This project uses **Husky** and **Commitlint** to maintain code quality and consistent commit messages.
+
+#### Pre-commit Hook
+Automatically runs before each commit:
+```bash
+# Runs automatically on git commit
+📝 Type checking...
+🔧 Linting...
+```
+
+#### Commit Message Format
+Follows [Conventional Commits](https://conventionalcommits.org/) specification:
+
+```bash
+type(scope): description
+
+# Examples:
+feat: add user authentication
+fix(api): resolve CORS issue
+docs: update README setup instructions
+style: format code with prettier
+refactor(backend): optimize database queries
+test: add unit tests for user service
+```
+
+**Allowed types:**
+- `feat` - New feature
+- `fix` - Bug fix
+- `docs` - Documentation changes
+- `style` - Code style changes (formatting, etc.)
+- `refactor` - Code refactoring
+- `perf` - Performance improvements
+- `test` - Adding or updating tests
+- `build` - Build system changes
+- `ci` - CI/CD changes
+- `chore` - Other changes
+- `revert` - Revert previous commit
+
+#### Manual Commands
+```bash
+# Test commit message format
+npm run commitlint
+
+# Manually run pre-commit checks
+npm run type-check && npm run lint
+```
+
 ## 🏗️ Project Structure
 
 ```
@@ -189,6 +238,10 @@ npm run type-check # TypeScript validation
 - **Monorepo management** with Turborepo for efficient builds
 - **Shared configurations** for consistent code quality
 - **Type safety** across the entire stack
+- **Git hooks** with Husky for automated quality checks
+- **Commit message linting** with Commitlint for consistent history
+- **Pre-commit validation** with automatic linting and type checking
+- **Conventional commits** for better project maintenance
 - **Hot reload** for both frontend and backend
 - **Unified scripts** to manage all applications
 
