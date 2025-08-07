@@ -1,0 +1,2 @@
+# Test file for commit validation
+echo "test"
