@@ -1,0 +1,423 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@/core/router/routes';
+import { apiClient, API_ENDPOINTS } from '@/core/api/client';
+
+interface BackendStatus {
+  status: string;
+  timestamp: string;
+  uptime: number;
+}
+
+/**
+ * Home Page Component
+ * Main landing page with app overview and backend status
+ */
+const HomePage = () => {
+  const [backendStatus, setBackendStatus] = useState<string>('Checking...');
+  const [backendData, setBackendData] = useState<BackendStatus | null>(null);
+
+  useEffect(() => {
+    // Check backend health
+    const checkBackendHealth = async () => {
+      try {
+        const response = await apiClient.get<BackendStatus>(API_ENDPOINTS.HEALTH);
+        setBackendStatus(`✅ ${response.data.status}`);
+        setBackendData(response.data);
+      } catch (err) {
+        setBackendStatus('❌ Backend unavailable');
+        console.error('Backend health check failed:', err);
+      }
+    };
+
+    checkBackendHealth();
+  }, []);
+
+  const features = [
+    {
+      icon: '🏗️',
+      title: 'Scalable Architecture',
+      description: 'Clean folder structure with core and features separation',
+    },
+    {
+      icon: '🚀',
+      title: 'Modern Tech Stack',
+      description: 'React 18, TypeScript, Vite, React Router DOM',
+    },
+    {
+      icon: '🔄',
+      title: 'API Integration',
+      description: 'Connected to Express.js backend with Prisma ORM',
+    },
+    {
+      icon: '🎨',
+      title: 'Responsive Design',
+      description: 'Mobile-first approach with modern CSS',
+    },
+  ];
+
+  return (
+    <div className="home-page">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            Welcome to <span className="gradient-text">Turborepo Frontend</span>
+          </h1>
+          <p className="hero-description">
+            A modern, scalable React application built with TypeScript, Vite, and React Router.
+            Featuring clean architecture and seamless backend integration.
+          </p>
+          
+          <div className="hero-actions">
+            <Link to={ROUTES.USERS} className="cta-button primary">
+              👥 Explore Users
+            </Link>
+            <a 
+              href="http://localhost:3001" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="cta-button secondary"
+            >
+              🔗 Backend API
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Status Section */}
+      <section className="status-section">
+        <h2>System Status</h2>
+        <div className="status-cards">
+          <div className="status-card">
+            <div className="status-header">
+              <span className="status-icon">🖥️</span>
+              <h3>Frontend</h3>
+            </div>
+            <p className="status-value">✅ Online</p>
+            <small>React Development Server</small>
+          </div>
+          
+          <div className="status-card">
+            <div className="status-header">
+              <span className="status-icon">⚡</span>
+              <h3>Backend API</h3>
+            </div>
+            <p className="status-value">{backendStatus}</p>
+            {backendData && (
+              <small>Uptime: {Math.round(backendData.uptime)}s</small>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="features-section">
+        <h2>Key Features</h2>
+        <div className="features-grid">
+          {features.map((feature, index) => (
+            <div key={index} className="feature-card">
+              <div className="feature-icon">{feature.icon}</div>
+              <h3 className="feature-title">{feature.title}</h3>
+              <p className="feature-description">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Quick Links Section */}
+      <section className="quick-links-section">
+        <h2>Quick Links</h2>
+        <div className="links-grid">
+          <Link to={ROUTES.USERS} className="link-card">
+            <span className="link-icon">👥</span>
+            <div className="link-content">
+              <h3>Users Management</h3>
+              <p>Browse and manage user accounts</p>
+            </div>
+          </Link>
+          
+          <a 
+            href="http://localhost:3001/api/health" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="link-card"
+          >
+            <span className="link-icon">🏥</span>
+            <div className="link-content">
+              <h3>Health Check</h3>
+              <p>Monitor backend API status</p>
+            </div>
+          </a>
+          
+          <a 
+            href="http://localhost:3001/api/users" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="link-card"
+          >
+            <span className="link-icon">📊</span>
+            <div className="link-content">
+              <h3>Raw API Data</h3>
+              <p>View JSON response directly</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <style>{`
+        .home-page {
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+          text-align: center;
+          padding: 3rem 0;
+          margin-bottom: 3rem;
+        }
+
+        .hero-title {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+          line-height: 1.2;
+        }
+
+        .gradient-text {
+          background: linear-gradient(45deg, #61dafb, #98d8c8);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .hero-description {
+          font-size: 1.2rem;
+          color: #ccc;
+          margin-bottom: 2rem;
+          line-height: 1.6;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .hero-actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .cta-button {
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .cta-button.primary {
+          background: #61dafb;
+          color: #282c34;
+        }
+
+        .cta-button.primary:hover {
+          background: #21a1c4;
+          transform: translateY(-2px);
+        }
+
+        .cta-button.secondary {
+          background: transparent;
+          color: #61dafb;
+          border: 2px solid #61dafb;
+        }
+
+        .cta-button.secondary:hover {
+          background: #61dafb;
+          color: #282c34;
+          transform: translateY(-2px);
+        }
+
+        /* Status Section */
+        .status-section {
+          margin-bottom: 3rem;
+        }
+
+        .status-section h2 {
+          text-align: center;
+          color: #61dafb;
+          margin-bottom: 2rem;
+        }
+
+        .status-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .status-card {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 1.5rem;
+          border-radius: 12px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(97, 218, 251, 0.2);
+        }
+
+        .status-header {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .status-icon {
+          font-size: 1.5rem;
+        }
+
+        .status-header h3 {
+          margin: 0;
+          color: #61dafb;
+        }
+
+        .status-value {
+          font-size: 1.1rem;
+          margin: 0 0 0.5rem 0;
+          font-weight: 500;
+        }
+
+        .status-card small {
+          color: #ccc;
+          font-size: 0.9rem;
+        }
+
+        /* Features Section */
+        .features-section {
+          margin-bottom: 3rem;
+        }
+
+        .features-section h2 {
+          text-align: center;
+          color: #61dafb;
+          margin-bottom: 2rem;
+        }
+
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .feature-card {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 2rem;
+          border-radius: 12px;
+          text-align: center;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(97, 218, 251, 0.2);
+          transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-4px);
+        }
+
+        .feature-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .feature-title {
+          color: #61dafb;
+          margin-bottom: 1rem;
+        }
+
+        .feature-description {
+          color: #ccc;
+          line-height: 1.6;
+        }
+
+        /* Quick Links Section */
+        .quick-links-section h2 {
+          text-align: center;
+          color: #61dafb;
+          margin-bottom: 2rem;
+        }
+
+        .links-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .link-card {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 1.5rem;
+          border-radius: 12px;
+          text-decoration: none;
+          color: inherit;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(97, 218, 251, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .link-card:hover {
+          transform: translateY(-2px);
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(97, 218, 251, 0.4);
+        }
+
+        .link-icon {
+          font-size: 2rem;
+          flex-shrink: 0;
+        }
+
+        .link-content h3 {
+          margin: 0 0 0.5rem 0;
+          color: #61dafb;
+        }
+
+        .link-content p {
+          margin: 0;
+          color: #ccc;
+          font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .hero-title {
+            font-size: 2.5rem;
+          }
+
+          .hero-description {
+            font-size: 1.1rem;
+          }
+
+          .hero-actions {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .cta-button {
+            width: 100%;
+            max-width: 250px;
+            justify-content: center;
+          }
+
+          .status-cards,
+          .features-grid,
+          .links-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default HomePage;
