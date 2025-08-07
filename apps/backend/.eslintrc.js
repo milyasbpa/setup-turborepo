@@ -1,0 +1,14 @@
+module.exports = {
+  root: true,
+  extends: [
+    "eslint:recommended"
+  ],
+  env: {
+    node: true,
+    es6: true,
+  },
+  ignorePatterns: [
+    "node_modules/",
+    "dist/",
+  ],
+};
