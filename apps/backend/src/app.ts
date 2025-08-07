@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { errorHandler, notFoundHandler, httpLogger, errorHttpLogger } from './core/middleware';
 import { LoggerService } from './core/logger';
 import { setupSwagger } from './core/swagger';
+import { prismaService } from './core/database';
 import { HealthModule } from './features/health';
 import { UserModule } from './features/users';
 
@@ -86,14 +87,74 @@ export class Application {
     this.app.use(errorHandler);
   }
 
+  /**
+   * Initialize database connection
+   */
+  private async initializeDatabase(): Promise<void> {
+    try {
+      await prismaService.connect();
+      LoggerService.info('✅ Database connection established');
+    } catch (error) {
+      LoggerService.error('❌ Failed to connect to database', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      process.exit(1);
+    }
+  }
+
+  /**
+   * Graceful shutdown
+   */
+  private setupGracefulShutdown(): void {
+    const gracefulShutdown = async (signal: string) => {
+      LoggerService.info(`📝 Received ${signal}. Starting graceful shutdown...`);
+      
+      try {
+        await prismaService.disconnect();
+        LoggerService.info('✅ Database disconnected successfully');
+        process.exit(0);
+      } catch (error) {
+        LoggerService.error('❌ Error during graceful shutdown', {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
+        process.exit(1);
+      }
+    };
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+  }
+
+  public async start(): Promise<void> {
+    try {
+      // Initialize database first
+      await this.initializeDatabase();
+      
+      // Setup graceful shutdown
+      this.setupGracefulShutdown();
+
+      // Start the server
+      this.app.listen(this.port, () => {
+        LoggerService.info(`🚀 Backend server is running on port ${this.port}`);
+        LoggerService.info(`📍 API available at http://localhost:${this.port}`);
+        LoggerService.info(`🏥 Health check: http://localhost:${this.port}/api/health`);
+        LoggerService.info(`👥 Users API: http://localhost:${this.port}/api/users`);
+        LoggerService.info(`📊 Database: Connected to PostgreSQL`);
+        LoggerService.info(`📖 API Documentation: http://localhost:${this.port}/api/docs`);
+        LoggerService.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      });
+    } catch (error) {
+      LoggerService.error('❌ Failed to start application', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      process.exit(1);
+    }
+  }
+
   public listen(): void {
-    this.app.listen(this.port, () => {
-      LoggerService.info(`🚀 Backend server is running on port ${this.port}`);
-      LoggerService.info(`📍 API available at http://localhost:${this.port}`);
-      LoggerService.info(`🏥 Health check: http://localhost:${this.port}/api/health`);
-      LoggerService.info(`👥 Users API: http://localhost:${this.port}/api/users`);
-      LoggerService.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-    });
+    // Deprecated: Use start() instead
+    LoggerService.warn('⚠️ listen() method is deprecated. Use start() method instead.');
+    this.start();
   }
 
   public getApp(): ExpressApplication {

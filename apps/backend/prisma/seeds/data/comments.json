@@ -1,0 +1,52 @@
+[
+  {
+    "content": "Great to be here! Looking forward to learning more about the platform and connecting with other developers.",
+    "postSlug": "welcome-to-our-platform",
+    "authorEmail": "john.doe@example.com"
+  },
+  {
+    "content": "Thank you for the warm welcome! This platform looks very promising. I'm excited to contribute and share knowledge.",
+    "postSlug": "welcome-to-our-platform",
+    "authorEmail": "jane.smith@example.com"
+  },
+  {
+    "content": "Welcome everyone! As the admin, I'm here to help if you have any questions or need assistance getting started.",
+    "postSlug": "welcome-to-our-platform",
+    "authorEmail": "admin@example.com"
+  },
+  {
+    "content": "Excellent tutorial! TypeScript has really improved my development workflow. The type safety catches so many bugs early.",
+    "postSlug": "getting-started-with-typescript",
+    "authorEmail": "admin@example.com"
+  },
+  {
+    "content": "Thanks for this comprehensive guide! I've been hesitant to adopt TypeScript, but this makes it seem much more approachable.",
+    "postSlug": "getting-started-with-typescript",
+    "authorEmail": "bob.wilson@example.com"
+  },
+  {
+    "content": "As a frontend developer, I can confirm that TypeScript makes React development so much better. Great explanation of the basics!",
+    "postSlug": "getting-started-with-typescript",
+    "authorEmail": "jane.smith@example.com"
+  },
+  {
+    "content": "Looking forward to the Prisma article! I've heard great things about it but haven't had a chance to try it yet.",
+    "postSlug": "getting-started-with-typescript",
+    "authorEmail": "demo.user@example.com"
+  },
+  {
+    "content": "This is exactly what I needed! React hooks were confusing at first, but your examples make them much clearer.",
+    "postSlug": "modern-react-development-patterns",
+    "authorEmail": "john.doe@example.com"
+  },
+  {
+    "content": "Great breakdown of performance optimization techniques. useMemo and useCallback are game changers when used correctly.",
+    "postSlug": "modern-react-development-patterns",
+    "authorEmail": "bob.wilson@example.com"
+  },
+  {
+    "content": "As someone who teaches React, I really appreciate how you explained component composition. Mind if I share this with my students?",
+    "postSlug": "modern-react-development-patterns",
+    "authorEmail": "admin@example.com"
+  }
+]

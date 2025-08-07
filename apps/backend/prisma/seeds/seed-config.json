@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "description": "Seed configuration for TurboRepo backend database",
+  "seedOrder": [
+    {
+      "table": "users",
+      "file": "users.json",
+      "description": "Core user accounts for the platform",
+      "dependencies": [],
+      "requiredFields": ["email", "password"],
+      "hashFields": ["password"]
+    },
+    {
+      "table": "posts",
+      "file": "posts.json", 
+      "description": "Sample blog posts and articles",
+      "dependencies": ["users"],
+      "requiredFields": ["title", "slug", "authorEmail"],
+      "lookupFields": {
+        "authorEmail": {
+          "table": "users",
+          "field": "email",
+          "maps_to": "authorId"
+        }
+      }
+    },
+    {
+      "table": "comments",
+      "file": "comments.json",
+      "description": "Sample comments on posts",
+      "dependencies": ["users", "posts"],
+      "requiredFields": ["content", "postSlug", "authorEmail"],
+      "lookupFields": {
+        "authorEmail": {
+          "table": "users", 
+          "field": "email",
+          "maps_to": "authorId"
+        },
+        "postSlug": {
+          "table": "posts",
+          "field": "slug", 
+          "maps_to": "postId"
+        }
+      }
+    }
+  ],
+  "settings": {
+    "saltRounds": 12,
+    "skipExisting": true,
+    "logLevel": "info"
+  }
+}
