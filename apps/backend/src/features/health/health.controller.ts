@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { BaseController } from '../../core/base';
 import { asyncHandler, sendSuccess } from '../../core/middleware';
 import { HealthService } from './health.service';
+import './health.swagger'; // Import Swagger documentation
 
 export class HealthController extends BaseController {
   constructor(private healthService: HealthService) {

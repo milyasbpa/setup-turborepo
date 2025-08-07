@@ -1,6 +1,7 @@
 import { BaseService } from '../../core/base';
 import { LoggerService } from '../../core/logger';
-import { User, CreateUserDto, UpdateUserDto, GetUsersQuery } from './user.interface';
+import { User, CreateUserDto, UpdateUserDto } from './user.interface';
+import { UserQueryDto } from './user.dto';
 
 export class UserService extends BaseService {
   private users: User[] = [
@@ -20,7 +21,12 @@ export class UserService extends BaseService {
     },
   ];
 
-  async getAllUsers(query: GetUsersQuery = {}): Promise<{
+  async getAllUsers(query: UserQueryDto = {
+    page: 1,
+    limit: 10,
+    sortBy: 'id',
+    sortOrder: 'asc'
+  }): Promise<{
     users: User[];
     total: number;
     pagination: {

@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import * as dotenv from 'dotenv';
 import { errorHandler, notFoundHandler, httpLogger, errorHttpLogger } from './core/middleware';
 import { LoggerService } from './core/logger';
+import { setupSwagger } from './core/swagger';
 import { HealthModule } from './features/health';
 import { UserModule } from './features/users';
 
@@ -27,6 +28,7 @@ export class Application {
     this.userModule = new UserModule();
 
     this.initializeMiddleware();
+    this.initializeSwagger();
     this.initializeRoutes();
     this.initializeErrorHandling();
   }
@@ -47,6 +49,11 @@ export class Application {
     LoggerService.info('Middleware initialized successfully');
   }
 
+  private initializeSwagger(): void {
+    setupSwagger(this.app);
+    LoggerService.info('Swagger documentation initialized');
+  }
+
   private initializeRoutes(): void {
     // Root route
     this.app.get('/', (req, res) => {
@@ -58,6 +65,8 @@ export class Application {
         endpoints: {
           health: '/api/health',
           users: '/api/users',
+          docs: '/api/docs',
+          openapi: '/api/docs.json',
         },
       });
     });

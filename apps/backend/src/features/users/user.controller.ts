@@ -1,8 +1,19 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../core/base';
 import { asyncHandler, sendSuccess, sendError } from '../../core/middleware';
+import { validateBody, validateQuery, validateParams } from '../../core/validation/validation.middleware';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto, GetUsersQuery } from './user.interface';
+import { 
+  CreateUserSchema, 
+  UpdateUserSchema, 
+  UserQuerySchema, 
+  UserParamsSchema,
+  CreateUserDto,
+  UpdateUserDto,
+  UserQueryDto,
+  UserParamsDto
+} from './user.dto';
+import './user.swagger'; // Import Swagger documentation
 
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
@@ -10,21 +21,32 @@ export class UserController extends BaseController {
   }
 
   initializeRoutes(): void {
-    this.router.get('/', asyncHandler(this.getAllUsers.bind(this)));
+    this.router.get('/', 
+      validateQuery(UserQuerySchema),
+      asyncHandler(this.getAllUsers.bind(this))
+    );
     this.router.get('/stats', asyncHandler(this.getUserStats.bind(this)));
-    this.router.get('/:id', asyncHandler(this.getUserById.bind(this)));
-    this.router.post('/', asyncHandler(this.createUser.bind(this)));
-    this.router.put('/:id', asyncHandler(this.updateUser.bind(this)));
-    this.router.delete('/:id', asyncHandler(this.deleteUser.bind(this)));
+    this.router.get('/:id', 
+      validateParams(UserParamsSchema),
+      asyncHandler(this.getUserById.bind(this))
+    );
+    this.router.post('/', 
+      validateBody(CreateUserSchema),
+      asyncHandler(this.createUser.bind(this))
+    );
+    this.router.put('/:id', 
+      validateParams(UserParamsSchema),
+      validateBody(UpdateUserSchema),
+      asyncHandler(this.updateUser.bind(this))
+    );
+    this.router.delete('/:id', 
+      validateParams(UserParamsSchema),
+      asyncHandler(this.deleteUser.bind(this))
+    );
   }
 
   private async getAllUsers(req: Request, res: Response): Promise<void> {
-    const query: GetUsersQuery = {
-      page: parseInt(req.query.page as string) || 1,
-      limit: parseInt(req.query.limit as string) || 10,
-      search: req.query.search as string,
-    };
-
+    const query = req.validated?.query as UserQueryDto;
     const result = await this.userService.getAllUsers(query);
     
     res.json({
@@ -37,13 +59,7 @@ export class UserController extends BaseController {
   }
 
   private async getUserById(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id);
-    
-    if (isNaN(id)) {
-      sendError(res, 'Invalid user ID', 400);
-      return;
-    }
-
+    const { id } = req.validated?.params as UserParamsDto;
     const user = await this.userService.getUserById(id);
     
     if (!user) {
@@ -55,42 +71,14 @@ export class UserController extends BaseController {
   }
 
   private async createUser(req: Request, res: Response): Promise<void> {
-    const userData: CreateUserDto = req.body;
-
-    // Basic validation
-    if (!userData.name || !userData.email) {
-      sendError(res, 'Name and email are required', 400);
-      return;
-    }
-
-    // Email validation (basic)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(userData.email)) {
-      sendError(res, 'Invalid email format', 400);
-      return;
-    }
-
+    const userData = req.validated?.body as CreateUserDto;
     const newUser = await this.userService.createUser(userData);
     sendSuccess(res, newUser, 'User created successfully', 201);
   }
 
   private async updateUser(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id);
-    const userData: UpdateUserDto = req.body;
-
-    if (isNaN(id)) {
-      sendError(res, 'Invalid user ID', 400);
-      return;
-    }
-
-    // Email validation if email is being updated
-    if (userData.email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(userData.email)) {
-        sendError(res, 'Invalid email format', 400);
-        return;
-      }
-    }
+    const { id } = req.validated?.params as UserParamsDto;
+    const userData = req.validated?.body as UpdateUserDto;
 
     const updatedUser = await this.userService.updateUser(id, userData);
     
@@ -103,13 +91,7 @@ export class UserController extends BaseController {
   }
 
   private async deleteUser(req: Request, res: Response): Promise<void> {
-    const id = parseInt(req.params.id);
-    
-    if (isNaN(id)) {
-      sendError(res, 'Invalid user ID', 400);
-      return;
-    }
-
+    const { id } = req.validated?.params as UserParamsDto;
     const deleted = await this.userService.deleteUser(id);
     
     if (!deleted) {
