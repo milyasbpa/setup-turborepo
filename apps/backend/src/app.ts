@@ -2,7 +2,8 @@ import express, { Application as ExpressApplication } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import * as dotenv from 'dotenv';
-import { errorHandler, notFoundHandler } from './core/middleware';
+import { errorHandler, notFoundHandler, httpLogger, errorHttpLogger } from './core/middleware';
+import { LoggerService } from './core/logger';
 import { HealthModule } from './features/health';
 import { UserModule } from './features/users';
 
@@ -31,6 +32,10 @@ export class Application {
   }
 
   private initializeMiddleware(): void {
+    // HTTP request logging
+    this.app.use(httpLogger);
+    this.app.use(errorHttpLogger);
+
     // Security and CORS
     this.app.use(helmet());
     this.app.use(cors());
@@ -39,13 +44,7 @@ export class Application {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
-    // Request logging in development
-    if (process.env.NODE_ENV === 'development') {
-      this.app.use((req, res, next) => {
-        console.log(`📝 ${req.method} ${req.path} - ${new Date().toISOString()}`);
-        next();
-      });
-    }
+    LoggerService.info('Middleware initialized successfully');
   }
 
   private initializeRoutes(): void {
@@ -66,6 +65,8 @@ export class Application {
     // Feature routes
     this.app.use('/api/health', this.healthModule.initialize());
     this.app.use('/api/users', this.userModule.initialize());
+
+    LoggerService.info('Routes initialized successfully');
   }
 
   private initializeErrorHandling(): void {
@@ -78,11 +79,11 @@ export class Application {
 
   public listen(): void {
     this.app.listen(this.port, () => {
-      console.log(`🚀 Backend server is running on port ${this.port}`);
-      console.log(`📍 API available at http://localhost:${this.port}`);
-      console.log(`🏥 Health check: http://localhost:${this.port}/api/health`);
-      console.log(`👥 Users API: http://localhost:${this.port}/api/users`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      LoggerService.info(`🚀 Backend server is running on port ${this.port}`);
+      LoggerService.info(`📍 API available at http://localhost:${this.port}`);
+      LoggerService.info(`🏥 Health check: http://localhost:${this.port}/api/health`);
+      LoggerService.info(`👥 Users API: http://localhost:${this.port}/api/users`);
+      LoggerService.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   }
 

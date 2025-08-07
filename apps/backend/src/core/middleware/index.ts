@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AsyncHandler, ApiResponse } from '../interfaces';
+import { LoggerService } from '../logger';
 
 /**
  * Async handler wrapper to catch errors in async route handlers
@@ -61,8 +62,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(`❌ Error: ${err.message}`);
-  console.error(err.stack);
+  LoggerService.logError(err, `${req.method} ${req.path}`);
 
   const isDevelopment = process.env.NODE_ENV === 'development';
   
@@ -78,9 +78,13 @@ export const errorHandler = (
  * 404 Not Found handler
  */
 export const notFoundHandler = (req: Request, res: Response) => {
+  LoggerService.warn(`404 - Route not found: ${req.method} ${req.originalUrl}`);
   return sendError(
     res,
     `Route ${req.originalUrl} not found`,
     404
   );
 };
+
+// Export HTTP logging middleware
+export * from './http-logger';

@@ -1,4 +1,5 @@
 import { BaseService } from '../../core/base';
+import { LoggerService } from '../../core/logger';
 import { User, CreateUserDto, UpdateUserDto, GetUsersQuery } from './user.interface';
 
 export class UserService extends BaseService {
@@ -28,6 +29,8 @@ export class UserService extends BaseService {
       totalPages: number;
     };
   }> {
+    LoggerService.logService('UserService', 'getAllUsers', true, { query });
+    
     let filteredUsers = [...this.users];
 
     // Search functionality
@@ -37,6 +40,7 @@ export class UserService extends BaseService {
         user.name.toLowerCase().includes(searchTerm) ||
         user.email.toLowerCase().includes(searchTerm)
       );
+      LoggerService.debug(`Search applied: "${query.search}", found ${filteredUsers.length} users`);
     }
 
     // Pagination
@@ -59,6 +63,7 @@ export class UserService extends BaseService {
   }
 
   async getUserById(id: number): Promise<User | null> {
+    LoggerService.logService('UserService', `getUserById(${id})`, true);
     return this.users.find(user => user.id === id) || null;
   }
 
@@ -71,6 +76,7 @@ export class UserService extends BaseService {
     };
 
     this.users.push(newUser);
+    LoggerService.logService('UserService', 'createUser', true, { userId: newUser.id, email: newUser.email });
     return newUser;
   }
 
@@ -78,6 +84,7 @@ export class UserService extends BaseService {
     const userIndex = this.users.findIndex(user => user.id === id);
     
     if (userIndex === -1) {
+      LoggerService.logService('UserService', `updateUser(${id})`, false, { reason: 'User not found' });
       return null;
     }
 
@@ -87,6 +94,7 @@ export class UserService extends BaseService {
       updatedAt: new Date().toISOString(),
     };
 
+    LoggerService.logService('UserService', `updateUser(${id})`, true, { updatedFields: Object.keys(userData) });
     return this.users[userIndex];
   }
 
@@ -94,10 +102,12 @@ export class UserService extends BaseService {
     const userIndex = this.users.findIndex(user => user.id === id);
     
     if (userIndex === -1) {
+      LoggerService.logService('UserService', `deleteUser(${id})`, false, { reason: 'User not found' });
       return false;
     }
 
     this.users.splice(userIndex, 1);
+    LoggerService.logService('UserService', `deleteUser(${id})`, true);
     return true;
   }
 
@@ -108,6 +118,8 @@ export class UserService extends BaseService {
     const recentUsers = this.users
       .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
       .slice(0, 5);
+
+    LoggerService.logService('UserService', 'getUserStats', true, { totalUsers: this.users.length });
 
     return {
       totalUsers: this.users.length,

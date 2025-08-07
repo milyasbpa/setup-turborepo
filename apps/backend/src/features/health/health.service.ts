@@ -1,4 +1,5 @@
 import { BaseService } from '../../core/base';
+import { LoggerService } from '../../core/logger';
 
 export interface HealthStatus {
   status: string;
@@ -10,6 +11,8 @@ export interface HealthStatus {
 
 export class HealthService extends BaseService {
   async getHealthStatus(): Promise<HealthStatus> {
+    LoggerService.logService('HealthService', 'getHealthStatus', true);
+    
     return {
       status: 'OK',
       service: 'backend',
@@ -24,6 +27,8 @@ export class HealthService extends BaseService {
     checks: Record<string, any>;
     timestamp: string;
   }> {
+    LoggerService.logService('HealthService', 'getDetailedHealth', true);
+    
     // You can add more health checks here (database, external services, etc.)
     const checks = {
       memory: {
