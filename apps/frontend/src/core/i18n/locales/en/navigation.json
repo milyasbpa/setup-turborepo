@@ -1,23 +1,23 @@
 {
-  "home": "Home",
-  "users": "Users",
-  "about": "About",
-  "contact": "Contact",
+  "lessons": "Lessons",
+  "profile": "Profile",
+  "results": "Results",
   "menu": "Menu",
   "navigation": "Navigation",
+  "mainContent": "Main content",
   "breadcrumb": {
-    "home": "Home",
-    "users": "Users",
-    "userDetail": "User Details"
+    "lessons": "Lessons",
+    "lessonDetail": "Lesson Details",
+    "profile": "Profile",
+    "results": "Results"
   },
   "sidebar": {
-    "dashboard": "Dashboard",
-    "users": "Users",
-    "settings": "Settings",
+    "lessons": "Lessons",
+    "profile": "Profile",
     "logout": "Logout"
   },
   "footer": {
-    "copyright": "© 2025 TurboApp. All rights reserved.",
+    "copyright": "© 2025 MathLearn. All rights reserved.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "contactUs": "Contact Us"

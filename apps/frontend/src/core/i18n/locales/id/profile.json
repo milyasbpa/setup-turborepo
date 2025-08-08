@@ -1,0 +1,68 @@
+{
+    "title": "Profil Anda",
+  "subtitle": "Lacak kemajuan belajar matematika dan pencapaian Anda",
+  "stats": {
+    "totalXp": "Total XP",
+    "lessonsCompleted": "Pelajaran Selesai", 
+    "currentStreak": "Streak Saat Ini",
+    "averageScore": "Skor Rata-rata",
+    "timeSpent": "Waktu Belajar",
+    "problemsSolved": "Soal Diselesaikan",
+    "days": "{{count}} hari",
+    "hours": "{{count}} jam",
+    "minutes": "{{count}} menit",
+    "detailedStats": "Statistik Detail"
+  },
+  "achievements": {
+    "title": "Pencapaian",
+    "subtitle": "Kumpulkan lencana dengan menyelesaikan tantangan",
+    "locked": "Terkunci",
+    "unlocked": "Terbuka",
+    "progress": "Progres: {{current}}/{{target}}",
+    "types": {
+      "firstLesson": "Pelajaran Pertama",
+      "streak3": "Streak 3 Hari",
+      "streak7": "Streak Seminggu",
+      "perfectScore": "Skor Sempurna",
+      "speedster": "Penyelesai Cepat",
+      "mathMaster": "Master Matematika"
+    },
+    "descriptions": {
+      "firstLesson": "Selesaikan pelajaran pertama Anda",
+      "streak3": "Belajar selama 3 hari berturut-turut", 
+      "streak7": "Belajar selama 7 hari berturut-turut",
+      "perfectScore": "Dapatkan skor 100% dalam sebuah pelajaran",
+      "speedster": "Selesaikan pelajaran dalam waktu kurang dari 5 menit",
+      "mathMaster": "Selesaikan 50 pelajaran"
+    }
+  },
+  "progress": {
+    "title": "Ringkasan Kemajuan",
+    "lessonsCompleted": "Pelajaran Selesai",
+    "averageScore": "Skor Rata-rata",
+    "timeStudied": "Waktu Belajar",
+    "complete": "Lengkap"
+  },
+  "actions": {
+    "editProfile": "Edit Profil",
+    "viewDetails": "Lihat Detail",
+    "shareProfile": "Bagikan Profil",
+    "continueLearning": "Lanjutkan Belajar"
+  },
+  "errors": {
+    "loadingFailed": "Gagal memuat profil",
+    "failedToLoad": "Gagal memuat profil",
+    "updateFailed": "Gagal memperbarui profil",
+    "failedToSave": "Gagal menyimpan profil",
+    "invalidData": "Data profil tidak valid",
+    "profileNotFound": "Profil tidak ditemukan",
+    "profileNotFoundMessage": "Profil pengguna yang Anda cari tidak ada atau tidak dapat dimuat.",
+    "profileNotAvailable": "Profil Tidak Tersedia",
+    "tryAgain": "Coba Lagi"
+  },
+  "loading": {
+    "profile": "Memuat profil...",
+    "stats": "Memuat statistik...",
+    "achievements": "Memuat pencapaian..."
+  }
+}

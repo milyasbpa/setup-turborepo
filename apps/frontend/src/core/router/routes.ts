@@ -5,7 +5,14 @@
  */
 
 export const ROUTES = {
-  HOME: '/',
+  // Math Learning App Routes (Primary)
+  LESSONS: '/lessons',
+  LESSON_DETAIL: '/lessons/:id',
+  PROFILE: '/profile',
+  RESULTS: '/results',
+  
+  // Legacy Routes
+  HOME: '/home',
   USERS: '/users',
   USER_DETAIL: '/users/:id',
   NOT_FOUND: '*',
@@ -13,7 +20,14 @@ export const ROUTES = {
 
 // Language-aware routes
 export const I18N_ROUTES = {
-  HOME: '/:lang?',
+  // Math Learning App Routes (Primary)
+  LESSONS: '/:lang?/lessons',
+  LESSON_DETAIL: '/:lang?/lessons/:id',
+  PROFILE: '/:lang?/profile',
+  RESULTS: '/:lang?/results',
+  
+  // Legacy Routes
+  HOME: '/:lang?/home',
   USERS: '/:lang?/users',
   USER_DETAIL: '/:lang?/users/:id',
   NOT_FOUND: '*',
@@ -28,9 +42,20 @@ export type I18nRouteValues = typeof I18N_ROUTES[RouteKeys];
  */
 export const routeUtils = {
   /**
+   * Generate lesson detail route with ID
+   */
+  lessonDetail: (id: string | number) => `/lessons/${id}`,
+
+  /**
    * Generate user detail route with ID
    */
   userDetail: (id: string | number) => `/users/${id}`,
+
+  /**
+   * Generate localized lesson detail route with ID and language
+   */
+  localizedLessonDetail: (id: string | number, lang?: string) => 
+    lang ? `/${lang}/lessons/${id}` : `/lessons/${id}`,
 
   /**
    * Generate localized user detail route with ID and language
@@ -55,7 +80,11 @@ export const routeUtils = {
    */
   getRouteTitle: (route: RouteValues): string => {
     const titles: Record<string, string> = {
-      '/': 'Home',
+      '/lessons': 'Math Lessons',
+      '/lessons/:id': 'Lesson Details',
+      '/profile': 'Profile',
+      '/results': 'Results',
+      '/home': 'Home',
       '/users': 'Users',
       '/users/:id': 'User Details',
     };

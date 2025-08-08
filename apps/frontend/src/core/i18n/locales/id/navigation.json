@@ -1,23 +1,23 @@
 {
-  "home": "Beranda",
-  "users": "Pengguna",
-  "about": "Tentang",
-  "contact": "Kontak",
+  "lessons": "Pelajaran",
+  "profile": "Profil", 
+  "results": "Hasil",
   "menu": "Menu",
   "navigation": "Navigasi",
+  "mainContent": "Konten utama",
   "breadcrumb": {
-    "home": "Beranda",
-    "users": "Pengguna",
-    "userDetail": "Detail Pengguna"
+    "lessons": "Pelajaran",
+    "lessonDetail": "Detail Pelajaran",
+    "profile": "Profil",
+    "results": "Hasil"
   },
   "sidebar": {
-    "dashboard": "Dashboard",
-    "users": "Pengguna",
-    "settings": "Pengaturan",
+    "lessons": "Pelajaran",
+    "profile": "Profil",
     "logout": "Keluar"
   },
   "footer": {
-    "copyright": "© 2025 TurboApp. Semua hak dilindungi.",
+    "copyright": "© 2025 MathLearn. Semua hak dilindungi.",
     "privacyPolicy": "Kebijakan Privasi",
     "termsOfService": "Ketentuan Layanan",
     "contactUs": "Hubungi Kami"

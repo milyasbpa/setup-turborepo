@@ -19,6 +19,9 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   const { routes } = useLocalizedRoutes();
 
   const navigationItems = [
+    { path: routes.lessons, label: t('lessons', { defaultValue: 'Lessons' }), icon: '📚' },
+    { path: routes.profile, label: t('profile', { defaultValue: 'Profile' }), icon: '👤' },
+    // Legacy items (can be hidden or removed)
     { path: routes.home, label: t('home'), icon: '🏠' },
     { path: routes.users, label: t('users'), icon: '👥' },
   ];
@@ -33,8 +36,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       <header className="main-header" role="banner">
         <div className="header-content">
           <div className="logo">
-            <Link to={routes.home}>
-              <h1>🚀 TurboApp</h1>
+            <Link to={routes.lessons}>
+              <h1>🧮 MathQuest</h1>
             </Link>
           </div>
           

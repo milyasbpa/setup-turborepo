@@ -74,7 +74,20 @@ apiClient.interceptors.response.use(
  * API Endpoints Configuration
  */
 export const API_ENDPOINTS = {
+  // Health endpoints
   HEALTH: '/health',
+  
+  // Lesson endpoints
+  LESSONS: '/lessons',
+  LESSON_DETAIL: (id: string | number) => `/lessons/${id}`,
+  LESSON_SUBMIT: (id: string | number) => `/lessons/${id}/submit`,
+  LESSON_STATS: '/lessons/stats',
+  
+  // Profile endpoints
+  PROFILE: '/profile',
+  PROFILE_STATS: '/profile/stats',
+  
+  // User endpoints (legacy)
   USERS: '/users',
   USER_DETAIL: (id: string | number) => `/users/${id}`,
 } as const;

@@ -1,0 +1,65 @@
+{
+  "title": "Your Profile",
+  "subtitle": "Track your math learning progress and achievements",
+  "stats": {
+    "totalXp": "Total XP",
+    "lessonsCompleted": "Lessons Completed",
+    "currentStreak": "Current Streak", 
+    "averageScore": "Average Score",
+    "timeSpent": "Study Time",
+    "problemsSolved": "Problems Solved",
+    "days": "{{count}} days",
+    "hours": "{{count}} hours",
+    "minutes": "{{count}} minutes",
+    "detailedStats": "Detailed Statistics"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "subtitle": "Collect badges by completing challenges",
+    "locked": "Locked",
+    "unlocked": "Unlocked",
+    "progress": "Progress: {{current}}/{{target}}",
+    "types": {
+      "firstLesson": "First Lesson",
+      "streak3": "3-Day Streak",
+      "streak7": "Week Warrior",
+      "perfectScore": "Perfect Score",
+      "speedster": "Speed Runner",
+      "mathMaster": "Math Master"
+    },
+    "descriptions": {
+      "firstLesson": "Complete your first lesson",
+      "streak3": "Study for 3 consecutive days",
+      "streak7": "Study for 7 consecutive days", 
+      "perfectScore": "Get 100% score in a lesson",
+      "speedster": "Complete a lesson in under 5 minutes",
+      "mathMaster": "Complete 50 lessons"
+    }
+  },
+  "progress": {
+    "title": "Progress Overview",
+    "lessonsCompleted": "Lessons Completed",
+    "averageScore": "Average Score",
+    "timeStudied": "Time Studied",
+    "complete": "Complete"
+  },
+  "actions": {
+    "editProfile": "Edit Profile", 
+    "viewDetails": "View Details",
+    "shareProfile": "Share Profile",
+    "continueLearning": "Continue Learning"
+  },
+  "error": {
+    "failedToLoad": "Failed to load profile",
+    "failedToSave": "Failed to save profile",
+    "invalidData": "Invalid profile data",
+    "profileNotFound": "Profile not found",
+    "profileNotFoundMessage": "The user profile you're looking for doesn't exist or couldn't be loaded.",
+    "profileNotAvailable": "Profile Not Available"
+  },
+  "loading": {
+    "profile": "Loading profile...",
+    "stats": "Loading statistics...",
+    "achievements": "Loading achievements..."
+  }
+}

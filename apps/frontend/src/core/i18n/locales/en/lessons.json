@@ -1,0 +1,69 @@
+{
+  "title": "Math Lessons",
+  "subtitle": "Master math with interactive lessons",
+  "searchPlaceholder": "Search lessons...",
+  "filterByDifficulty": "Filter by difficulty",
+  "noLessonsFound": "No lessons found matching your criteria",
+  "noLessonsAvailable": "There are no math lessons available at the moment. Please check back later.",
+  "tryDifferentSearch": "Try a different search term or filter",
+  "startLesson": "Start Lesson",
+  "continueLesson": "Continue Lesson",
+  "completed": "Completed",
+  "locked": "Locked",
+  "difficulty": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate", 
+    "advanced": "Advanced"
+  },
+  "progress": {
+    "title": "Your Progress",
+    "inProgress": "In Progress",
+    "totalLessons": "Total Lessons"
+  },
+  "stats": {
+    "problems": "{{count}} problems",
+    "minutes": "~{{count}} min",
+    "xp": "{{count}} XP"
+  },
+  "lesson": {
+    "problem": "Problem {{number}} of {{total}}",
+    "chooseAnswer": "Choose the correct answer:",
+    "enterAnswer": "Enter your answer:",
+    "submit": "Submit Answer",
+    "next": "Next Problem",
+    "finish": "Finish Lesson",
+    "correct": "Correct!",
+    "incorrect": "Incorrect",
+    "correctAnswer": "The correct answer is: {{answer}}",
+    "explanation": "Explanation",
+    "progress": "Progress: {{current}}/{{total}} completed"
+  },
+  "completion": {
+    "congratulations": "Congratulations!",
+    "lessonCompleted": "Lesson Completed!",
+    "xpGained": "XP Gained: +{{amount}}",
+    "problemsSolved": "Problems Solved: {{correct}}/{{total}}",
+    "accuracy": "Accuracy: {{percentage}}%",
+    "timeSpent": "Time Spent: {{minutes}} minutes",
+    "continueToNext": "Continue to Next Lesson",
+    "reviewMistakes": "Review Mistakes",
+    "backToLessons": "Back to Lessons"
+  },
+  "error": {
+    "failedToLoad": "Failed to load lessons",
+    "failedToLoadLesson": "Failed to load lesson",
+    "lessonNotFound": "Lesson not found",
+    "lessonNotFoundTitle": "Invalid Lesson",
+    "lessonNotFoundMessage": "No lesson ID provided."
+  },
+  "errorMessages": {
+    "submissionFailed": "Failed to submit answer",
+    "tryAgain": "Try Again",
+    "goBack": "Go Back"
+  },
+  "loading": {
+    "lessons": "Loading lessons...",
+    "lesson": "Loading lesson...",
+    "submitting": "Submitting answer..."
+  }
+}

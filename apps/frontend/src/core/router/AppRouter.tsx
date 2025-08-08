@@ -6,9 +6,12 @@ import { LoadingSpinner } from '@/core/layout/LoadingSpinner';
 import { I18nRouteWrapper } from '@/core/i18n';
 
 // Lazy load components for better performance
-const HomePage = lazy(() => import('@/features/home/pages/HomePage'));
-const UsersListPage = lazy(() => import('@/features/users/pages/UsersListPage'));
-const UserDetailPage = lazy(() => import('@/features/users/pages/UserDetailPage'));
+// Math Learning App Pages
+const LessonsListPage = lazy(() => import('@/features/lessons/pages/LessonsListPage'));
+const LessonDetailPage = lazy(() => import('@/features/lessons/pages/LessonDetailPage'));
+const ProfilePage = lazy(() => import('@/features/profile/pages/ProfilePage'));
+const ResultsPage = lazy(() => import('@/features/results/pages/ResultsPage'));
+
 const NotFoundPage = lazy(() => import('@/core/layout/NotFoundPage'));
 
 /**
@@ -27,7 +30,7 @@ const RootLayout = () => (
 );
 
 /**
- * Application router configuration with i18n support
+ * Application router configuration with proper i18n support
  * Supports both /:lang/path and /path (defaults to English)
  */
 export const router = createBrowserRouter([
@@ -40,23 +43,31 @@ export const router = createBrowserRouter([
       </ErrorBoundary>
     ),
     children: [
-      // Default language routes (English)
+      // Default language routes (English) - Main App Routes
       {
         index: true,
-        element: <HomePage />,
+        element: <LessonsListPage />,
       },
       {
-        path: 'users',
+        path: 'lessons',
         children: [
           {
             index: true,
-            element: <UsersListPage />,
+            element: <LessonsListPage />,
           },
           {
             path: ':id',
-            element: <UserDetailPage />,
+            element: <LessonDetailPage />,
           },
         ],
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: 'results',
+        element: <ResultsPage />,
       },
       // Internationalized routes with language prefix
       {
@@ -64,20 +75,28 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <HomePage />,
+            element: <LessonsListPage />,
           },
           {
-            path: 'users',
+            path: 'lessons',
             children: [
               {
                 index: true,
-                element: <UsersListPage />,
+                element: <LessonsListPage />,
               },
               {
                 path: ':id',
-                element: <UserDetailPage />,
+                element: <LessonDetailPage />,
               },
             ],
+          },
+          {
+            path: 'profile',
+            element: <ProfilePage />,
+          },
+          {
+            path: 'results',
+            element: <ResultsPage />,
           },
         ],
       },

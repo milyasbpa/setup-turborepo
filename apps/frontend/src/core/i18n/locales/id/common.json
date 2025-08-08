@@ -40,10 +40,7 @@
   "logout": "Keluar",
   "register": "Daftar",
   "profile": "Profil",
-  "settings": "Pengaturan",
   "help": "Bantuan",
-  "about": "Tentang",
-  "contact": "Kontak",
   "privacy": "Privasi",
   "terms": "Ketentuan",
   "notFound": "Tidak Ditemukan",
@@ -57,27 +54,32 @@
   "networkError": "Error Jaringan",
   "unknownError": "Error Tidak Diketahui",
   "tryAgain": "Coba Lagi",
-  "goHome": "Ke Beranda",
+  "goToLessons": "Ke Pelajaran",
   "language": "Bahasa",
   "theme": "Tema",
   "lightMode": "Mode Terang",
   "darkMode": "Mode Gelap",
   "systemMode": "Mode Sistem",
   "seo": {
-    "defaultTitle": "TurboApp - Aplikasi React Modern",
-    "defaultDescription": "Aplikasi React modern yang dibangun dengan TypeScript, Vite, React Query, dukungan PWA, dan internasionalisasi komprehensif.",
-    "defaultKeywords": "React, TypeScript, Vite, PWA, i18n, aplikasi web modern, TurboApp",
-    "imageAlt": "TurboApp - Preview Aplikasi React Modern",
+    "defaultTitle": "MathLearn - Platform Belajar Matematika Interaktif",
+    "defaultDescription": "Kuasai matematika dengan pelajaran interaktif, soal latihan, dan jalur pembelajaran yang dipersonalisasi. Belajar matematika sesuai dengan kecepatan Anda sendiri dengan platform pendidikan komprehensif kami.",
+    "defaultKeywords": "belajar matematika, pendidikan matematika, pelajaran interaktif, latihan matematika, aplikasi pendidikan, platform belajar, keterampilan matematika",
+    "imageAlt": "MathLearn - Platform Belajar Matematika Interaktif",
     "pages": {
-      "home": {
-        "title": "TurboApp - Aplikasi React Modern dengan i18n",
-        "description": "Selamat datang di TurboApp, aplikasi React terdepan yang menampilkan TypeScript, Vite, React Query, kemampuan PWA, dan dukungan internasionalisasi penuh.",
-        "keywords": "aplikasi React, TypeScript, Vite, halaman beranda, pengembangan web modern"
+      "lessons": {
+        "title": "Pelajaran Matematika - Pembelajaran Interaktif",
+        "description": "Jelajahi koleksi lengkap pelajaran matematika interaktif kami. Dari topik pemula hingga lanjutan, kuasai matematika dengan praktik langsung dan penjelasan detail.",
+        "keywords": "pelajaran matematika, pembelajaran interaktif, tutorial matematika, pendidikan matematika, soal latihan"
       },
-      "users": {
-        "title": "Pengguna - TurboApp",
-        "description": "Jelajahi dan kelola akun pengguna di TurboApp. Lihat profil pengguna, cari pengguna, dan kelola data pengguna secara efisien.",
-        "keywords": "pengguna, manajemen pengguna, profil, daftar pengguna, pengguna TurboApp"
+      "profile": {
+        "title": "Profil Pembelajaran Anda - Kemajuan & Pencapaian",
+        "description": "Lacak kemajuan belajar matematika Anda, lihat pencapaian, dan pantau perkembangan keterampilan Anda. Lihat statistik detail tentang perjalanan pembelajaran Anda.",
+        "keywords": "kemajuan belajar, pencapaian matematika, profil siswa, analitik pembelajaran, pelacakan keterampilan matematika"
+      },
+      "results": {
+        "title": "Hasil Pembelajaran & Pencapaian",
+        "description": "Lihat pelajaran yang telah diselesaikan, hasil kuis, dan pencapaian pembelajaran. Rayakan kemajuan Anda dan lihat seberapa jauh Anda telah maju dalam perjalanan matematika Anda.",
+        "keywords": "hasil matematika, pencapaian pembelajaran, skor kuis, pelacakan kemajuan, prestasi matematika"
       }
     }
   },

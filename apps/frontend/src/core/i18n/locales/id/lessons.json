@@ -1,0 +1,69 @@
+{
+  "title": "Pelajaran Matematika",
+  "subtitle": "Kuasai matematika dengan pelajaran interaktif",
+  "searchPlaceholder": "Cari pelajaran...",
+  "filterByDifficulty": "Filter berdasarkan tingkat kesulitan",
+  "noLessonsFound": "Tidak ada pelajaran yang ditemukan sesuai kriteria",
+  "noLessonsAvailable": "Tidak ada pelajaran matematika yang tersedia saat ini. Silakan periksa kembali nanti.",
+  "tryDifferentSearch": "Coba kata kunci atau filter yang berbeda",
+  "startLesson": "Mulai Pelajaran",
+  "continueLesson": "Lanjutkan Pelajaran", 
+  "completed": "Selesai",
+  "locked": "Terkunci",
+  "difficulty": {
+    "beginner": "Pemula",
+    "intermediate": "Menengah",
+    "advanced": "Lanjutan"
+  },
+  "progress": {
+    "title": "Progres Anda",
+    "inProgress": "Sedang Berlangsung",
+    "totalLessons": "Total Pelajaran"
+  },
+  "stats": {
+    "problems": "{{count}} soal",
+    "minutes": "~{{count}} menit", 
+    "xp": "{{count}} XP"
+  },
+  "lesson": {
+    "problem": "Soal {{number}} dari {{total}}",
+    "chooseAnswer": "Pilih jawaban yang benar:",
+    "enterAnswer": "Masukkan jawaban Anda:",
+    "submit": "Kirim Jawaban",
+    "next": "Soal Berikutnya", 
+    "finish": "Selesaikan Pelajaran",
+    "correct": "Benar!",
+    "incorrect": "Salah",
+    "correctAnswer": "Jawaban yang benar adalah: {{answer}}",
+    "explanation": "Penjelasan",
+    "progress": "Progres: {{current}}/{{total}} selesai"
+  },
+  "completion": {
+    "congratulations": "Selamat!",
+    "lessonCompleted": "Pelajaran Selesai!",
+    "xpGained": "XP Diperoleh: +{{amount}}",
+    "problemsSolved": "Soal Diselesaikan: {{correct}}/{{total}}",
+    "accuracy": "Akurasi: {{percentage}}%",
+    "timeSpent": "Waktu Belajar: {{minutes}} menit",
+    "continueToNext": "Lanjut ke Pelajaran Berikutnya",
+    "reviewMistakes": "Tinjau Kesalahan", 
+    "backToLessons": "Kembali ke Pelajaran"
+  },
+  "error": {
+    "failedToLoad": "Gagal memuat pelajaran",
+    "failedToLoadLesson": "Gagal memuat pelajaran",
+    "lessonNotFound": "Pelajaran tidak ditemukan",
+    "lessonNotFoundTitle": "Pelajaran Tidak Valid",
+    "lessonNotFoundMessage": "ID pelajaran tidak disediakan."
+  },
+  "errorMessages": {
+    "submissionFailed": "Gagal mengirim jawaban",
+    "tryAgain": "Coba Lagi",
+    "goBack": "Kembali"
+  },
+  "loading": {
+    "lessons": "Memuat pelajaran...",
+    "lesson": "Memuat pelajaran...",
+    "submitting": "Mengirim jawaban..."
+  }
+}

@@ -40,10 +40,7 @@
   "logout": "Logout",
   "register": "Register",
   "profile": "Profile",
-  "settings": "Settings",
   "help": "Help",
-  "about": "About",
-  "contact": "Contact",
   "privacy": "Privacy",
   "terms": "Terms",
   "notFound": "Not Found",
@@ -57,27 +54,32 @@
   "networkError": "Network Error",
   "unknownError": "Unknown Error",
   "tryAgain": "Try Again",
-  "goHome": "Go Home",
+  "goToLessons": "Go to Lessons",
   "language": "Language",
   "theme": "Theme",
   "lightMode": "Light Mode",
   "darkMode": "Dark Mode",
   "systemMode": "System Mode",
   "seo": {
-    "defaultTitle": "TurboApp - Modern React Application",
-    "defaultDescription": "A modern React application built with TypeScript, Vite, React Query, PWA support, and comprehensive internationalization.",
-    "defaultKeywords": "React, TypeScript, Vite, PWA, i18n, modern web app, TurboApp",
-    "imageAlt": "TurboApp - Modern React Application Preview",
+    "defaultTitle": "MathLearn - Interactive Math Learning Platform",
+    "defaultDescription": "Master mathematics with interactive lessons, practice problems, and personalized learning paths. Learn math at your own pace with our comprehensive educational platform.",
+    "defaultKeywords": "math learning, mathematics education, interactive lessons, math practice, educational app, learning platform, math skills",
+    "imageAlt": "MathLearn - Interactive Math Learning Platform",
     "pages": {
-      "home": {
-        "title": "TurboApp - Modern React Application with i18n",
-        "description": "Welcome to TurboApp, a cutting-edge React application featuring TypeScript, Vite, React Query, PWA capabilities, and full internationalization support.",
-        "keywords": "React app, TypeScript, Vite, home page, modern web development"
+      "lessons": {
+        "title": "Math Lessons - Interactive Learning",
+        "description": "Explore our comprehensive collection of interactive math lessons. From beginner to advanced topics, master mathematics with hands-on practice and detailed explanations.",
+        "keywords": "math lessons, interactive learning, mathematics tutorial, math education, practice problems"
       },
-      "users": {
-        "title": "Users - TurboApp",
-        "description": "Browse and manage user accounts in TurboApp. View user profiles, search users, and manage user data efficiently.",
-        "keywords": "users, user management, profiles, user list, TurboApp users"
+      "profile": {
+        "title": "Your Learning Profile - Progress & Achievements",
+        "description": "Track your math learning progress, view achievements, and monitor your skill development. See detailed statistics about your learning journey.",
+        "keywords": "learning progress, math achievements, student profile, learning analytics, math skills tracking"
+      },
+      "results": {
+        "title": "Learning Results & Achievements",
+        "description": "View your completed lessons, quiz results, and learning achievements. Celebrate your progress and see how far you've come in your math journey.",
+        "keywords": "math results, learning achievements, quiz scores, progress tracking, math accomplishments"
       }
     }
   },

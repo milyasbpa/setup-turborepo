@@ -1,0 +1,43 @@
+{
+  "title": "Hasil",
+  "celebration": {
+    "lessonCompleted": "Pelajaran Selesai!",
+    "greatProgress": "Progres Bagus!",
+    "congratulations": "Selamat!",
+    "outstanding": "Kerja yang luar biasa! Anda menguasai matematika seperti seorang profesional!",
+    "great": "Kerja bagus! Terus berlatih untuk mencapai skor yang lebih tinggi!",
+    "good": "Usaha yang baik! Tinjau soal-soal dan coba lagi untuk meningkatkan!"
+  },
+  "stats": {
+    "xpGained": "XP Diperoleh",
+    "score": "Skor",
+    "streak": "Streak Hari",
+    "total": "Total: {{amount}}",
+    "correct": "{{correct}} dari {{total}} benar",
+    "keepItUp": "Pertahankan!",
+    "amazingConsistency": "Konsistensi yang luar biasa!"
+  },
+  "progress": {
+    "lessonProgress": "Progres Pelajaran",
+    "problemResults": "Hasil Soal",
+    "yourAnswer": "Jawaban Anda: {{answer}}",
+    "correctAnswer": "Jawaban benar: {{answer}}"
+  },
+  "actions": {
+    "continueLearning": "Lanjutkan Belajar",
+    "viewProfile": "Lihat Profil",
+    "reviewMistakes": "Tinjau Kesalahan",
+    "tryAgain": "Coba Lagi"
+  },
+  "problem": {
+    "number": "Soal {{id}}"
+  },
+  "errors": {
+    "noResults": "Hasil tidak ditemukan",
+    "loadingFailed": "Gagal memuat hasil",
+    "tryAgain": "Coba Lagi"
+  },
+  "loading": {
+    "results": "Memuat hasil..."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "title": "Results",
+  "celebration": {
+    "lessonCompleted": "Lesson Completed!",
+    "greatProgress": "Great Progress!",
+    "congratulations": "Congratulations!",
+    "outstanding": "Outstanding work! You're mastering math like a pro!",
+    "great": "Great job! Keep practicing to reach even higher scores!",
+    "good": "Good effort! Review the problems and try again to improve!"
+  },
+  "stats": {
+    "xpGained": "XP Gained",
+    "score": "Score", 
+    "streak": "Day Streak",
+    "total": "Total: {{amount}}",
+    "correct": "{{correct}} of {{total}} correct",
+    "keepItUp": "Keep it up!",
+    "amazingConsistency": "Amazing consistency!"
+  },
+  "progress": {
+    "lessonProgress": "Lesson Progress",
+    "problemResults": "Problem Results",
+    "yourAnswer": "Your answer: {{answer}}",
+    "correctAnswer": "Correct answer: {{answer}}"
+  },
+  "actions": {
+    "continueLearning": "Continue Learning",
+    "viewProfile": "View Profile",
+    "reviewMistakes": "Review Mistakes",
+    "tryAgain": "Try Again"
+  },
+  "problem": {
+    "number": "Problem {{id}}"
+  },
+  "errors": {
+    "noResults": "No results found",
+    "loadingFailed": "Failed to load results",
+    "tryAgain": "Try Again"
+  },
+  "loading": {
+    "results": "Loading results..."
+  }
+}

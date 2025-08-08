@@ -18,19 +18,20 @@ const NotFoundPage = () => {
         </p>
         
         <div className="not-found-actions">
-          <Link to={routes.home} className="home-button">
-            🏠 {t('navigation:home', { ns: 'navigation' })}
+          <Link to={routes.lessons} className="home-button">
+            📚 {t('navigation:lessons', { ns: 'navigation' })}
           </Link>
-          <Link to={routes.users} className="users-button">
-            👥 {t('navigation:users', { ns: 'navigation' })}
+          <Link to={routes.profile} className="profile-button">
+            � {t('navigation:profile', { ns: 'navigation' })}
           </Link>
         </div>
 
         <div className="helpful-links">
           <h3>{t('notFoundPage.popularPages')}</h3>
           <ul>
-            <li><Link to={routes.home}>{t('navigation:home', { ns: 'navigation' })}</Link></li>
-            <li><Link to={routes.users}>{t('navigation:users', { ns: 'navigation' })}</Link></li>
+            <li><Link to={routes.lessons}>{t('navigation:lessons', { ns: 'navigation' })}</Link></li>
+            <li><Link to={routes.profile}>{t('navigation:profile', { ns: 'navigation' })}</Link></li>
+            <li><Link to={routes.results}>{t('navigation:results', { ns: 'navigation' })}</Link></li>
           </ul>
         </div>
       </div>
@@ -85,7 +86,7 @@ const NotFoundPage = () => {
         }
 
         .home-button,
-        .users-button {
+        .profile-button {
           padding: 0.75rem 1.5rem;
           border-radius: 8px;
           text-decoration: none;
@@ -106,13 +107,13 @@ const NotFoundPage = () => {
           transform: translateY(-2px);
         }
 
-        .users-button {
+        .profile-button {
           background: transparent;
           color: #61dafb;
           border: 2px solid #61dafb;
         }
 
-        .users-button:hover {
+        .profile-button:hover {
           background: #61dafb;
           color: #282c34;
           transform: translateY(-2px);
@@ -176,7 +177,7 @@ const NotFoundPage = () => {
           }
 
           .home-button,
-          .users-button {
+          .profile-button {
             width: 100%;
             max-width: 250px;
             justify-content: center;
