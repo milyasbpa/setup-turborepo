@@ -2,21 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- Basic SEO Meta Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TurboApp - A modern React application with TypeScript, Vite, PWA capabilities, and comprehensive internationalization support." />
+    <meta name="keywords" content="React, TypeScript, Vite, PWA, i18n, modern web app, TurboApp" />
+    <meta name="author" content="TurboApp Team" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#61dafb" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TurboApp - Modern React Application" />
+    <meta property="og:description" content="A modern React application with TypeScript, Vite, PWA capabilities, and comprehensive internationalization support." />
+    <meta property="og:image" content="/og-image.svg" />
+    <meta property="og:image:alt" content="TurboApp - Modern React Application Preview" />
+    <meta property="og:url" content="http://localhost:5175" />
+    <meta property="og:site_name" content="TurboApp" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="id_ID" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TurboApp - Modern React Application" />
+    <meta name="twitter:description" content="A modern React application with TypeScript, Vite, PWA capabilities, and comprehensive internationalization support." />
+    <meta name="twitter:image" content="/og-image.svg" />
+    <meta name="twitter:image:alt" content="TurboApp Preview" />
+    <meta name="twitter:site" content="@turboapp" />
+    <meta name="twitter:creator" content="@turboapp" />
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#61dafb" />
-    <meta name="description" content="A modern React application with PWA capabilities" />
+    <meta name="msapplication-TileColor" content="#61dafb" />
+    <meta name="application-name" content="TurboApp" />
+    <meta name="apple-mobile-web-app-title" content="TurboApp" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="TurboApp" />
+    <meta name="mobile-web-app-capable" content="yes" />
     
-    <!-- PWA Icons (fallback to existing for now) -->
-    <link rel="apple-touch-icon" href="/vite.svg" />
-    <link rel="icon" type="image/png" sizes="64x64" href="/vite.svg" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/vite.svg" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/vite.svg" />
+    <!-- Language and Canonical -->
+    <link rel="canonical" href="http://localhost:5175/" />
+    <link rel="alternate" hreflang="en" href="http://localhost:5175/" />
+    <link rel="alternate" hreflang="id" href="http://localhost:5175/id" />
+    <link rel="alternate" hreflang="x-default" href="http://localhost:5175/" />
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
     <!-- Splash Screen for iOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,7 +63,7 @@
     <link rel="apple-touch-startup-image" href="/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
     <link rel="apple-touch-startup-image" href="/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
     
-    <title>Turborepo Frontend PWA</title>
+    <title>TurboApp - Modern React Application</title>
     
     <!-- Prevent flash of unstyled content -->
     <style>

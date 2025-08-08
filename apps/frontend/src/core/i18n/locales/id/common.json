@@ -62,5 +62,30 @@
   "theme": "Tema",
   "lightMode": "Mode Terang",
   "darkMode": "Mode Gelap",
-  "systemMode": "Mode Sistem"
+  "systemMode": "Mode Sistem",
+  "seo": {
+    "defaultTitle": "TurboApp - Aplikasi React Modern",
+    "defaultDescription": "Aplikasi React modern yang dibangun dengan TypeScript, Vite, React Query, dukungan PWA, dan internasionalisasi komprehensif.",
+    "defaultKeywords": "React, TypeScript, Vite, PWA, i18n, aplikasi web modern, TurboApp",
+    "imageAlt": "TurboApp - Preview Aplikasi React Modern",
+    "pages": {
+      "home": {
+        "title": "TurboApp - Aplikasi React Modern dengan i18n",
+        "description": "Selamat datang di TurboApp, aplikasi React terdepan yang menampilkan TypeScript, Vite, React Query, kemampuan PWA, dan dukungan internasionalisasi penuh.",
+        "keywords": "aplikasi React, TypeScript, Vite, halaman beranda, pengembangan web modern"
+      },
+      "users": {
+        "title": "Pengguna - TurboApp",
+        "description": "Jelajahi dan kelola akun pengguna di TurboApp. Lihat profil pengguna, cari pengguna, dan kelola data pengguna secara efisien.",
+        "keywords": "pengguna, manajemen pengguna, profil, daftar pengguna, pengguna TurboApp"
+      }
+    }
+  },
+  "accessibility": {
+    "skipToContent": "Lewati ke konten utama",
+    "pageChanged": "Berpindah ke halaman {{page}}",
+    "menuOpen": "Menu dibuka",
+    "menuClosed": "Menu ditutup",
+    "languageChanged": "Bahasa diubah ke {{language}}"
+  }
 }

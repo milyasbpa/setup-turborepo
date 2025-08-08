@@ -1,0 +1,33 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#gradient)"/>
+  
+  <!-- React Logo -->
+  <g transform="translate(100, 150)">
+    <circle cx="120" cy="120" r="80" stroke="#61dafb" stroke-width="6" fill="none"/>
+    <circle cx="120" cy="120" r="15" fill="#61dafb"/>
+    <ellipse cx="120" cy="120" rx="80" ry="30" stroke="#61dafb" stroke-width="6" fill="none" transform="rotate(60 120 120)"/>
+    <ellipse cx="120" cy="120" rx="80" ry="30" stroke="#61dafb" stroke-width="6" fill="none" transform="rotate(-60 120 120)"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="350" y="200" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#ffffff">TurboApp</text>
+  <text x="350" y="260" font-family="Arial, sans-serif" font-size="32" fill="#61dafb">Modern React Application</text>
+  <text x="350" y="320" font-family="Arial, sans-serif" font-size="24" fill="#cccccc">TypeScript • Vite • React Query • PWA • i18n</text>
+  
+  <!-- Features -->
+  <g transform="translate(350, 380)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="20" fill="#ffffff">✨ Features:</text>
+    <text x="0" y="35" font-family="Arial, sans-serif" font-size="18" fill="#cccccc">• Multi-language support (EN/ID)</text>
+    <text x="0" y="65" font-family="Arial, sans-serif" font-size="18" fill="#cccccc">• Progressive Web App</text>
+    <text x="0" y="95" font-family="Arial, sans-serif" font-size="18" fill="#cccccc">• Modern development stack</text>
+  </g>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#282c34;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

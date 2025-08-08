@@ -3,6 +3,14 @@ import { useQuery } from '@/core/query';
 import { apiClient, API_ENDPOINTS } from '@/core/api/client';
 import { useUsers } from '@/features/users/hooks/useUsers';
 import { useTranslation, useLocalizedRoutes } from '@/core/i18n';
+import { 
+  SEOHead, 
+  StructuredData, 
+  createWebSiteSchema, 
+  createOrganizationSchema,
+  usePageTracking,
+  usePageSEO
+} from '@/core/seo';
 
 interface BackendStatus {
   status: string;
@@ -18,6 +26,19 @@ interface BackendStatus {
 const HomePage = () => {
   const { t } = useTranslation('home');
   const { routes } = useLocalizedRoutes();
+
+  // SEO optimization
+  const { seoData } = usePageSEO({
+    title: t('seo.title', { defaultValue: 'TurboApp - Modern React Application' }),
+    description: t('seo.description', { defaultValue: 'Welcome to TurboApp, a modern React application with TypeScript, Vite, and i18n support.' }),
+    keywords: t('seo.keywords', { defaultValue: 'React, TypeScript, Vite, modern web app, TurboApp' })
+  });
+  
+  // Track page views
+  usePageTracking();
+
+  // Get base URL for structured data
+  const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5175';
 
   // React Query for backend health check
   const { 
@@ -88,7 +109,21 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="home-page">
+    <>
+      {/* SEO Head */}
+      <SEOHead
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        canonical={seoData.canonical}
+        type="website"
+      />
+
+      {/* Structured Data */}
+      <StructuredData {...createOrganizationSchema(baseUrl)} />
+      <StructuredData {...createWebSiteSchema(baseUrl)} />
+
+      <div className="home-page" id="main-content" tabIndex={-1}>
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
@@ -455,7 +490,8 @@ const HomePage = () => {
           }
         }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 };
 

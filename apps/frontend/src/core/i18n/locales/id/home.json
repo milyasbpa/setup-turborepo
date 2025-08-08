@@ -17,9 +17,14 @@
       "description": "Dioptimalkan untuk semua perangkat dan ukuran layar"
     },
     "performance": {
-      "title": "Performa Tinggi",
-      "description": "Loading cepat dan pengalaman pengguna yang lancar"
+      "title": "Dioptimalkan untuk Performa",
+      "description": "Dibangun dengan Vite untuk pengembangan yang super cepat dan build produksi yang dioptimalkan"
     }
+  },
+  "seo": {
+    "title": "TurboApp - Aplikasi React Modern dengan i18n",
+    "description": "Selamat datang di TurboApp, aplikasi React terdepan yang menampilkan TypeScript, Vite, React Query, kemampuan PWA, dan dukungan internasionalisasi penuh.",
+    "keywords": "aplikasi React, TypeScript, Vite, halaman beranda, pengembangan web modern, internasionalisasi"
   },
   "cta": {
     "getStarted": "Mulai",

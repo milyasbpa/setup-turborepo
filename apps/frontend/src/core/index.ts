@@ -41,21 +41,19 @@ export {
   type UseInfiniteQueryOptions,
 } from '@/core/query';
 
-// PWA exports (Progressive Web App)
-export {
-  pwaManager,
-  notificationManager,
+// PWA functionality
+export { 
+  NetworkStatus, 
+  InstallPrompt, 
+  UpdatePrompt, 
   usePWA,
-  useNotifications,
-  useNetworkStatus,
-  UpdatePrompt,
-  InstallPrompt,
-  NetworkStatus,
-  type NotificationOptions,
-  type PushSubscriptionData,
-  type PWAState,
-  type PWAActions,
-} from '@/core/pwa';
+  useNetworkStatus
+} from './pwa';
+
+// SEO functionality
+export * from './seo';
+
+// i18n functionality
 
 // i18n exports (Internationalization)
 export {

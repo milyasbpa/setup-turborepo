@@ -62,5 +62,30 @@
   "theme": "Theme",
   "lightMode": "Light Mode",
   "darkMode": "Dark Mode",
-  "systemMode": "System Mode"
+  "systemMode": "System Mode",
+  "seo": {
+    "defaultTitle": "TurboApp - Modern React Application",
+    "defaultDescription": "A modern React application built with TypeScript, Vite, React Query, PWA support, and comprehensive internationalization.",
+    "defaultKeywords": "React, TypeScript, Vite, PWA, i18n, modern web app, TurboApp",
+    "imageAlt": "TurboApp - Modern React Application Preview",
+    "pages": {
+      "home": {
+        "title": "TurboApp - Modern React Application with i18n",
+        "description": "Welcome to TurboApp, a cutting-edge React application featuring TypeScript, Vite, React Query, PWA capabilities, and full internationalization support.",
+        "keywords": "React app, TypeScript, Vite, home page, modern web development"
+      },
+      "users": {
+        "title": "Users - TurboApp",
+        "description": "Browse and manage user accounts in TurboApp. View user profiles, search users, and manage user data efficiently.",
+        "keywords": "users, user management, profiles, user list, TurboApp users"
+      }
+    }
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content",
+    "pageChanged": "Navigated to {{page}} page",
+    "menuOpen": "Menu opened",
+    "menuClosed": "Menu closed",
+    "languageChanged": "Language changed to {{language}}"
+  }
 }

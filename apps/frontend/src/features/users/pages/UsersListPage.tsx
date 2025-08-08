@@ -4,6 +4,7 @@ import { routeUtils } from '@/core/router/routes';
 import { useUsers, type User } from '@/features/users/hooks/useUsers';
 import { LoadingSpinner } from '@/core/layout/LoadingSpinner';
 import { useTranslation } from '@/core/i18n';
+import { SEOHead, usePageSEO, usePageTracking } from '@/core/seo';
 
 /**
  * Users List Page Component with i18n support
@@ -12,6 +13,16 @@ import { useTranslation } from '@/core/i18n';
 const UsersListPage = () => {
   const { t } = useTranslation('users');
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // SEO optimization
+  const { seoData } = usePageSEO({
+    title: t('seo.title', { defaultValue: 'Users - TurboApp' }),
+    description: t('seo.description', { defaultValue: 'Browse and manage user accounts in TurboApp. View user profiles and search users efficiently.' }),
+    keywords: t('seo.keywords', { defaultValue: 'users, user management, profiles, user list, TurboApp users' })
+  });
+  
+  // Track page views
+  usePageTracking();
   
   // React Query hook with search filtering
   const { 
@@ -46,7 +57,17 @@ const UsersListPage = () => {
   }
 
   return (
-    <div className="users-list-page">
+    <>
+      {/* SEO Head */}
+      <SEOHead
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        canonical={seoData.canonical}
+        type="website"
+      />
+
+      <div className="users-list-page" id="main-content" tabIndex={-1}>
       {/* Page Header */}
       <div className="page-header">
         <h1 className="page-title">👥 {t('list.title')}</h1>
@@ -487,7 +508,8 @@ const UsersListPage = () => {
           }
         }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -45,5 +45,10 @@
     "showing": "Menampilkan {{from}} hingga {{to}} dari {{total}} pengguna",
     "page": "Halaman {{current}} dari {{total}}",
     "itemsPerPage": "Item per halaman"
+  },
+  "seo": {
+    "title": "Pengguna - TurboApp",
+    "description": "Jelajahi dan kelola akun pengguna di TurboApp. Lihat profil pengguna, cari pengguna, dan kelola data pengguna secara efisien.",
+    "keywords": "pengguna, manajemen pengguna, profil, daftar pengguna, pengguna TurboApp, cari pengguna"
   }
 }

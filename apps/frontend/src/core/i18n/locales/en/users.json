@@ -45,5 +45,10 @@
     "showing": "Showing {{from}} to {{to}} of {{total}} users",
     "page": "Page {{current}} of {{total}}",
     "itemsPerPage": "Items per page"
+  },
+  "seo": {
+    "title": "Users - TurboApp",
+    "description": "Browse and manage user accounts in TurboApp. View user profiles, search users, and manage user data efficiently.",
+    "keywords": "users, user management, profiles, user list, TurboApp users, search users"
   }
 }

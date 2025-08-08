@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { NetworkStatus } from '@/core/pwa';
 import { useTranslation, useLocalizedRoutes, LanguageSwitcher } from '@/core/i18n';
+import { SkipToContent, AccessibilityAnnouncer } from '@/core/seo';
 import './MainLayout.css';
 
 interface MainLayoutProps {
@@ -24,8 +25,12 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <div className="main-layout">
+      {/* Accessibility Features */}
+      <SkipToContent />
+      <AccessibilityAnnouncer />
+
       {/* Header with Navigation */}
-      <header className="main-header">
+      <header className="main-header" role="banner">
         <div className="header-content">
           <div className="logo">
             <Link to={routes.home}>
@@ -33,12 +38,19 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
             </Link>
           </div>
           
-          <nav className="main-navigation">
-            <ul className="nav-list">
+          <nav className="main-navigation" role="navigation" aria-label={t('navigation', { defaultValue: 'Main navigation' })}>
+            <ul className="nav-list" role="menubar">
               {navigationItems.map((item) => (
-                <li key={item.path}>
+                <li key={item.path} role="none">
                   <Link
                     to={item.path}
+                    role="menuitem"
+                    aria-current={
+                      location.pathname === item.path || 
+                      location.pathname.endsWith(item.path)
+                        ? 'page'
+                        : undefined
+                    }
                     className={`nav-link ${
                       location.pathname === item.path || 
                       location.pathname.endsWith(item.path)
@@ -62,14 +74,14 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       </header>
 
       {/* Main Content Area */}
-      <main className="main-content">
+      <main className="main-content" role="main" aria-label={t('mainContent', { defaultValue: 'Main content' })}>
         <div className="content-wrapper">
           {children}
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="main-footer">
+      <footer className="main-footer" role="contentinfo">
         <div className="footer-content">
           <p>{t('footer.copyright')}</p>
           <div className="footer-links">
