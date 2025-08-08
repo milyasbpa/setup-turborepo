@@ -118,4 +118,4 @@ The cleanup system safely removes:
 
 ---
 
-For detailed database scripts documentation, see [DATABASE_SCRIPTS.md](../DATABASE_SCRIPTS.md)
+For detailed database scripts documentation, see [DATABASE_SCRIPTS.md](../../docs/DATABASE_SCRIPTS.md)

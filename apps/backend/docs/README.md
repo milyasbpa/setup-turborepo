@@ -7,14 +7,14 @@ This directory contains comprehensive documentation for the TurboRepo Math Learn
 ### 🚀 Getting Started
 - **[QUICK_SETUP.md](./QUICK_SETUP.md)** - Quick start guide for the backend
 - **[DATABASE_COMPLETE.md](./DATABASE_COMPLETE.md)** - Complete database integration overview
-- **[API_DOCUMENTATION.md](../API_DOCUMENTATION.md)** - Complete API reference guide
+- **[API_DOCUMENTATION.md](./API_DOCUMENTATION.md)** - Complete API reference guide
 
 ### 🗄️ Database Documentation
 - **[DATABASE.md](./DATABASE.md)** - Main database documentation
 - **[DATABASE_SETUP.md](./DATABASE_SETUP.md)** - Detailed database setup guide
 - **[README_DATABASE.md](./README_DATABASE.md)** - Database usage and management
 - **[SEEDING.md](./SEEDING.md)** - JSON-based database seeding system
-- **[DATABASE_SCRIPTS.md](../DATABASE_SCRIPTS.md)** - Math learning database scripts
+- **[DATABASE_SCRIPTS.md](./DATABASE_SCRIPTS.md)** - Math learning database scripts
 
 ### 🏗️ Architecture & Development
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Application architecture overview

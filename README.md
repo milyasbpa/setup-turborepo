@@ -35,21 +35,23 @@ npm install
 ```
 This will install dependencies for all apps and packages in the monorepo.
 
-3. **Set up environment variables and database**:
+3. **Set up environment variables and Docker database**:
 ```bash
 # Copy the backend environment template
 cp apps/backend/.env.example apps/backend/.env
 
-# Set up PostgreSQL database (see backend docs for detailed setup)
-# Update DATABASE_URL in apps/backend/.env with your PostgreSQL connection
-
-# Run database migrations and seed demo data
+# Start PostgreSQL with Docker (requires Docker Desktop)
 cd apps/backend
+docker-compose up -d
+
+# Set up database schema and demo data
 npm run db:generate
-npm run db:migrate
+npm run db:push
 npm run db:seed
 cd ../..
 ```
+
+> **Note**: This project uses Docker for PostgreSQL. Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is installed and running. The `.env` file is pre-configured for the Docker setup.
 
 4. **Start development servers**:
 ```bash
@@ -57,12 +59,14 @@ npm run dev
 ```
 
 🎉 **That's it!** Your math learning applications are now running:
-- 🎯 **Backend API**: http://localhost:3002
-- 🌐 **Frontend App**: http://localhost:3000 (English)
-- 🌍 **Frontend App (Indonesian)**: http://localhost:3000/id
-- 🔗 **API Health Check**: http://localhost:3002/api/health
-- 📖 **API Documentation**: http://localhost:3002/api/docs
-- 🎓 **Math Lessons API**: http://localhost:3002/api/lessons
+- 🎯 **Backend API**: http://localhost:3001
+- 🌐 **Frontend App**: http://localhost:5173 (Vite default)
+- 🌍 **Frontend App (Indonesian)**: http://localhost:5173/id
+- 🔗 **API Health Check**: http://localhost:3001/api/health
+- 📖 **API Documentation**: http://localhost:3001/api/docs
+- 🎓 **Math Lessons API**: http://localhost:3001/api/lessons
+- 🐳 **PostgreSQL Database**: localhost:5432 (Docker container)
+- 🗄️ **pgAdmin** (optional): http://localhost:8080
 
 ### 🔥 Quick Verification
 
@@ -81,12 +85,12 @@ After installation, verify everything works:
 ```
 
 2. **Manual verification**:
-   - **Open your browser** to http://localhost:3000
+   - **Open your browser** to http://localhost:5173
    - **Check the math learning app** displays and shows backend status
-   - **Test lesson endpoints** by visiting http://localhost:3002/api/lessons
-   - **Try the API documentation** at http://localhost:3002/api/docs
+   - **Test lesson endpoints** by visiting http://localhost:3001/api/lessons
+   - **Try the API documentation** at http://localhost:3001/api/docs
    - **Test language switching** using the language switcher in the header
-   - **Try localized routes** by visiting http://localhost:3000/id
+   - **Try localized routes** by visiting http://localhost:5173/id
 
 If you see the React app loading math lessons from the backend, you're all set! 🚀
 
