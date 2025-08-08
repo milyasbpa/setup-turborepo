@@ -8,7 +8,7 @@ This Turborepo includes the following packages and apps:
 
 ### 🏗️ Apps
 - **`backend`** - Express.js TypeScript API server (Port 3002)
-- **`frontend`** - Vite React TypeScript application (Port 3000)
+- **`frontend`** - Vite React TypeScript application with i18n support (Port 3000)
 
 ### 📦 Packages
 - **`@repo/eslint-config`** - Shared ESLint configurations
@@ -51,7 +51,8 @@ npm run dev
 
 🎉 **That's it!** Your applications are now running:
 - 🎯 **Backend API**: http://localhost:3002
-- 🌐 **Frontend App**: http://localhost:3000
+- 🌐 **Frontend App**: http://localhost:3000 (English)
+- 🌍 **Frontend App (Indonesian)**: http://localhost:3000/id
 - 🔗 **API Health Check**: http://localhost:3002/api/health
 
 ### 🔥 Quick Verification
@@ -73,6 +74,8 @@ After installation, verify everything works:
 2. **Manual verification**:
    - **Open your browser** to http://localhost:3000
    - **Check the frontend** displays and shows backend status
+   - **Test language switching** using the language switcher in the header
+   - **Try localized routes** by visiting http://localhost:3000/id
    - **Test the API** by visiting http://localhost:3002/api/users
 
 If you see the React app loading data from the backend, you're all set! 🚀
@@ -185,6 +188,20 @@ npm run type-check && npm run lint
 │   │   └── .eslintrc.js
 │   └── frontend/                # Vite React TypeScript app
 │       ├── src/
+│       │   ├── core/
+│       │   │   ├── api/         # API client and configuration
+│       │   │   ├── i18n/        # Internationalization system
+│       │   │   │   ├── components/  # LanguageSwitcher, I18nRouteWrapper
+│       │   │   │   ├── locales/     # Translation files (en/, id/)
+│       │   │   │   ├── config.ts    # i18n configuration
+│       │   │   │   ├── hooks.ts     # Translation hooks
+│       │   │   │   └── index.ts     # i18n exports
+│       │   │   ├── layout/      # Layout components
+│       │   │   ├── pwa/         # PWA functionality
+│       │   │   ├── query/       # React Query setup
+│       │   │   └── router/      # Routing configuration
+│       │   ├── features/        # Feature-specific components
+│       │   ├── types/           # TypeScript declarations
 │       │   ├── App.tsx          # Main React component
 │       │   ├── main.tsx         # React entry point
 │       │   ├── App.css          # Styles
@@ -229,6 +246,7 @@ npm run type-check && npm run lint
 - **Vite** for lightning-fast development and optimized builds
 - **React Query (TanStack Query)** for advanced state management and caching
 - **React Router DOM** with lazy loading and code splitting
+- **Internationalization (i18n)** with React-i18next for multi-language support
 - **Progressive Web App (PWA)** with offline support and notifications
 - **Service Worker Management** with manual update control
 - **Path Aliases** for clean import statements (`@/core`, `@/features`)
@@ -468,6 +486,168 @@ This project includes comprehensive documentation for advanced features:
 - **Error Boundaries**: Graceful error handling and user feedback
 
 Read the individual documentation files for detailed implementation guides and best practices.
+
+## 🌐 Internationalization (i18n)
+
+This project includes a comprehensive internationalization system powered by React-i18next, supporting multiple languages with intelligent routing and user experience.
+
+### 🚀 Supported Languages
+
+- **🇺🇸 English** (default) - Access via `/` or `/path`
+- **🇮🇩 Bahasa Indonesia** - Access via `/id` or `/id/path`
+
+### ✨ i18n Features
+
+#### 🧭 Intelligent Routing
+- **Default Language**: Routes like `/`, `/users` default to English
+- **Localized Routes**: Routes like `/id`, `/id/users` use Indonesian
+- **Automatic Detection**: Browser language preference detection
+- **Persistent Choice**: Language selection saved in localStorage
+
+#### 🔄 Language Switching
+- **Multiple UI Variants**: Dropdown, button, and minimal switchers
+- **Visual Indicators**: Flag emojis and language names
+- **Smooth Transitions**: Instant language switching without page reload
+- **Responsive Design**: Works seamlessly across all device sizes
+
+#### 📁 Translation Structure
+```
+src/core/i18n/locales/
+├── en/ (English)
+│   ├── common.json      # Common UI elements, buttons, errors
+│   ├── navigation.json  # Navigation, footer, breadcrumbs
+│   ├── home.json       # Home page content
+│   └── users.json      # Users page content
+└── id/ (Indonesian)
+    ├── common.json      # UI elements in Indonesian
+    ├── navigation.json  # Navigation in Indonesian
+    ├── home.json       # Home page in Indonesian
+    └── users.json      # Users page in Indonesian
+```
+
+### 🛠️ Using i18n in Components
+
+#### Basic Translation Hook
+```tsx
+import { useTranslation } from '@/core/i18n';
+
+const MyComponent = () => {
+  const { t } = useTranslation('common');
+  
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <button>{t('save')}</button>
+    </div>
+  );
+};
+```
+
+#### Cross-namespace Translation
+```tsx
+const { t } = useTranslation('home');
+
+// Access other namespaces
+const navigationText = t('navigation:users', { ns: 'navigation' });
+const commonText = t('common:loading', { ns: 'common' });
+```
+
+#### Localized Routing
+```tsx
+import { useLocalizedRoutes } from '@/core/i18n';
+
+const Navigation = () => {
+  const { routes } = useLocalizedRoutes();
+  
+  return (
+    <nav>
+      <Link to={routes.home}>Home</Link>
+      <Link to={routes.users}>Users</Link>
+    </nav>
+  );
+};
+```
+
+#### Language Switcher Integration
+```tsx
+import { LanguageSwitcher } from '@/core/i18n';
+
+// Multiple variants available
+<LanguageSwitcher variant="dropdown" />   // Full dropdown with flags
+<LanguageSwitcher variant="buttons" />    // Button toggles
+<LanguageSwitcher variant="minimal" />    // Compact flag-only
+```
+
+### 🔧 i18n Configuration
+
+The i18n system is configured in `src/core/i18n/config.ts` with:
+
+- **Language Detection**: Path → localStorage → browser → HTML tag
+- **Fallback System**: Graceful handling of missing translations
+- **Development Tools**: Missing translation warnings in dev mode
+- **TypeScript Support**: Full type safety for translation keys
+
+### 🎯 Testing i18n
+
+1. **Language Switching**: Use the language switcher in the header
+2. **URL-based Access**: 
+   - Visit `/` for English homepage
+   - Visit `/id` for Indonesian homepage
+   - Try `/users` vs `/id/users` for localized pages
+3. **Browser Detection**: Clear localStorage and reload to test auto-detection
+4. **Error Pages**: Test 404 pages in both languages
+
+### 📚 Adding New Languages
+
+To add a new language (e.g., Spanish):
+
+1. **Update configuration**:
+```typescript
+// src/core/i18n/config.ts
+export const SUPPORTED_LANGUAGES = {
+  en: { code: 'en', name: 'English', flag: '🇺🇸', dir: 'ltr' },
+  id: { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩', dir: 'ltr' },
+  es: { code: 'es', name: 'Español', flag: '🇪🇸', dir: 'ltr' }, // New
+} as const;
+```
+
+2. **Create translation files**:
+```
+src/core/i18n/locales/es/
+├── common.json
+├── navigation.json
+├── home.json
+└── users.json
+```
+
+3. **Import resources**:
+```typescript
+// config.ts
+import esCommon from './locales/es/common.json';
+// ... other imports
+
+const resources = {
+  // ... existing languages
+  es: {
+    common: esCommon,
+    navigation: esNavigation,
+    home: esHome,
+    users: esUsers,
+  },
+};
+```
+
+4. **Update TypeScript declarations** in `src/types/json.d.ts`
+
+### 🌍 i18n Best Practices
+
+- **Namespace Organization**: Group related translations logically
+- **Key Naming**: Use descriptive, hierarchical keys (`user.profile.edit`)
+- **Interpolation**: Support dynamic content with `t('welcome', { name: 'John' })`
+- **Pluralization**: Handle singular/plural forms properly
+- **Context**: Provide context for translators when needed
+- **Testing**: Test all languages in different scenarios
+- **Performance**: Lazy load translation files for better performance
 
 ## 📚 Learn More
 
