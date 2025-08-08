@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCurrentLesson, useLessonSubmission, useLessons } from '../context/LessonsContext';
-import { ProblemList } from '../components/ProblemComponent';
+import { ProblemList } from '../components';
 import { Button, ErrorMessage, Badge } from '@/core/components';
 
 /**

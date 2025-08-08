@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Problem } from '@/core/api';
+import type { Problem as ProblemType } from '@/core/api';
 import { Card } from '@/core/components';
 
 /**
  * Problem Component Props
  */
 interface ProblemComponentProps {
-  problem: Problem;
+  problem: ProblemType;
   value: string;
   onChange: (value: string) => void;
   disabled?: boolean;
@@ -21,7 +21,7 @@ interface ProblemComponentProps {
  * Problem Component
  * Interactive math problem with multiple choice or input
  */
-export const ProblemComponent: React.FC<ProblemComponentProps> = ({
+export const ProblemItem: React.FC<ProblemComponentProps> = ({
   problem,
   value,
   onChange,
@@ -169,46 +169,5 @@ export const ProblemComponent: React.FC<ProblemComponentProps> = ({
         </div>
       )}
     </Card>
-  );
-};
-
-/**
- * Problem List Component
- * Renders a list of problems with consistent spacing
- */
-interface ProblemListProps {
-  problems: Problem[];
-  answers: Record<number, string>;
-  onAnswerChange: (problemId: number, answer: string) => void;
-  disabled?: boolean;
-  showResults?: boolean;
-  results?: Record<number, { isCorrect: boolean; correctAnswer: string }>;
-  className?: string;
-}
-
-export const ProblemList: React.FC<ProblemListProps> = ({
-  problems,
-  answers,
-  onAnswerChange,
-  disabled = false,
-  showResults = false,
-  results = {},
-  className = '',
-}) => {
-  return (
-    <div className={`space-y-6 ${className}`}>
-      {problems.map((problem) => (
-        <ProblemComponent
-          key={problem.id}
-          problem={problem}
-          value={answers[problem.id] || ''}
-          onChange={(value) => onAnswerChange(problem.id, value)}
-          disabled={disabled}
-          showResult={showResults}
-          isCorrect={results[problem.id]?.isCorrect}
-          correctAnswer={results[problem.id]?.correctAnswer}
-        />
-      ))}
-    </div>
   );
 };
