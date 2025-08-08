@@ -1,13 +1,13 @@
-# 🚀 Turborepo Fullstack Starter
+# 🚀 Turborepo Math Learning App
 
-A modern monorepo setup with **Express.js TypeScript backend** and **Vite React TypeScript frontend**, powered by Turborepo for efficient development and building.
+A modern monorepo setup featuring a **Duolingo-style math learning app** with **Express.js TypeScript backend** and **Vite React TypeScript frontend**, powered by Turborepo for efficient development and building.
 
 ## 📋 What's Inside?
 
 This Turborepo includes the following packages and apps:
 
 ### 🏗️ Apps
-- **`backend`** - Express.js TypeScript API server (Port 3002)
+- **`backend`** - Express.js TypeScript API server with math learning features (Port 3002)
 - **`frontend`** - Vite React TypeScript application with i18n support (Port 3000)
 
 ### 📦 Packages
@@ -35,13 +35,20 @@ npm install
 ```
 This will install dependencies for all apps and packages in the monorepo.
 
-3. **Set up environment variables** (optional):
+3. **Set up environment variables and database**:
 ```bash
 # Copy the backend environment template
 cp apps/backend/.env.example apps/backend/.env
 
-# Edit the environment file if needed
-# The default values work for local development
+# Set up PostgreSQL database (see backend docs for detailed setup)
+# Update DATABASE_URL in apps/backend/.env with your PostgreSQL connection
+
+# Run database migrations and seed demo data
+cd apps/backend
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+cd ../..
 ```
 
 4. **Start development servers**:
@@ -49,11 +56,13 @@ cp apps/backend/.env.example apps/backend/.env
 npm run dev
 ```
 
-🎉 **That's it!** Your applications are now running:
+🎉 **That's it!** Your math learning applications are now running:
 - 🎯 **Backend API**: http://localhost:3002
 - 🌐 **Frontend App**: http://localhost:3000 (English)
 - 🌍 **Frontend App (Indonesian)**: http://localhost:3000/id
 - 🔗 **API Health Check**: http://localhost:3002/api/health
+- 📖 **API Documentation**: http://localhost:3002/api/docs
+- 🎓 **Math Lessons API**: http://localhost:3002/api/lessons
 
 ### 🔥 Quick Verification
 
@@ -73,12 +82,13 @@ After installation, verify everything works:
 
 2. **Manual verification**:
    - **Open your browser** to http://localhost:3000
-   - **Check the frontend** displays and shows backend status
+   - **Check the math learning app** displays and shows backend status
+   - **Test lesson endpoints** by visiting http://localhost:3002/api/lessons
+   - **Try the API documentation** at http://localhost:3002/api/docs
    - **Test language switching** using the language switcher in the header
    - **Try localized routes** by visiting http://localhost:3000/id
-   - **Test the API** by visiting http://localhost:3002/api/users
 
-If you see the React app loading data from the backend, you're all set! 🚀
+If you see the React app loading math lessons from the backend, you're all set! 🚀
 
 ## 📜 Available Scripts
 
@@ -88,8 +98,11 @@ If you see the React app loading data from the backend, you're all set! 🚀
 # Start both applications in development mode
 npm run dev
 
-# Build all packages for production
-npm run build
+# Run database management commands
+npm run db:migrate      # Run database migrations
+npm run db:seed         # Seed database with demo data
+npm run db:cleanup      # Clean up math learning data
+npm run db:seed:reset   # Clean and re-seed database
 
 # Run TypeScript type checking across all packages
 npm run type-check
@@ -103,7 +116,7 @@ npm run clean
 
 ### 🔧 Individual App Commands
 
-#### Backend (Express.js API)
+#### Backend (Express.js Math Learning API)
 ```bash
 cd apps/backend
 
@@ -112,6 +125,12 @@ npm run build      # Build for production
 npm run start      # Start production server
 npm run lint       # ESLint
 npm run type-check # TypeScript validation
+
+# Database management
+npm run db:generate   # Generate Prisma client
+npm run db:migrate    # Run database migrations
+npm run db:seed       # Seed with demo math lessons
+npm run db:cleanup    # Clean up math learning data
 ```
 
 #### Frontend (React App)
@@ -178,9 +197,15 @@ npm run type-check && npm run lint
 
 ```
 ├── apps/
-│   ├── backend/                 # Express.js TypeScript API
+│   ├── backend/                 # Express.js TypeScript Math Learning API
 │   │   ├── src/
+│   │   │   ├── features/        # Math learning features (lessons, profile)
+│   │   │   ├── core/            # Core functionality (database, repositories)
 │   │   │   └── index.ts         # Main server file
+│   │   ├── prisma/              # Database schema and migrations
+│   │   │   ├── schema.prisma    # Math learning database schema
+│   │   │   ├── migrations/      # Database migration files
+│   │   │   └── seeds/           # JSON-based demo data
 │   │   ├── .env.example         # Environment template
 │   │   ├── .env                 # Environment variables
 │   │   ├── package.json
@@ -232,12 +257,18 @@ npm run type-check && npm run lint
 ## ✨ Features
 
 ### 🔧 Backend Features
+- **Math Learning System** with lessons, problems, and progress tracking
+- **XP and Streak System** with daily streak tracking and experience points
+- **Prisma ORM** with PostgreSQL database and type-safe queries
+- **Swagger Documentation** for comprehensive API documentation
+- **Zod Validation** for robust input validation and type safety
 - **Express.js** with TypeScript for robust API development
 - **CORS** enabled for cross-origin requests
 - **Helmet** for security headers
 - **Environment variables** support with dotenv
 - **Health check** endpoint (`/api/health`)
-- **Sample API endpoints** for users data
+- **Math lesson endpoints** for interactive learning (`/api/lessons`)
+- **User profile endpoints** with XP/streak stats (`/api/profile`)
 - **Error handling** middleware with proper HTTP status codes
 - **Development hot reload** with tsx for instant updates
 
@@ -268,36 +299,91 @@ npm run type-check && npm run lint
 - **Hot reload** for both frontend and backend
 - **Unified scripts** to manage all applications
 
-## 🌐 API Endpoints
+## � Math Learning API Endpoints
 
-The backend provides the following REST endpoints:
+The backend provides a comprehensive math learning system with the following REST endpoints:
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/` | Welcome message and server info |
 | `GET` | `/api/health` | Health check for monitoring |
-| `GET` | `/api/users` | Sample users data |
+| `GET` | `/api/lessons` | Get all math lessons with user progress |
+| `GET` | `/api/lessons/:id` | Get specific lesson with problems |
+| `POST` | `/api/lessons/:id/submit` | Submit lesson answers (idempotent) |
+| `GET` | `/api/lessons/stats` | Get lesson statistics |
+| `GET` | `/api/profile` | Get user profile with XP and streak |
+
+### Math Learning Features
+
+- **3 Demo Lessons**: Basic Arithmetic, Multiplication, Division
+- **XP System**: 10 XP per correct answer, lesson completion bonuses
+- **Streak Tracking**: Daily streak system with automatic reset logic
+- **Idempotency**: Submit same `attempt_id` multiple times safely
+- **Progress Tracking**: Track completion, scores, and attempt counts
 
 ### Example API Responses
 
-**Health Check:**
+**Lessons List:**
 ```json
 {
-  "status": "OK",
-  "service": "backend",
-  "timestamp": "2025-08-08T12:00:00.000Z"
+  "success": true,
+  "data": [
+    {
+      "id": "lesson-1",
+      "title": "Basic Arithmetic",
+      "description": "Learn addition and subtraction",
+      "difficulty": "BEGINNER",
+      "xpReward": 10,
+      "progress": {
+        "isCompleted": false,
+        "score": 0,
+        "bestScore": 0,
+        "attemptsCount": 0
+      }
+    }
+  ]
 }
 ```
 
-**Users Data:**
+**Lesson Details:**
 ```json
 {
-  "data": [
-    { "id": 1, "name": "John Doe", "email": "john@example.com" },
-    { "id": 2, "name": "Jane Smith", "email": "jane@example.com" }
-  ],
-  "total": 2
+  "success": true,
+  "data": {
+    "id": "lesson-1",
+    "title": "Basic Arithmetic",
+    "problems": [
+      {
+        "id": "problem-1-1",
+        "question": "What is 5 + 3?",
+        "problemType": "MULTIPLE_CHOICE",
+        "options": [
+          { "id": "opt-1", "optionText": "7" },
+          { "id": "opt-2", "optionText": "8" },
+          { "id": "opt-3", "optionText": "9" }
+        ]
+      }
+    ]
+  }
 }
+```
+
+**Submit Answers:**
+```json
+{
+  "success": true,
+  "data": {
+    "score": 80,
+    "totalProblems": 4,
+    "correctAnswers": 3,
+    "isCompleted": true,
+    "xpGained": 40,
+    "streakUpdated": true,
+    "currentXp": 40,
+    "currentStreak": 1
+  }
+}
+```
 ```
 
 ## ⚙️ Environment Configuration
@@ -311,10 +397,13 @@ Copy `apps/backend/.env.example` to `apps/backend/.env`:
 PORT=3002
 NODE_ENV=development
 
-# Database (when you add one)
-# DATABASE_URL=postgresql://user:password@localhost:5432/mydb
+# Database (Required for math learning features)
+DATABASE_URL="postgresql://username:password@localhost:5432/mathapp"
 
-# Authentication (when you add it)
+# Prisma Configuration
+PRISMA_GENERATE_DATAPROXY=false
+
+# Authentication (for future features)
 # JWT_SECRET=your-super-secret-jwt-key
 # JWT_EXPIRES_IN=7d
 

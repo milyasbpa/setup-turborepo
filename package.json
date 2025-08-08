@@ -1,6 +1,7 @@
 {
-  "name": "turborepo-fullstack",
+  "name": "turborepo-math-learning-app",
   "private": true,
+  "description": "A modern Duolingo-style math learning app built with Turborepo, featuring Express.js TypeScript backend with XP/streak system and React TypeScript frontend",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",

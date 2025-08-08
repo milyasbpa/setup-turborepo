@@ -4,7 +4,7 @@
  */
 
 import { Request, Response } from 'express';
-import { User, Post, Comment } from '@prisma/client';
+import { User, Lesson, Problem } from '@prisma/client';
 
 /**
  * Mock Express Request object
@@ -53,7 +53,10 @@ export const sampleUsers: Partial<User>[] = [
     password: 'hashedPassword123',
     isVerified: true,
     isActive: true,
-    bio: 'Software developer',
+    totalXp: 150,
+    currentStreak: 5,
+    bestStreak: 10,
+    lastActivityDate: new Date('2024-01-01'),
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01')
   },
@@ -67,57 +70,62 @@ export const sampleUsers: Partial<User>[] = [
     password: 'hashedPassword456',
     isVerified: false,
     isActive: true,
-    bio: 'UI/UX Designer',
+    totalXp: 75,
+    currentStreak: 2,
+    bestStreak: 7,
+    lastActivityDate: new Date('2024-01-02'),
     createdAt: new Date('2024-01-02'),
     updatedAt: new Date('2024-01-02')
   }
 ];
 
-export const samplePosts: Partial<Post>[] = [
+export const sampleLessons: Partial<Lesson>[] = [
   {
-    id: 'post-1',
-    title: 'Test Post 1',
-    content: 'This is a test post content',
-    slug: 'test-post-1',
-    published: true,
-    authorId: 'user-1',
-    tags: ['test', 'sample'],
-    excerpt: 'Test post excerpt',
+    id: 'lesson-1',
+    title: 'Basic Arithmetic',
+    description: 'Learn addition and subtraction',
+    order: 1,
+    xpReward: 10,
+    isActive: true,
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01')
   },
   {
-    id: 'post-2',
-    title: 'Draft Post',
-    content: 'This is a draft post',
-    slug: 'draft-post',
-    published: false,
-    authorId: 'user-2',
-    tags: ['draft'],
-    excerpt: 'Draft post excerpt',
+    id: 'lesson-2',
+    title: 'Multiplication',
+    description: 'Master multiplication tables',
+    order: 2,
+    xpReward: 15,
+    isActive: true,
     createdAt: new Date('2024-01-02'),
     updatedAt: new Date('2024-01-02')
   }
 ];
 
-export const sampleComments: Partial<Comment>[] = [
+export const sampleProblems: Partial<Problem>[] = [
   {
-    id: 'comment-1',
-    content: 'Great post!',
-    postId: 'post-1',
-    authorId: 'user-2',
-    parentId: null,
-    createdAt: new Date('2024-01-03'),
-    updatedAt: new Date('2024-01-03')
+    id: 'problem-1',
+    lessonId: 'lesson-1',
+    question: 'What is 5 + 3?',
+    problemType: 'multiple_choice',
+    order: 1,
+    correctAnswer: '8',
+    explanation: '5 + 3 = 8',
+    difficulty: 'easy',
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-01')
   },
   {
-    id: 'comment-2',
-    content: 'Thanks for the feedback!',
-    postId: 'post-1',
-    authorId: 'user-1',
-    parentId: 'comment-1',
-    createdAt: new Date('2024-01-04'),
-    updatedAt: new Date('2024-01-04')
+    id: 'problem-2',
+    lessonId: 'lesson-2',
+    question: 'What is 3 × 4?',
+    problemType: 'multiple_choice',
+    order: 1,
+    correctAnswer: '12',
+    explanation: '3 × 4 = 12',
+    difficulty: 'easy',
+    createdAt: new Date('2024-01-02'),
+    updatedAt: new Date('2024-01-02')
   }
 ];
 
@@ -135,7 +143,7 @@ export const createMockPrismaUser = () => ({
   count: jest.fn()
 });
 
-export const createMockPrismaPost = () => ({
+export const createMockPrismaLesson = () => ({
   create: jest.fn(),
   findUnique: jest.fn(),
   findMany: jest.fn(),
@@ -146,7 +154,7 @@ export const createMockPrismaPost = () => ({
   count: jest.fn()
 });
 
-export const createMockPrismaComment = () => ({
+export const createMockPrismaProblem = () => ({
   create: jest.fn(),
   findMany: jest.fn(),
   findFirst: jest.fn(),

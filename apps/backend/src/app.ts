@@ -8,6 +8,8 @@ import { setupSwagger } from './core/swagger';
 import { prismaService } from './core/database';
 import { HealthModule } from './features/health';
 import { UserModule } from './features/users';
+import lessonRoutes from './features/lessons/lesson.routes';
+import profileRoutes from './features/profile/profile.routes';
 
 // Load environment variables
 dotenv.config();
@@ -66,6 +68,8 @@ export class Application {
         endpoints: {
           health: '/api/health',
           users: '/api/users',
+          lessons: '/api/lessons',
+          profile: '/api/profile',
           docs: '/api/docs',
           openapi: '/api/docs.json',
         },
@@ -75,6 +79,8 @@ export class Application {
     // Feature routes
     this.app.use('/api/health', this.healthModule.initialize());
     this.app.use('/api/users', this.userModule.initialize());
+    this.app.use('/api/lessons', lessonRoutes);
+    this.app.use('/api/profile', profileRoutes);
 
     LoggerService.info('Routes initialized successfully');
   }
@@ -139,6 +145,8 @@ export class Application {
         LoggerService.info(`📍 API available at http://localhost:${this.port}`);
         LoggerService.info(`🏥 Health check: http://localhost:${this.port}/api/health`);
         LoggerService.info(`👥 Users API: http://localhost:${this.port}/api/users`);
+        LoggerService.info(`📚 Lessons API: http://localhost:${this.port}/api/lessons`);
+        LoggerService.info(`👤 Profile API: http://localhost:${this.port}/api/profile`);
         LoggerService.info(`📊 Database: Connected to PostgreSQL`);
         LoggerService.info(`📖 API Documentation: http://localhost:${this.port}/api/docs`);
         LoggerService.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);

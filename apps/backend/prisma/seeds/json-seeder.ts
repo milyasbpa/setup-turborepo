@@ -214,21 +214,45 @@ export class JsonSeeder {
             this.cacheRecord('users', record, ['email', 'username']);
             break;
             
-          case 'posts':
-            record = await (this.prisma as any).post.upsert({
-              where: { slug: recordData.slug },
+          case 'lessons':
+            record = await (this.prisma as any).lesson.upsert({
+              where: { id: recordData.id },
               update: this.config.settings.skipExisting ? {} : recordData,
               create: recordData,
             });
-            this.cacheRecord('posts', record, ['slug']);
+            this.cacheRecord('lessons', record, ['id', 'title']);
             break;
             
-          case 'comments':
-            // Comments don't have unique fields, so we'll create them directly
-            record = await (this.prisma as any).comment.create({
-              data: recordData,
+          case 'problems':
+            record = await (this.prisma as any).problem.upsert({
+              where: { id: recordData.id },
+              update: this.config.settings.skipExisting ? {} : recordData,
+              create: recordData,
             });
-            this.cacheRecord('comments', record, []);
+            this.cacheRecord('problems', record, ['id']);
+            break;
+            
+          case 'problemOptions':
+            record = await (this.prisma as any).problemOption.upsert({
+              where: { id: recordData.id },
+              update: this.config.settings.skipExisting ? {} : recordData,
+              create: recordData,
+            });
+            this.cacheRecord('problemOptions', record, ['id']);
+            break;
+            
+          case 'userProgress':
+            record = await (this.prisma as any).userProgress.upsert({
+              where: {
+                userId_lessonId: {
+                  userId: recordData.userId,
+                  lessonId: recordData.lessonId,
+                }
+              },
+              update: this.config.settings.skipExisting ? {} : recordData,
+              create: recordData,
+            });
+            this.cacheRecord('userProgress', record, ['userId', 'lessonId']);
             break;
             
           default:

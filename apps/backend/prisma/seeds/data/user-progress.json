@@ -1,0 +1,29 @@
+[
+  {
+    "userEmail": "demo@mathapp.com",
+    "lessonSlug": "lesson-1",
+    "isCompleted": false,
+    "score": 0,
+    "bestScore": 0,
+    "attemptsCount": 0,
+    "totalXpEarned": 0
+  },
+  {
+    "userEmail": "demo@mathapp.com",
+    "lessonSlug": "lesson-2",
+    "isCompleted": false,
+    "score": 0,
+    "bestScore": 0,
+    "attemptsCount": 0,
+    "totalXpEarned": 0
+  },
+  {
+    "userEmail": "demo@mathapp.com",
+    "lessonSlug": "lesson-3",
+    "isCompleted": false,
+    "score": 0,
+    "bestScore": 0,
+    "attemptsCount": 0,
+    "totalXpEarned": 0
+  }
+]

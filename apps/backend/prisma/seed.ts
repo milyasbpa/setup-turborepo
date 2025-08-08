@@ -4,6 +4,48 @@ import * as path from 'path';
 
 const prisma = new PrismaClient();
 
+/**
+ * Clean up all math learning app data
+ */
+async function cleanupData() {
+  console.log('🧹 Starting database cleanup...');
+
+  try {
+    // Delete in reverse dependency order
+    await prisma.userProgress.deleteMany({});
+    console.log('✅ Deleted all user progress records');
+
+    await prisma.submission.deleteMany({});
+    console.log('✅ Deleted all submissions');
+
+    await prisma.problemOption.deleteMany({});
+    console.log('✅ Deleted all problem options');
+
+    await prisma.problem.deleteMany({});
+    console.log('✅ Deleted all problems');
+
+    await prisma.lesson.deleteMany({});
+    console.log('✅ Deleted all lessons');
+
+    // Reset demo user's math learning data
+    await prisma.user.updateMany({
+      where: {},
+      data: {
+        totalXp: 0,
+        currentStreak: 0,
+        bestStreak: 0,
+        lastActivityDate: null,
+      },
+    });
+    console.log('✅ Reset all user XP and streak data');
+
+    console.log('🎉 Database cleanup completed successfully!');
+  } catch (error) {
+    console.error('❌ Database cleanup failed:', error);
+    throw error;
+  }
+}
+
 async function main() {
   console.log('🌱 Starting JSON-based database seeding...');
 
@@ -18,8 +60,19 @@ async function main() {
     const command = args[0];
     
     switch (command) {
+      case 'clean':
+        console.log('🧹 Cleaning up database...');
+        await cleanupData();
+        return;
+        
+      case 'reset':
+        console.log('� Resetting database (clean + seed)...');
+        await cleanupData();
+        await seeder.seedAll();
+        return;
+        
       case 'list':
-        console.log('📋 Available seed tables:');
+        console.log('�📋 Available seed tables:');
         const tables = seeder.listTables();
         tables.forEach((table, index) => {
           const info = seeder.getTableInfo(table);
@@ -40,8 +93,10 @@ async function main() {
       default:
         console.log(`❓ Unknown command: ${command}`);
         console.log('Available commands:');
-        console.log('  npm run seed        - Seed all tables');
-        console.log('  npm run seed list   - List available tables');
+        console.log('  npm run seed              - Seed all tables');
+        console.log('  npm run seed clean        - Clean up all data');
+        console.log('  npm run seed reset        - Clean up and re-seed all data');
+        console.log('  npm run seed list         - List available tables');
         console.log('  npm run seed table <name> - Seed specific table');
         process.exit(1);
     }

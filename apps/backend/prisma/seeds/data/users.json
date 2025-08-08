@@ -1,72 +1,18 @@
 [
   {
-    "email": "admin@example.com",
-    "username": "admin",
-    "firstName": "Admin",
-    "lastName": "User",
-    "displayName": "Admin User",
-    "password": "Admin123!",
-    "isVerified": true,
-    "isActive": true,
-    "bio": "System administrator with full access to the platform"
-  },
-  {
-    "email": "john.doe@example.com",
-    "username": "johndoe",
-    "firstName": "John",
-    "lastName": "Doe",
-    "displayName": "John Doe",
-    "password": "Password123!",
-    "isVerified": true,
-    "isActive": true,
-    "bio": "Software developer passionate about TypeScript, Node.js, and modern web technologies",
-    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-  },
-  {
-    "email": "jane.smith@example.com",
-    "username": "janesmith",
-    "firstName": "Jane",
-    "lastName": "Smith",
-    "displayName": "Jane Smith",
-    "password": "Password123!",
-    "isVerified": true,
-    "isActive": true,
-    "bio": "UX/UI designer and frontend developer, creating beautiful and intuitive user experiences",
-    "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b5c5?w=150&h=150&fit=crop&crop=face"
-  },
-  {
-    "email": "bob.wilson@example.com",
-    "username": "bobwilson",
-    "firstName": "Bob",
-    "lastName": "Wilson",
-    "displayName": "Bob Wilson",
-    "password": "Password123!",
-    "isVerified": false,
-    "isActive": true,
-    "bio": "Backend engineer specializing in scalable systems and microservices architecture",
-    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-  },
-  {
-    "email": "alice.johnson@example.com",
-    "username": "alicejohnson",
-    "firstName": "Alice",
-    "lastName": "Johnson",
-    "displayName": "Alice Johnson",
-    "password": "Password123!",
-    "isVerified": true,
-    "isActive": false,
-    "bio": "Product manager with expertise in agile development and user research",
-    "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
-  },
-  {
-    "email": "demo.user@example.com",
-    "username": "demouser",
+    "id": "1",
+    "email": "demo@mathapp.com",
+    "username": "demo_user",
     "firstName": "Demo",
     "lastName": "User",
     "displayName": "Demo User",
-    "password": "Demo123!",
     "isVerified": true,
     "isActive": true,
-    "bio": "Demo account for testing and demonstration purposes"
+    "totalXp": 0,
+    "currentStreak": 0,
+    "bestStreak": 0,
+    "lastActiveDate": null,
+    "bio": "Demo account for the math learning app",
+    "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=150&h=150&fit=crop&crop=face"
   }
 ]

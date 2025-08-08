@@ -1,0 +1,26 @@
+[
+  {
+    "id": "lesson-1",
+    "title": "Basic Arithmetic",
+    "description": "Master addition and subtraction with fun problems",
+    "order": 1,
+    "xpReward": 10,
+    "isActive": true
+  },
+  {
+    "id": "lesson-2", 
+    "title": "Multiplication Mastery",
+    "description": "Learn multiplication tables through practice",
+    "order": 2,
+    "xpReward": 15,
+    "isActive": true
+  },
+  {
+    "id": "lesson-3",
+    "title": "Division Basics", 
+    "description": "Understand division with step-by-step examples",
+    "order": 3,
+    "xpReward": 20,
+    "isActive": true
+  }
+]

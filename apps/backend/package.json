@@ -2,6 +2,7 @@
   "name": "@repo/backend",
   "version": "1.0.0",
   "private": true,
+  "description": "Express.js TypeScript backend for math learning app with Prisma ORM, XP/streak system, and comprehensive API documentation",
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
@@ -24,9 +25,12 @@
     "db:reset": "prisma migrate reset",
     "db:status": "prisma migrate status",
     "db:studio": "prisma studio",
-    "db:seed": "tsx src/scripts/seed.ts",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:seed:clean": "tsx prisma/seed.ts clean",
+    "db:seed:reset": "tsx prisma/seed.ts reset",
+    "db:seed:list": "tsx prisma/seed.ts list",
+    "db:cleanup": "tsx prisma/cleanup.ts",
     "db:seed:rollback": "tsx src/scripts/seed.ts rollback",
-    "db:seed:list": "tsx src/scripts/seed.ts list",
     "db:test": "tsx src/scripts/seed.ts test"
   },
   "dependencies": {

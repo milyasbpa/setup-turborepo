@@ -1,23 +1,43 @@
-# 📚 Backend Documentation
+# 📚 Backend Documentation - Math Learning App
 
-This directory contains comprehensive documentation for the TurboRepo backend application.
+This directory contains comprehensive documentation for the TurboRepo Math Learning App backend application.
 
 ## 📋 Documentation Index
 
 ### 🚀 Getting Started
 - **[QUICK_SETUP.md](./QUICK_SETUP.md)** - Quick start guide for the backend
 - **[DATABASE_COMPLETE.md](./DATABASE_COMPLETE.md)** - Complete database integration overview
+- **[API_DOCUMENTATION.md](../API_DOCUMENTATION.md)** - Complete API reference guide
 
 ### 🗄️ Database Documentation
 - **[DATABASE.md](./DATABASE.md)** - Main database documentation
 - **[DATABASE_SETUP.md](./DATABASE_SETUP.md)** - Detailed database setup guide
 - **[README_DATABASE.md](./README_DATABASE.md)** - Database usage and management
 - **[SEEDING.md](./SEEDING.md)** - JSON-based database seeding system
+- **[DATABASE_SCRIPTS.md](../DATABASE_SCRIPTS.md)** - Math learning database scripts
 
 ### 🏗️ Architecture & Development
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Application architecture overview
 - **[LOGGING.md](./LOGGING.md)** - Logging configuration and usage
 - **[VALIDATION.md](./VALIDATION.md)** - Input validation documentation
+
+## 🎓 Math Learning Features
+
+This backend implements a comprehensive Duolingo-style math learning system:
+
+### 📚 Core Features
+- **Lesson Management**: Structured math lessons with problems and solutions
+- **XP System**: Experience points for correct answers and lesson completion
+- **Streak Tracking**: Daily streak system with automatic reset logic
+- **Progress Tracking**: User progress per lesson with completion status
+- **Idempotent Submissions**: Safe answer submission with attempt tracking
+
+### 🔧 Technical Implementation
+- **Prisma ORM**: Type-safe database operations with PostgreSQL
+- **Clean Architecture**: Separation of concerns with repositories, services, controllers
+- **Zod Validation**: Runtime type checking for all API inputs
+- **Swagger Documentation**: Complete API documentation at `/api/docs`
+- **JSON Seeding**: Flexible demo data management system
 
 ## 🎯 Quick Navigation
 

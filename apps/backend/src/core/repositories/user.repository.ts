@@ -9,12 +9,13 @@ export interface CreateUserInput {
   lastName?: string;
   displayName?: string;
   avatar?: string;
-  bio?: string;
   password?: string;
   isVerified?: boolean;
   isActive?: boolean;
-  googleId?: string;
-  githubId?: string;
+  totalXp?: number;
+  currentStreak?: number;
+  bestStreak?: number;
+  lastActivityDate?: Date;
 }
 
 export interface UpdateUserInput {
@@ -23,11 +24,14 @@ export interface UpdateUserInput {
   lastName?: string;
   displayName?: string;
   avatar?: string;
-  bio?: string;
   password?: string;
   isVerified?: boolean;
   isActive?: boolean;
   lastLoginAt?: Date;
+  totalXp?: number;
+  currentStreak?: number;
+  bestStreak?: number;
+  lastActivityDate?: Date;
 }
 
 export interface UserQueryOptions {
@@ -131,6 +135,7 @@ export class UserRepository {
 
   /**
    * Find user by OAuth provider ID
+   * Note: OAuth providers not implemented in current math learning app schema
    */
   static async findByProviderId(
     provider: 'google' | 'github',
@@ -138,11 +143,13 @@ export class UserRepository {
     options?: UserQueryOptions
   ): Promise<User | null> {
     try {
-      const whereClause = provider === 'google' ? { googleId: providerId } : { githubId: providerId };
-      return await prisma.user.findUnique({
-        where: whereClause,
-        ...options,
+      // OAuth providers not implemented in current schema
+      // Return null as provider lookup is not available
+      LoggerService.warn('OAuth provider lookup not implemented', {
+        provider,
+        providerId,
       });
+      return null;
     } catch (error) {
       LoggerService.error('Failed to find user by provider ID', {
         error: error instanceof Error ? error.message : 'Unknown error',

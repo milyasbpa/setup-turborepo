@@ -1,45 +1,66 @@
 {
   "version": "1.0.0",
-  "description": "Seed configuration for TurboRepo backend database",
+  "description": "Seed configuration for Math Learning App database",
   "seedOrder": [
     {
       "table": "users",
       "file": "users.json",
-      "description": "Core user accounts for the platform",
+      "description": "Demo user account for the math learning platform",
       "dependencies": [],
-      "requiredFields": ["email", "password"],
-      "hashFields": ["password"]
+      "requiredFields": ["email", "username", "firstName", "lastName"],
+      "hashFields": []
     },
     {
-      "table": "posts",
-      "file": "posts.json", 
-      "description": "Sample blog posts and articles",
-      "dependencies": ["users"],
-      "requiredFields": ["title", "slug", "authorEmail"],
+      "table": "lessons",
+      "file": "lessons.json", 
+      "description": "Math learning lessons with structured progression",
+      "dependencies": [],
+      "requiredFields": ["title", "description", "order", "xpReward"]
+    },
+    {
+      "table": "problems",
+      "file": "problems.json",
+      "description": "Math problems for each lesson",
+      "dependencies": ["lessons"],
+      "requiredFields": ["lessonId", "question", "problemType", "order", "correctAnswer"],
       "lookupFields": {
-        "authorEmail": {
-          "table": "users",
-          "field": "email",
-          "maps_to": "authorId"
+        "lessonSlug": {
+          "table": "lessons",
+          "field": "id",
+          "maps_to": "lessonId"
         }
       }
     },
     {
-      "table": "comments",
-      "file": "comments.json",
-      "description": "Sample comments on posts",
-      "dependencies": ["users", "posts"],
-      "requiredFields": ["content", "postSlug", "authorEmail"],
+      "table": "problemOptions",
+      "file": "problem-options.json",
+      "description": "Multiple choice options for problems",
+      "dependencies": ["problems"],
+      "requiredFields": ["problemId", "optionText", "isCorrect", "order"],
       "lookupFields": {
-        "authorEmail": {
-          "table": "users", 
+        "problemSlug": {
+          "table": "problems",
+          "field": "id",
+          "maps_to": "problemId"
+        }
+      }
+    },
+    {
+      "table": "userProgress",
+      "file": "user-progress.json",
+      "description": "User progress tracking for lessons",
+      "dependencies": ["users", "lessons"],
+      "requiredFields": ["userId", "lessonId"],
+      "lookupFields": {
+        "userEmail": {
+          "table": "users",
           "field": "email",
-          "maps_to": "authorId"
+          "maps_to": "userId"
         },
-        "postSlug": {
-          "table": "posts",
-          "field": "slug", 
-          "maps_to": "postId"
+        "lessonSlug": {
+          "table": "lessons",
+          "field": "id",
+          "maps_to": "lessonId"
         }
       }
     }

@@ -13,12 +13,12 @@ const swaggerOptions: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Backend API',
+      title: 'Math Learning App API',
       version: '1.0.0',
-      description: 'A comprehensive Express.js API with TypeScript, Zod validation, and Winston logging',
+      description: 'A comprehensive Duolingo-style math learning API with XP/streak system, lesson management, and progress tracking. Built with Express.js, TypeScript, Prisma, and Zod validation.',
       contact: {
         name: 'API Support',
-        email: 'support@example.com',
+        email: 'support@mathlearningapp.com',
       },
     },
     servers: [
@@ -160,11 +160,15 @@ const swaggerOptions: swaggerJsdoc.Options = {
     tags: [
       {
         name: 'Health',
-        description: 'Health check endpoints',
+        description: 'Health check endpoints for monitoring and status verification',
       },
       {
-        name: 'Users',
-        description: 'User management endpoints',
+        name: 'Lessons',
+        description: 'Math lesson management - browse lessons, get problems, submit answers',
+      },
+      {
+        name: 'Profile',
+        description: 'User profile and statistics - XP, streak, and learning progress',
       },
     ],
   },

@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model with comprehensive fields
+// User model for math learning app
 model User {
   id          String   @id @default(cuid())
   email       String   @unique
@@ -22,16 +22,17 @@ model User {
   lastName    String?
   displayName String?
   avatar      String?
-  bio         String?
   
-  // Authentication fields
+  // Authentication fields (for future expansion)
   password    String?
   isVerified  Boolean  @default(false)
   isActive    Boolean  @default(true)
   
-  // OAuth fields
-  googleId    String?  @unique
-  githubId    String?  @unique
+  // Math learning specific fields
+  totalXp     Int      @default(0)
+  currentStreak Int    @default(0)
+  bestStreak  Int      @default(0)
+  lastActivityDate DateTime?
   
   // Metadata
   lastLoginAt DateTime?
@@ -39,78 +40,136 @@ model User {
   updatedAt   DateTime @updatedAt
   
   // Relations
-  profiles    UserProfile[]
-  posts       Post[]
-  comments    Comment[]
+  submissions Submission[]
+  userProgress UserProgress[]
   
   @@map("users")
 }
 
-// User profile for additional information
-model UserProfile {
-  id       String @id @default(cuid())
-  userId   String
-  provider String // "local", "google", "github", etc.
+// Lessons table
+model Lesson {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int      @unique
+  isActive    Boolean  @default(true)
   
-  // Provider specific data
-  providerData Json?
+  // Lesson metadata
+  xpReward    Int      @default(10) // XP per problem
   
   // Timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   
   // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problems    Problem[]
+  userProgress UserProgress[]
+  submissions Submission[]
   
-  @@unique([userId, provider])
-  @@map("user_profiles")
+  @@map("lessons")
 }
 
-// Example content models to demonstrate relationships
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  slug      String   @unique
-  published Boolean  @default(false)
+// Problems within lessons
+model Problem {
+  id          String   @id @default(cuid())
+  lessonId    String
+  question    String
+  problemType String   // "multiple_choice" or "input"
+  order       Int
   
-  // Author relation
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  // For input type problems
+  correctAnswer String?
   
-  // Content metadata
-  tags      String[]
-  excerpt   String?
+  // Problem metadata
+  explanation String?
+  difficulty  String   @default("easy") // easy, medium, hard
   
   // Timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   
   // Relations
-  comments  Comment[]
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  options     ProblemOption[]
+  submissions Submission[]
   
-  @@map("posts")
+  @@unique([lessonId, order])
+  @@map("problems")
 }
 
-model Comment {
-  id        String   @id @default(cuid())
-  content   String
-  
-  // Relations
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  
-  // Nested comments
-  parentId  String?
-  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id])
-  replies   Comment[] @relation("CommentReplies")
+// Options for multiple choice problems
+model ProblemOption {
+  id          String   @id @default(cuid())
+  problemId   String
+  optionText  String
+  isCorrect   Boolean  @default(false)
+  order       Int
   
   // Timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   
-  @@map("comments")
+  // Relations
+  problem     Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  
+  @@unique([problemId, order])
+  @@map("problem_options")
+}
+
+// User submissions for problems
+model Submission {
+  id          String   @id @default(cuid())
+  attemptId   String   @unique // For idempotency
+  userId      String
+  lessonId    String
+  problemId   String
+  
+  // Submission data
+  userAnswer  String
+  isCorrect   Boolean
+  xpEarned    Int      @default(0)
+  timeSpent   Int?     // in seconds
+  
+  // Timestamps
+  submittedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  problem     Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, lessonId])
+  @@index([attemptId])
+  @@map("submissions")
+}
+
+// User progress tracking
+model UserProgress {
+  id              String   @id @default(cuid())
+  userId          String
+  lessonId        String
+  
+  // Progress data
+  isCompleted     Boolean  @default(false)
+  completionDate  DateTime?
+  score           Float    @default(0) // percentage score
+  bestScore       Float    @default(0)
+  attemptsCount   Int      @default(0)
+  totalXpEarned   Int      @default(0)
+  
+  // Timestamps
+  startedAt       DateTime @default(now())
+  lastAttemptAt   DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@map("user_progress")
 }
