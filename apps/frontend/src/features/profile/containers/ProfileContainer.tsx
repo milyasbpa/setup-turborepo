@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserProfile, useUserStats } from '../context/ProfileContext';
-import { ProfileHeader, StatsCards, AchievementBadges } from '../components/ProfileComponents';
+import { ProfileHeader, StatsCards, AchievementBadges } from '../components';
 import { ErrorMessage, Button, LoadingCard } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
 
