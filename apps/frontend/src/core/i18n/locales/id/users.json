@@ -1,0 +1,49 @@
+{
+  "title": "Pengguna",
+  "subtitle": "Kelola dan lihat akun pengguna",
+  "list": {
+    "title": "Daftar Pengguna",
+    "empty": "Tidak ada pengguna ditemukan",
+    "loading": "Memuat pengguna...",
+    "error": "Gagal memuat pengguna",
+    "search": "Cari pengguna...",
+    "filter": "Filter pengguna",
+    "sort": {
+      "name": "Urutkan berdasarkan nama",
+      "email": "Urutkan berdasarkan email",
+      "date": "Urutkan berdasarkan tanggal"
+    }
+  },
+  "detail": {
+    "title": "Detail Pengguna",
+    "loading": "Memuat detail pengguna...",
+    "error": "Gagal memuat detail pengguna",
+    "notFound": "Pengguna tidak ditemukan",
+    "backToList": "Kembali ke Daftar Pengguna"
+  },
+  "form": {
+    "name": "Nama",
+    "email": "Email",
+    "phone": "Telepon",
+    "website": "Website",
+    "company": "Perusahaan",
+    "address": "Alamat",
+    "save": "Simpan Pengguna",
+    "cancel": "Batal",
+    "required": "Field ini wajib diisi",
+    "invalidEmail": "Masukkan email yang valid"
+  },
+  "actions": {
+    "view": "Lihat",
+    "edit": "Edit",
+    "delete": "Hapus",
+    "add": "Tambah Pengguna",
+    "export": "Ekspor",
+    "import": "Impor"
+  },
+  "pagination": {
+    "showing": "Menampilkan {{from}} hingga {{to}} dari {{total}} pengguna",
+    "page": "Halaman {{current}} dari {{total}}",
+    "itemsPerPage": "Item per halaman"
+  }
+}

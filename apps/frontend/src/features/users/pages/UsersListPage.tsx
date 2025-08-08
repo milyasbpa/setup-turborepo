@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { routeUtils } from '@/core/router/routes';
 import { useUsers, type User } from '@/features/users/hooks/useUsers';
 import { LoadingSpinner } from '@/core/layout/LoadingSpinner';
+import { useTranslation } from '@/core/i18n';
 
 /**
- * Users List Page Component
+ * Users List Page Component with i18n support
  * Displays a list of all users with search and filtering capabilities
  */
 const UsersListPage = () => {
+  const { t } = useTranslation('users');
   const [searchTerm, setSearchTerm] = useState('');
   
   // React Query hook with search filtering
@@ -47,9 +49,9 @@ const UsersListPage = () => {
     <div className="users-list-page">
       {/* Page Header */}
       <div className="page-header">
-        <h1 className="page-title">👥 Users Management</h1>
+        <h1 className="page-title">👥 {t('list.title')}</h1>
         <p className="page-description">
-          Browse and manage user accounts. Click on any user to view detailed information.
+          {t('list.description')}
         </p>
       </div>
 
@@ -58,7 +60,7 @@ const UsersListPage = () => {
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search users by name or email..."
+            placeholder={t('list.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => handleSearchChange(e.target.value)}
             className="search-input"
@@ -72,7 +74,7 @@ const UsersListPage = () => {
             className="refresh-button"
             disabled={isRefetching}
           >
-            {isRefetching ? '⏳' : '🔄'} Refresh
+            {isRefetching ? '⏳' : '🔄'} {t('common:refresh', { ns: 'common' })}
           </button>
         </div>
       </div>
@@ -83,11 +85,11 @@ const UsersListPage = () => {
           <div className="error-content">
             <span className="error-icon">⚠️</span>
             <div className="error-text">
-              <h3>Failed to load users</h3>
-              <p>{error instanceof Error ? error.message : 'An unexpected error occurred'}</p>
+              <h3>{t('common:error.failedToLoad', { ns: 'common' })}</h3>
+              <p>{error instanceof Error ? error.message : t('common:error.unexpected', { ns: 'common' })}</p>
             </div>
             <button onClick={handleRetry} className="retry-button">
-              Try Again
+              {t('common:tryAgain', { ns: 'common' })}
             </button>
           </div>
         </div>
@@ -97,10 +99,10 @@ const UsersListPage = () => {
       {!error && (
         <div className="users-stats">
           <p className="stats-text">
-            Showing {filteredUsers.length} of {users.length} users
+            {t('list.showing', { count: filteredUsers.length, total: users.length })}
             {searchTerm && (
               <span className="search-info">
-                {' '}for "<strong>{searchTerm}</strong>"
+                {' '}{t('list.searchResults', { term: searchTerm })}
               </span>
             )}
           </p>
@@ -132,7 +134,7 @@ const UsersListPage = () => {
               </div>
               
               <div className="card-actions">
-                <span className="view-details">View Details →</span>
+                <span className="view-details">{t('list.viewDetails')} →</span>
               </div>
             </Link>
           ))}
@@ -145,17 +147,13 @@ const UsersListPage = () => {
           <div className="empty-content">
             <span className="empty-icon">👤</span>
             <h3 className="empty-title">
-              {searchTerm ? 'No users found' : 'No users available'}
+              {searchTerm ? t('list.noUsersFound') : t('list.noUsersAvailable')}
             </h3>
             <p className="empty-description">
               {searchTerm ? (
-                <>
-                  No users match your search for "<strong>{searchTerm}</strong>".
-                  <br />
-                  Try adjusting your search terms.
-                </>
+                t('list.noSearchResults', { term: searchTerm })
               ) : (
-                'There are no users in the system yet.'
+                t('list.noUsersInSystem')
               )}
             </p>
             
@@ -164,7 +162,7 @@ const UsersListPage = () => {
                 onClick={() => handleSearchChange('')}
                 className="clear-search-button"
               >
-                Clear Search
+                {t('list.clearSearch')}
               </button>
             )}
           </div>

@@ -4,7 +4,7 @@
  */
 
 // Router exports
-export { ROUTES, routeUtils } from '@/core/router/routes';
+export { ROUTES, I18N_ROUTES, routeUtils } from '@/core/router/routes';
 export { AppRouter, router } from '@/core/router/AppRouter';
 
 // Layout exports
@@ -57,5 +57,25 @@ export {
   type PWAActions,
 } from '@/core/pwa';
 
+// i18n exports (Internationalization)
+export {
+  i18n,
+  SUPPORTED_LANGUAGES,
+  DEFAULT_LANGUAGE,
+  FALLBACK_LANGUAGE,
+  useTranslation,
+  useLanguage,
+  useLocalizedRoutes,
+  useFormatter,
+  getBrowserLanguage,
+  languageStorage,
+  LanguageSwitcher,
+  I18nRouteWrapper,
+  LocalizedLink,
+  Trans,
+  Translation,
+  type SupportedLanguage,
+} from '@/core/i18n';
+
 // Type exports for routing
-export type { RouteKeys, RouteValues } from '@/core/router/routes';
+export type { RouteKeys, RouteValues, I18nRouteValues } from '@/core/router/routes';

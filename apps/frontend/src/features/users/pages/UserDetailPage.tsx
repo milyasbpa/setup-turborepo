@@ -1,13 +1,15 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/core/router/routes';
 import { LoadingSpinner } from '@/core/layout/LoadingSpinner';
 import { useUser } from '@/features/users/hooks/useUsers';
+import { useTranslation, useLocalizedRoutes } from '@/core/i18n';
 
 /**
- * User Detail Page Component
+ * User Detail Page Component with i18n support
  * Displays detailed information about a specific user
  */
 const UserDetailPage = () => {
+  const { t } = useTranslation('users');
+  const { routes } = useLocalizedRoutes();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
@@ -21,7 +23,7 @@ const UserDetailPage = () => {
   });
 
   const handleGoBack = () => {
-    navigate(ROUTES.USERS);
+    navigate(routes.users);
   };
 
   const handleRetry = () => {
@@ -32,10 +34,10 @@ const UserDetailPage = () => {
     return (
       <div className="error-container">
         <div className="error-content">
-          <h2>❌ Invalid User ID</h2>
-          <p>The user ID provided is not valid.</p>
+          <h2>❌ {t('detail.invalidId')}</h2>
+          <p>{t('detail.invalidIdDescription')}</p>
           <button onClick={handleGoBack} className="back-button">
-            ← Back to Users
+            ← {t('detail.backToUsers')}
           </button>
         </div>
       </div>
@@ -50,19 +52,19 @@ const UserDetailPage = () => {
     return (
       <div className="error-container">
         <div className="error-content">
-          <h2>⚠️ {error instanceof Error && error.message.includes('404') ? 'User Not Found' : 'Failed to Load User'}</h2>
+          <h2>⚠️ {error instanceof Error && error.message.includes('404') ? t('detail.userNotFound') : t('detail.failedToLoad')}</h2>
           <p>
             {error instanceof Error && error.message.includes('404') 
-              ? `No user found with ID: ${id}`
-              : 'An error occurred while fetching user details. Please try again.'
+              ? t('detail.userNotFoundDescription', { id })
+              : t('detail.errorOccurred')
             }
           </p>
           <div className="error-actions">
             <button onClick={handleRetry} className="retry-button">
-              🔄 Try Again
+              🔄 {t('common:tryAgain', { ns: 'common' })}
             </button>
             <button onClick={handleGoBack} className="back-button">
-              ← Back to Users
+              ← {t('detail.backToUsers')}
             </button>
           </div>
         </div>
@@ -74,8 +76,8 @@ const UserDetailPage = () => {
     <div className="user-detail-page">
       {/* Navigation */}
       <div className="page-navigation">
-        <Link to={ROUTES.USERS} className="back-link">
-          ← Back to Users
+        <Link to={routes.users} className="back-link">
+          ← {t('detail.backToUsers')}
         </Link>
       </div>
       
@@ -99,20 +101,20 @@ const UserDetailPage = () => {
       <div className="user-details-grid">
         {/* Contact Information */}
         <div className="detail-card">
-          <h3 className="card-title">📧 Contact Information</h3>
+          <h3 className="card-title">📧 {t('detail.contactInfo')}</h3>
           <div className="detail-item">
-            <label>Email:</label>
+            <label>{t('detail.email')}:</label>
             <span>{user.email}</span>
           </div>
           {user.phone && (
             <div className="detail-item">
-              <label>Phone:</label>
+              <label>{t('detail.phone')}:</label>
               <span>{user.phone}</span>
             </div>
           )}
           {user.website && (
             <div className="detail-item">
-              <label>Website:</label>
+              <label>{t('detail.website')}:</label>
               <a href={`https://${user.website}`} target="_blank" rel="noopener noreferrer" className="external-link">
                 {user.website}
               </a>
@@ -123,17 +125,17 @@ const UserDetailPage = () => {
         {/* Address Information */}
         {user.address && (
           <div className="detail-card">
-            <h3 className="card-title">🏠 Address</h3>
+            <h3 className="card-title">🏠 {t('detail.address')}</h3>
             <div className="detail-item">
-              <label>Street:</label>
+              <label>{t('detail.street')}:</label>
               <span>{user.address.street}</span>
             </div>
             <div className="detail-item">
-              <label>City:</label>
+              <label>{t('detail.city')}:</label>
               <span>{user.address.city}</span>
             </div>
             <div className="detail-item">
-              <label>Zip Code:</label>
+              <label>{t('detail.zipCode')}:</label>
               <span>{user.address.zipcode}</span>
             </div>
           </div>
@@ -142,9 +144,9 @@ const UserDetailPage = () => {
         {/* Company Information */}
         {user.company && (
           <div className="detail-card">
-            <h3 className="card-title">🏢 Company</h3>
+            <h3 className="card-title">🏢 {t('detail.company')}</h3>
             <div className="detail-item">
-              <label>Company Name:</label>
+              <label>{t('detail.companyName')}:</label>
               <span>{user.company.name}</span>
             </div>
           </div>

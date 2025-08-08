@@ -1,0 +1,25 @@
+{
+  "home": "Home",
+  "users": "Users",
+  "about": "About",
+  "contact": "Contact",
+  "menu": "Menu",
+  "navigation": "Navigation",
+  "breadcrumb": {
+    "home": "Home",
+    "users": "Users",
+    "userDetail": "User Details"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "footer": {
+    "copyright": "© 2025 TurboApp. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "contactUs": "Contact Us"
+  }
+}

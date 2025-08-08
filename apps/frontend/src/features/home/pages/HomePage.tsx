@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ROUTES } from '@/core/router/routes';
 import { useQuery } from '@/core/query';
 import { apiClient, API_ENDPOINTS } from '@/core/api/client';
 import { useUsers } from '@/features/users/hooks/useUsers';
+import { useTranslation, useLocalizedRoutes } from '@/core/i18n';
 
 interface BackendStatus {
   status: string;
@@ -11,11 +11,14 @@ interface BackendStatus {
 }
 
 /**
- * Home Page Component
+ * Home Page Component with i18n support
  * Main landing page with app overview and backend status
- * Demonstrates React Query usage
+ * Demonstrates React Query usage and internationalization
  */
 const HomePage = () => {
+  const { t } = useTranslation('home');
+  const { routes } = useLocalizedRoutes();
+
   // React Query for backend health check
   const { 
     data: backendData, 
@@ -40,14 +43,14 @@ const HomePage = () => {
   });
 
   const getBackendStatus = () => {
-    if (isLoadingHealth) return '⏳ Checking...';
+    if (isLoadingHealth) return '⏳ ' + t('loading', { ns: 'common' });
     if (healthError) return '❌ Backend unavailable';
     if (backendData) return `✅ ${backendData.status}`;
     return '❓ Unknown';
   };
 
   const getUsersStatus = () => {
-    if (isLoadingUsers) return '⏳ Loading...';
+    if (isLoadingUsers) return '⏳ ' + t('loading', { ns: 'common' });
     return `👥 ${users.length} users loaded`;
   };
 
@@ -69,8 +72,18 @@ const HomePage = () => {
     },
     {
       icon: '🎨',
-      title: 'Responsive Design',
-      description: 'Mobile-first approach with modern CSS',
+      title: t('features.responsive.title'),
+      description: t('features.responsive.description'),
+    },
+    {
+      icon: '📱',
+      title: t('features.pwa.title'),
+      description: t('features.pwa.description'),
+    },
+    {
+      icon: '⚡',
+      title: t('features.performance.title'),
+      description: t('features.performance.description'),
     },
   ];
 
@@ -80,16 +93,15 @@ const HomePage = () => {
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
-            Welcome to <span className="gradient-text">Turborepo Frontend</span>
+            {t('title')} <span className="gradient-text">TurboApp</span>
           </h1>
           <p className="hero-description">
-            A modern, scalable React application built with TypeScript, Vite, and React Router.
-            Featuring clean architecture and seamless backend integration.
+            {t('description')}
           </p>
           
           <div className="hero-actions">
-            <Link to={ROUTES.USERS} className="cta-button primary">
-              👥 Explore Users
+            <Link to={routes.users} className="cta-button primary">
+              👥 {t('cta.viewUsers')}
             </Link>
             <a 
               href="http://localhost:3001" 
@@ -140,7 +152,7 @@ const HomePage = () => {
 
       {/* Features Section */}
       <section className="features-section">
-        <h2>Key Features</h2>
+        <h2>{t('features.title')}</h2>
         <div className="features-grid">
           {features.map((feature, index) => (
             <div key={index} className="feature-card">
@@ -156,10 +168,10 @@ const HomePage = () => {
       <section className="quick-links-section">
         <h2>Quick Links</h2>
         <div className="links-grid">
-          <Link to={ROUTES.USERS} className="link-card">
+          <Link to={routes.users} className="link-card">
             <span className="link-icon">👥</span>
             <div className="link-content">
-              <h3>Users Management</h3>
+              <h3>{t('navigation:users')}</h3>
               <p>Browse and manage user accounts</p>
             </div>
           </Link>

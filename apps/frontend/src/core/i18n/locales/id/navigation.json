@@ -1,0 +1,25 @@
+{
+  "home": "Beranda",
+  "users": "Pengguna",
+  "about": "Tentang",
+  "contact": "Kontak",
+  "menu": "Menu",
+  "navigation": "Navigasi",
+  "breadcrumb": {
+    "home": "Beranda",
+    "users": "Pengguna",
+    "userDetail": "Detail Pengguna"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "users": "Pengguna",
+    "settings": "Pengaturan",
+    "logout": "Keluar"
+  },
+  "footer": {
+    "copyright": "© 2025 TurboApp. Semua hak dilindungi.",
+    "privacyPolicy": "Kebijakan Privasi",
+    "termsOfService": "Ketentuan Layanan",
+    "contactUs": "Hubungi Kami"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "title": "Welcome to TurboApp",
+  "subtitle": "A modern React application with PWA capabilities",
+  "description": "Experience the power of modern web technologies with our Progressive Web App built using React, TypeScript, and cutting-edge tools.",
+  "features": {
+    "title": "Features",
+    "pwa": {
+      "title": "Progressive Web App",
+      "description": "Install on your device for an app-like experience"
+    },
+    "offline": {
+      "title": "Offline Support",
+      "description": "Works seamlessly even without internet connection"
+    },
+    "responsive": {
+      "title": "Responsive Design",
+      "description": "Optimized for all devices and screen sizes"
+    },
+    "performance": {
+      "title": "High Performance",
+      "description": "Fast loading and smooth user experience"
+    }
+  },
+  "cta": {
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "viewUsers": "View Users",
+    "installApp": "Install App"
+  },
+  "stats": {
+    "users": "Active Users",
+    "downloads": "Downloads",
+    "rating": "User Rating",
+    "countries": "Countries"
+  }
+}

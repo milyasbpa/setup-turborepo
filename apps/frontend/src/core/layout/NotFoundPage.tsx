@@ -1,36 +1,36 @@
 import { Link } from 'react-router-dom';
-import { ROUTES } from '@/core/router/routes';
+import { useTranslation, useLocalizedRoutes } from '@/core/i18n';
 
 /**
- * 404 Not Found Page Component
+ * 404 Not Found Page Component with i18n support
  * Displayed when user navigates to a route that doesn't exist
  */
 const NotFoundPage = () => {
+  const { t } = useTranslation('common');
+  const { routes } = useLocalizedRoutes();
   return (
     <div className="not-found-page">
       <div className="not-found-content">
         <div className="not-found-icon">🔍</div>
-        <h1 className="not-found-title">404 - Page Not Found</h1>
+        <h1 className="not-found-title">{t('notFoundPage.title')}</h1>
         <p className="not-found-message">
-          Oops! The page you're looking for doesn't exist.
-          <br />
-          It might have been moved, deleted, or you entered the wrong URL.
+          {t('notFoundPage.message')}
         </p>
         
         <div className="not-found-actions">
-          <Link to={ROUTES.HOME} className="home-button">
-            🏠 Go Home
+          <Link to={routes.home} className="home-button">
+            🏠 {t('navigation:home', { ns: 'navigation' })}
           </Link>
-          <Link to={ROUTES.USERS} className="users-button">
-            👥 Browse Users
+          <Link to={routes.users} className="users-button">
+            👥 {t('navigation:users', { ns: 'navigation' })}
           </Link>
         </div>
 
         <div className="helpful-links">
-          <h3>Popular Pages:</h3>
+          <h3>{t('notFoundPage.popularPages')}</h3>
           <ul>
-            <li><Link to={ROUTES.HOME}>Home</Link></li>
-            <li><Link to={ROUTES.USERS}>Users List</Link></li>
+            <li><Link to={routes.home}>{t('navigation:home', { ns: 'navigation' })}</Link></li>
+            <li><Link to={routes.users}>{t('navigation:users', { ns: 'navigation' })}</Link></li>
           </ul>
         </div>
       </div>

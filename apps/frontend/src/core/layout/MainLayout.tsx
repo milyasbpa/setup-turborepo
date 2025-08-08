@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ROUTES, routeUtils } from '@/core/router/routes';
 import { NetworkStatus } from '@/core/pwa';
+import { useTranslation, useLocalizedRoutes, LanguageSwitcher } from '@/core/i18n';
 import './MainLayout.css';
 
 interface MainLayoutProps {
@@ -9,15 +9,17 @@ interface MainLayoutProps {
 }
 
 /**
- * Main layout component that wraps all pages
+ * Main layout component that wraps all pages with i18n support
  * Provides navigation, header, and common page structure
  */
 export const MainLayout = ({ children }: MainLayoutProps) => {
   const location = useLocation();
+  const { t } = useTranslation('navigation');
+  const { routes } = useLocalizedRoutes();
 
   const navigationItems = [
-    { path: ROUTES.HOME, label: 'Home', icon: '🏠' },
-    { path: ROUTES.USERS, label: 'Users', icon: '👥' },
+    { path: routes.home, label: t('home'), icon: '🏠' },
+    { path: routes.users, label: t('users'), icon: '👥' },
   ];
 
   return (
@@ -26,8 +28,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       <header className="main-header">
         <div className="header-content">
           <div className="logo">
-            <Link to={ROUTES.HOME}>
-              <h1>🚀 Turborepo</h1>
+            <Link to={routes.home}>
+              <h1>🚀 TurboApp</h1>
             </Link>
           </div>
           
@@ -38,7 +40,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                   <Link
                     to={item.path}
                     className={`nav-link ${
-                      routeUtils.isCurrentRoute(location.pathname, item.path)
+                      location.pathname === item.path || 
+                      location.pathname.endsWith(item.path)
                         ? 'active'
                         : ''
                     }`}
@@ -51,7 +54,8 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
             </ul>
           </nav>
 
-          <div className="header-status">
+          <div className="header-actions">
+            <LanguageSwitcher variant="minimal" className="mr-4" />
             <NetworkStatus />
           </div>
         </div>
@@ -67,7 +71,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       {/* Footer */}
       <footer className="main-footer">
         <div className="footer-content">
-          <p>&copy; 2025 Turborepo Frontend. Built with React + TypeScript + Vite</p>
+          <p>{t('footer.copyright')}</p>
           <div className="footer-links">
             <a 
               href="http://localhost:3001" 

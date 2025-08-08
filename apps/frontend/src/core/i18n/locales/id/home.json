@@ -1,0 +1,36 @@
+{
+  "title": "Selamat Datang di TurboApp",
+  "subtitle": "Aplikasi React modern dengan kemampuan PWA",
+  "description": "Rasakan kekuatan teknologi web modern dengan Progressive Web App kami yang dibangun menggunakan React, TypeScript, dan tools terdepan.",
+  "features": {
+    "title": "Fitur",
+    "pwa": {
+      "title": "Progressive Web App",
+      "description": "Install di perangkat Anda untuk pengalaman seperti aplikasi"
+    },
+    "offline": {
+      "title": "Dukungan Offline",
+      "description": "Berfungsi dengan baik bahkan tanpa koneksi internet"
+    },
+    "responsive": {
+      "title": "Desain Responsif",
+      "description": "Dioptimalkan untuk semua perangkat dan ukuran layar"
+    },
+    "performance": {
+      "title": "Performa Tinggi",
+      "description": "Loading cepat dan pengalaman pengguna yang lancar"
+    }
+  },
+  "cta": {
+    "getStarted": "Mulai",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "viewUsers": "Lihat Pengguna",
+    "installApp": "Install Aplikasi"
+  },
+  "stats": {
+    "users": "Pengguna Aktif",
+    "downloads": "Unduhan",
+    "rating": "Rating Pengguna",
+    "countries": "Negara"
+  }
+}

@@ -28,6 +28,7 @@ jspm_packages/
 
 # TypeScript compiled output
 dist/
+dev-dist/
 *.tsbuildinfo
 
 # Optional npm cache directory
