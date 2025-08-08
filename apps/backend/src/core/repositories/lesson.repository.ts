@@ -78,27 +78,24 @@ export class LessonRepository {
             include: {
               options: {
                 orderBy: { order: 'asc' },
-                select: {
-                  id: true,
-                  optionText: true,
-                  order: true,
-                  isCorrect: includeAnswers, // Only include correct answers if specified
-                },
               },
-            },
-            select: {
-              id: true,
-              question: true,
-              problemType: true,
-              order: true,
-              difficulty: true,
-              correctAnswer: includeAnswers, // Only include correct answer if specified
-              explanation: includeAnswers, // Only include explanation if specified
-              options: true,
             },
           },
         },
       });
+
+      // If we don't want to include answers, filter out sensitive data
+      if (lesson && !includeAnswers) {
+        lesson.problems = lesson.problems.map(problem => ({
+          ...problem,
+          correctAnswer: null, // Hide correct answer
+          explanation: null,   // Hide explanation
+          options: problem.options?.map(option => ({
+            ...option,
+            isCorrect: false, // Hide correct answer indicator
+          })),
+        }));
+      }
 
       return lesson;
     } catch (error) {

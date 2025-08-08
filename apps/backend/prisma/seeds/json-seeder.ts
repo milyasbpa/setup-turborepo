@@ -110,22 +110,29 @@ export class JsonSeeder {
       records.map(async (record) => {
         const resolvedRecord = { ...record };
         
+        this.log('debug', `🔍 Before lookup resolution: ${JSON.stringify(resolvedRecord)}`);
+        
         for (const [lookupField, lookup] of Object.entries(lookupFields)) {
           if (resolvedRecord[lookupField]) {
+            const lookupValue = resolvedRecord[lookupField]; // Store this before deletion
             const referencedRecord = await this.findCachedRecord(
               lookup.table, 
               lookup.field, 
-              resolvedRecord[lookupField]
+              lookupValue
             );
             
             if (referencedRecord) {
               resolvedRecord[lookup.maps_to] = referencedRecord.id;
               delete resolvedRecord[lookupField]; // Remove the lookup field
+              this.log('debug', `✅ Resolved ${lookupField}=${lookupValue} to ${lookup.maps_to}=${referencedRecord.id}`);
             } else {
-              this.log('warn', `⚠️ Could not resolve ${lookupField}=${resolvedRecord[lookupField]} in ${lookup.table}`);
+              this.log('warn', `⚠️ Could not resolve ${lookupField}=${lookupValue} in ${lookup.table}`);
+              // Don't delete the lookup field if resolution fails - this might be causing the issue
             }
           }
         }
+        
+        this.log('debug', `🔍 After lookup resolution: ${JSON.stringify(resolvedRecord)}`);
         
         return resolvedRecord;
       })
@@ -193,9 +200,15 @@ export class JsonSeeder {
     
     for (const recordData of records) {
       try {
+        this.log('debug', `🔍 Processing record: ${JSON.stringify(recordData)}`);
+        
         // Validate required fields
         for (const requiredField of tableConfig.requiredFields) {
-          if (!recordData[requiredField]) {
+          const fieldValue = recordData[requiredField];
+          this.log('debug', `🔍 Checking field '${requiredField}': value = ${fieldValue}, type = ${typeof fieldValue}, exists = ${recordData.hasOwnProperty(requiredField)}`);
+          
+          if (fieldValue === undefined || fieldValue === null || fieldValue === '') {
+            this.log('error', `❌ Missing required field: ${requiredField} in record: ${JSON.stringify(recordData)}`);
             throw new Error(`Missing required field: ${requiredField}`);
           }
         }

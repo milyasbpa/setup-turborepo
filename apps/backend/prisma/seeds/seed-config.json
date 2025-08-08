@@ -68,6 +68,6 @@
   "settings": {
     "saltRounds": 12,
     "skipExisting": true,
-    "logLevel": "info"
+    "logLevel": "debug"
   }
 }

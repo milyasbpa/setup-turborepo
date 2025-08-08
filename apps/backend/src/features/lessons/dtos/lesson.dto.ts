@@ -1,6 +1,338 @@
 import { z } from 'zod';
 
 /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Lesson:
+ *       type: object
+ *       required:
+ *         - id
+ *         - title
+ *         - description
+ *         - order
+ *         - xpReward
+ *         - isActive
+ *         - createdAt
+ *         - updatedAt
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "lesson-1"
+ *           description: Unique lesson identifier
+ *         title:
+ *           type: string
+ *           example: "Basic Arithmetic"
+ *           description: Lesson title
+ *         description:
+ *           type: string
+ *           example: "Learn addition and subtraction basics"
+ *           description: Lesson description
+ *         order:
+ *           type: integer
+ *           minimum: 1
+ *           example: 1
+ *           description: Lesson order in curriculum
+ *         xpReward:
+ *           type: integer
+ *           minimum: 0
+ *           example: 10
+ *           description: XP reward for completing lesson
+ *         isActive:
+ *           type: boolean
+ *           example: true
+ *           description: Whether lesson is active
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-08-08T01:00:00.000Z"
+ *           description: Lesson creation timestamp
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-08-08T01:00:00.000Z"
+ *           description: Lesson last update timestamp
+ *         progress:
+ *           $ref: '#/components/schemas/LessonProgress'
+ *
+ *     LessonProgress:
+ *       type: object
+ *       required:
+ *         - isCompleted
+ *         - score
+ *         - bestScore
+ *         - attemptsCount
+ *       properties:
+ *         isCompleted:
+ *           type: boolean
+ *           example: false
+ *           description: Whether lesson is completed
+ *         score:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 100
+ *           example: 85
+ *           description: Current lesson score (0-100)
+ *         bestScore:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 100
+ *           example: 95
+ *           description: Best lesson score achieved
+ *         attemptsCount:
+ *           type: integer
+ *           minimum: 0
+ *           example: 3
+ *           description: Number of attempts made
+ *
+ *     Problem:
+ *       type: object
+ *       required:
+ *         - id
+ *         - question
+ *         - problemType
+ *         - order
+ *         - difficulty
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "problem-1-1"
+ *           description: Unique problem identifier
+ *         question:
+ *           type: string
+ *           example: "What is 5 + 3?"
+ *           description: The math problem question
+ *         problemType:
+ *           type: string
+ *           enum: [multiple_choice, input]
+ *           example: "multiple_choice"
+ *           description: Type of problem interaction
+ *         order:
+ *           type: integer
+ *           minimum: 1
+ *           example: 1
+ *           description: Problem order in lesson
+ *         difficulty:
+ *           type: string
+ *           enum: [easy, medium, hard]
+ *           example: "easy"
+ *           description: Problem difficulty level
+ *         options:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/ProblemOption'
+ *           description: Multiple choice options (if applicable)
+ *
+ *     ProblemOption:
+ *       type: object
+ *       required:
+ *         - id
+ *         - optionText
+ *         - order
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "option-1-1-a"
+ *           description: Unique option identifier
+ *         optionText:
+ *           type: string
+ *           example: "8"
+ *           description: Option text/answer
+ *         order:
+ *           type: integer
+ *           minimum: 1
+ *           example: 1
+ *           description: Option display order
+ *
+ *     LessonWithProblems:
+ *       allOf:
+ *         - $ref: '#/components/schemas/Lesson'
+ *         - type: object
+ *           properties:
+ *             problems:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Problem'
+ *               description: List of problems in the lesson
+ *           required:
+ *             - problems
+ *
+ *     SubmitLessonRequest:
+ *       type: object
+ *       required:
+ *         - attemptId
+ *         - answers
+ *       properties:
+ *         attemptId:
+ *           type: string
+ *           example: "attempt-123-456"
+ *           description: Unique attempt identifier for idempotency
+ *         answers:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Answer'
+ *           description: List of user answers
+ *           minItems: 1
+ *
+ *     Answer:
+ *       type: object
+ *       required:
+ *         - problemId
+ *         - answer
+ *       properties:
+ *         problemId:
+ *           type: string
+ *           example: "problem-1-1"
+ *           description: ID of the problem being answered
+ *         answer:
+ *           type: string
+ *           example: "8"
+ *           description: User's answer to the problem
+ *
+ *     SubmitLessonResponse:
+ *       type: object
+ *       required:
+ *         - success
+ *         - xpEarned
+ *         - totalXp
+ *         - streak
+ *         - lesson
+ *         - results
+ *       properties:
+ *         success:
+ *           type: boolean
+ *           example: true
+ *           description: Whether submission was successful
+ *         xpEarned:
+ *           type: integer
+ *           minimum: 0
+ *           example: 40
+ *           description: XP earned from this lesson attempt
+ *         totalXp:
+ *           type: integer
+ *           minimum: 0
+ *           example: 120
+ *           description: User's total XP after this lesson
+ *         streak:
+ *           $ref: '#/components/schemas/StreakInfo'
+ *         lesson:
+ *           $ref: '#/components/schemas/LessonResult'
+ *         results:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/ProblemResult'
+ *           description: Detailed results for each problem
+ *
+ *     StreakInfo:
+ *       type: object
+ *       required:
+ *         - current
+ *         - best
+ *         - updated
+ *       properties:
+ *         current:
+ *           type: integer
+ *           minimum: 0
+ *           example: 3
+ *           description: Current daily streak
+ *         best:
+ *           type: integer
+ *           minimum: 0
+ *           example: 7
+ *           description: Best streak achieved
+ *         updated:
+ *           type: boolean
+ *           example: true
+ *           description: Whether streak was updated with this lesson
+ *
+ *     LessonResult:
+ *       type: object
+ *       required:
+ *         - completed
+ *         - score
+ *         - bestScore
+ *       properties:
+ *         completed:
+ *           type: boolean
+ *           example: true
+ *           description: Whether lesson was completed
+ *         score:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 100
+ *           example: 85
+ *           description: Score for this attempt (0-100)
+ *         bestScore:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 100
+ *           example: 95
+ *           description: Best score achieved for this lesson
+ *
+ *     ProblemResult:
+ *       type: object
+ *       required:
+ *         - problemId
+ *         - userAnswer
+ *         - isCorrect
+ *         - correctAnswer
+ *         - explanation
+ *         - xpEarned
+ *       properties:
+ *         problemId:
+ *           type: string
+ *           example: "problem-1-1"
+ *           description: ID of the problem
+ *         userAnswer:
+ *           type: string
+ *           example: "8"
+ *           description: User's submitted answer
+ *         isCorrect:
+ *           type: boolean
+ *           example: true
+ *           description: Whether the answer was correct
+ *         correctAnswer:
+ *           type: string
+ *           example: "8"
+ *           description: The correct answer
+ *         explanation:
+ *           type: string
+ *           example: "5 + 3 = 8. Addition combines two numbers."
+ *           description: Explanation of the solution
+ *         xpEarned:
+ *           type: integer
+ *           minimum: 0
+ *           example: 10
+ *           description: XP earned for this problem
+ *
+ *     LessonListResponse:
+ *       allOf:
+ *         - $ref: '#/components/schemas/SuccessResponse'
+ *         - type: object
+ *           properties:
+ *             data:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Lesson'
+ *
+ *     LessonResponse:
+ *       allOf:
+ *         - $ref: '#/components/schemas/SuccessResponse'
+ *         - type: object
+ *           properties:
+ *             data:
+ *               $ref: '#/components/schemas/LessonWithProblems'
+ *
+ *     SubmitLessonResponseWrapper:
+ *       allOf:
+ *         - $ref: '#/components/schemas/SuccessResponse'
+ *         - type: object
+ *           properties:
+ *             data:
+ *               $ref: '#/components/schemas/SubmitLessonResponse'
+ */
+
+/**
  * Lesson DTOs and Validation Schemas
  */
 

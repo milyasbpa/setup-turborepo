@@ -11,8 +11,6 @@
     "totalXp": 0,
     "currentStreak": 0,
     "bestStreak": 0,
-    "lastActiveDate": null,
-    "bio": "Demo account for the math learning app",
-    "avatar": "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=150&h=150&fit=crop&crop=face"
+    "lastActivityDate": null
   }
 ]

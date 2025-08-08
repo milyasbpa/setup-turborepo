@@ -25,7 +25,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
       {
         url: process.env.NODE_ENV === 'production' 
           ? 'https://api.example.com' 
-          : 'http://localhost:3002',
+          : 'http://localhost:3001',
         description: process.env.NODE_ENV === 'production' 
           ? 'Production server' 
           : 'Development server',
