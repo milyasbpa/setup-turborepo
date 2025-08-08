@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTES, routeUtils } from '@/core/router/routes';
+import { NetworkStatus } from '@/core/pwa';
 import './MainLayout.css';
 
 interface MainLayoutProps {
@@ -49,6 +50,10 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
               ))}
             </ul>
           </nav>
+
+          <div className="header-status">
+            <NetworkStatus />
+          </div>
         </div>
       </header>
 

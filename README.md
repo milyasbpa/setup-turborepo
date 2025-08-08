@@ -227,7 +227,12 @@ npm run type-check && npm run lint
 ### ⚛️ Frontend Features
 - **React 18** with TypeScript for modern UI development
 - **Vite** for lightning-fast development and optimized builds
-- **Axios** for API communication
+- **React Query (TanStack Query)** for advanced state management and caching
+- **React Router DOM** with lazy loading and code splitting
+- **Progressive Web App (PWA)** with offline support and notifications
+- **Service Worker Management** with manual update control
+- **Path Aliases** for clean import statements (`@/core`, `@/features`)
+- **Axios** for API communication with interceptors
 - **Proxy configuration** for seamless API integration
 - **Modern CSS** with CSS Grid and Flexbox
 - **Responsive design** for all screen sizes
@@ -442,7 +447,29 @@ npm install
 npm run dev
 ```
 
-## �📚 Learn More
+## 📚 Architecture Documentation
+
+This project includes comprehensive documentation for advanced features:
+
+### 🔄 React Query (TanStack Query)
+- **Location**: `apps/frontend/REACT_QUERY_SETUP.md`
+- **Features**: Advanced state management, caching, mutations, optimistic updates
+- **Usage**: Type-safe hooks, centralized query keys, automatic invalidation
+
+### 📱 Progressive Web App (PWA)
+- **Location**: `apps/frontend/PWA_SETUP.md`
+- **Features**: Offline support, push notifications, service workers, install prompts
+- **Key Points**: Manual update control, network awareness, notification system
+
+### 🏗️ Scalable Architecture
+- **Core/Features Pattern**: Separation of concerns with `/core` for shared functionality
+- **Path Aliases**: Clean imports with `@/` patterns
+- **TypeScript**: Strict typing throughout the application
+- **Error Boundaries**: Graceful error handling and user feedback
+
+Read the individual documentation files for detailed implementation guides and best practices.
+
+## 📚 Learn More
 
 ### Turborepo
 - [Turborepo Documentation](https://turbo.build/repo/docs)

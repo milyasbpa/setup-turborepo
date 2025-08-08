@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom PWA animations */
+@layer utilities {
+  .animate-progress {
+    animation: progress 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200px); }
+  }
+}
+
+/* PWA Splash Screen specific styles */
+@layer components {
+  .splash-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .app-logo {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+}

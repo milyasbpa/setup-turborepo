@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PWA Icon Generator</title>
+    <style>
+        canvas { border: 1px solid #ccc; margin: 10px; }
+        .icon-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .icon-item { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>PWA Icon Generator</h1>
+    <p>This page generates PWA icons. Right-click on each icon to save.</p>
+    
+    <div class="icon-grid" id="iconGrid"></div>
+
+    <script>
+        const sizes = [64, 192, 512];
+        const iconGrid = document.getElementById('iconGrid');
+
+        sizes.forEach(size => {
+            // Create container
+            const iconItem = document.createElement('div');
+            iconItem.className = 'icon-item';
+            
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#61dafb');
+            gradient.addColorStop(1, '#98d8c8');
+            
+            // Fill background
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add border radius effect
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Add text/logo
+            ctx.fillStyle = '#282c34';
+            ctx.font = `bold ${size * 0.3}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🚀', size / 2, size / 2);
+            
+            // Add label
+            const label = document.createElement('p');
+            label.textContent = `pwa-${size}x${size}.png`;
+            
+            // Add download link
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL();
+            link.download = `pwa-${size}x${size}.png`;
+            link.appendChild(canvas);
+            
+            iconItem.appendChild(link);
+            iconItem.appendChild(label);
+            iconGrid.appendChild(iconItem);
+        });
+
+        // Create maskable icon
+        const maskableItem = document.createElement('div');
+        maskableItem.className = 'icon-item';
+        
+        const maskableCanvas = document.createElement('canvas');
+        maskableCanvas.width = 512;
+        maskableCanvas.height = 512;
+        const maskableCtx = maskableCanvas.getContext('2d');
+        
+        // Create gradient background for maskable
+        const maskableGradient = maskableCtx.createLinearGradient(0, 0, 512, 512);
+        maskableGradient.addColorStop(0, '#61dafb');
+        maskableGradient.addColorStop(1, '#98d8c8');
+        
+        // Fill background (no border radius for maskable)
+        maskableCtx.fillStyle = maskableGradient;
+        maskableCtx.fillRect(0, 0, 512, 512);
+        
+        // Add safe zone content (smaller)
+        maskableCtx.fillStyle = '#282c34';
+        maskableCtx.font = 'bold 120px Arial';
+        maskableCtx.textAlign = 'center';
+        maskableCtx.textBaseline = 'middle';
+        maskableCtx.fillText('🚀', 256, 256);
+        
+        const maskableLabel = document.createElement('p');
+        maskableLabel.textContent = 'maskable-icon-512x512.png';
+        
+        const maskableLink = document.createElement('a');
+        maskableLink.href = maskableCanvas.toDataURL();
+        maskableLink.download = 'maskable-icon-512x512.png';
+        maskableLink.appendChild(maskableCanvas);
+        
+        maskableItem.appendChild(maskableLink);
+        maskableItem.appendChild(maskableLabel);
+        iconGrid.appendChild(maskableItem);
+    </script>
+</body>
+</html>

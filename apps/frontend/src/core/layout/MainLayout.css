@@ -25,6 +25,7 @@
   align-items: center;
   justify-content: space-between;
   height: 70px;
+  gap: 2rem;
 }
 
 .logo h1 {
@@ -44,6 +45,14 @@
 /* Navigation Styles */
 .main-navigation {
   display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+/* Header Status */
+.header-status {
+  display: flex;
+  align-items: center;
 }
 
 .nav-list {

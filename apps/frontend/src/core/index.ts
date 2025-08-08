@@ -41,5 +41,21 @@ export {
   type UseInfiniteQueryOptions,
 } from '@/core/query';
 
+// PWA exports (Progressive Web App)
+export {
+  pwaManager,
+  notificationManager,
+  usePWA,
+  useNotifications,
+  useNetworkStatus,
+  UpdatePrompt,
+  InstallPrompt,
+  NetworkStatus,
+  type NotificationOptions,
+  type PushSubscriptionData,
+  type PWAState,
+  type PWAActions,
+} from '@/core/pwa';
+
 // Type exports for routing
 export type { RouteKeys, RouteValues } from '@/core/router/routes';
