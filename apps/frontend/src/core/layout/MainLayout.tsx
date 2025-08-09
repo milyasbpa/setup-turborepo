@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, User, Calculator } from 'lucide-react';
+import { BookOpen, User, Calculator, Target } from 'lucide-react';
 import { NetworkStatus } from '@/core/pwa';
 import { useTranslation, useLocalizedRoutes, LanguageSwitcher } from '@/core/i18n';
 import { SkipToContent, AccessibilityAnnouncer } from '@/core/seo';
@@ -20,6 +20,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   const navigationItems = [
     { path: routes.lessons, label: t('lessons', { defaultValue: 'Lessons' }), icon: BookOpen },
+    { path: routes.recommendations, label: t('recommendations', { defaultValue: 'Recommendations' }), icon: Target },
     { path: routes.profile, label: t('profile', { defaultValue: 'Profile' }), icon: User },
   ];
 

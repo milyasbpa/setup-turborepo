@@ -13,6 +13,8 @@ type SubmitLessonResponse = components['schemas']['SubmitLessonResponse'];
 type UserProfile = components['schemas']['UserProfile'];
 type UserStats = components['schemas']['UserStats'];
 type HealthStatus = components['schemas']['HealthStatus'];
+type LessonRecommendation = components['schemas']['LessonRecommendation'];
+type AdaptiveLearningPath = components['schemas']['AdaptiveLearningPath'];
 
 /**
  * Lesson API Services using OpenAPI-fetch
@@ -185,6 +187,37 @@ export const healthService = {
 };
 
 /**
+ * Recommendations API Services using OpenAPI-fetch
+ */
+export const recommendationService = {
+  /**
+   * Get adaptive learning path recommendations
+   * GET /api/recommendations
+   */
+  getRecommendations: async (userId: number = 1, limit?: number): Promise<AdaptiveLearningPath> => {
+    const { data, error } = await apiClient.GET('/api/recommendations', {
+      params: {
+        query: {
+          userId: userId.toString(),
+          ...(limit && { limit })
+        }
+      }
+    });
+
+    if (error) {
+      throw new Error(getErrorMessage(error));
+    }
+
+    const recommendations = data?.data;
+    if (!recommendations) {
+      throw new Error('Failed to get recommendations');
+    }
+
+    return recommendations;
+  },
+};
+
+/**
  * Utility Functions
  */
 export const apiUtils = {
@@ -256,4 +289,6 @@ export type {
   UserProfile,
   UserStats,
   HealthStatus,
+  LessonRecommendation,
+  AdaptiveLearningPath,
 };

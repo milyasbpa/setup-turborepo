@@ -1,5 +1,6 @@
 {
   "lessons": "Lessons",
+  "recommendations": "Recommendations",
   "profile": "Profile",
   "results": "Results",
   "menu": "Menu",
@@ -8,11 +9,13 @@
   "breadcrumb": {
     "lessons": "Lessons",
     "lessonDetail": "Lesson Details",
+    "recommendations": "Recommendations",
     "profile": "Profile",
     "results": "Results"
   },
   "sidebar": {
     "lessons": "Lessons",
+    "recommendations": "Recommendations",
     "profile": "Profile",
     "logout": "Logout"
   },

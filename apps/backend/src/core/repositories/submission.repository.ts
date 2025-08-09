@@ -27,6 +27,32 @@ export interface SubmissionResult {
  */
 export class SubmissionRepository {
   /**
+   * Get all submissions for a user (for analytics)
+   */
+  static async getUserSubmissions(userId: string) {
+    try {
+      return await prisma.submission.findMany({
+        where: { userId },
+        orderBy: { submittedAt: 'asc' },
+        include: {
+          lesson: {
+            select: { id: true, title: true, order: true }
+          },
+          problem: {
+            select: { id: true, difficulty: true }
+          }
+        }
+      });
+    } catch (error) {
+      LoggerService.error('Failed to get user submissions', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        userId,
+      });
+      throw error;
+    }
+  }
+
+  /**
    * Submit answers with XP and streak logic (idempotent)
    */
   static async submitAnswers(

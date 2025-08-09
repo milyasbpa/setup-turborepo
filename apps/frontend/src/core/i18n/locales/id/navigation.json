@@ -1,5 +1,6 @@
 {
   "lessons": "Pelajaran",
+  "recommendations": "Rekomendasi",
   "profile": "Profil", 
   "results": "Hasil",
   "menu": "Menu",
@@ -8,11 +9,13 @@
   "breadcrumb": {
     "lessons": "Pelajaran",
     "lessonDetail": "Detail Pelajaran",
+    "recommendations": "Rekomendasi",
     "profile": "Profil",
     "results": "Hasil"
   },
   "sidebar": {
     "lessons": "Pelajaran",
+    "recommendations": "Rekomendasi",
     "profile": "Profil",
     "logout": "Keluar"
   },

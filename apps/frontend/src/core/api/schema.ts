@@ -481,6 +481,119 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/recommendations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get adaptive learning path recommendations
+         * @description Generate personalized lesson recommendations based on user's learning patterns and performance
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /**
+                     * @description User ID for personalized recommendations (defaults to demo user)
+                     * @example 1
+                     */
+                    userId?: string;
+                    /**
+                     * @description Maximum number of recommendations to return
+                     * @example 5
+                     */
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Recommendations generated successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        /** @example {
+                         *       "success": true,
+                         *       "message": "Learning path recommendations generated successfully",
+                         *       "data": {
+                         *         "userId": "1",
+                         *         "generatedAt": "2025-08-09T10:30:00.000Z",
+                         *         "learningPattern": {
+                         *           "averageScore": 75.5,
+                         *           "learningSpeed": 1.2,
+                         *           "strugglingAreas": [
+                         *             "hard"
+                         *           ],
+                         *           "strongAreas": [
+                         *             "easy",
+                         *             "medium"
+                         *           ],
+                         *           "preferredDifficulty": "medium",
+                         *           "consistencyScore": 68
+                         *         },
+                         *         "recommendations": [
+                         *           {
+                         *             "lessonId": "lesson-2",
+                         *             "title": "Intermediate Algebra",
+                         *             "description": "Build on basic concepts",
+                         *             "recommendationReason": "Next in your learning sequence",
+                         *             "confidenceScore": 85,
+                         *             "estimatedCompletionTime": 20,
+                         *             "difficulty": "medium",
+                         *             "xpReward": 15,
+                         *             "order": 2,
+                         *             "isUnlocked": true,
+                         *             "prerequisites": [
+                         *               "Basic Arithmetic"
+                         *             ]
+                         *           }
+                         *         ],
+                         *         "nextSuggestedLesson": {
+                         *           "lessonId": "lesson-2",
+                         *           "title": "Intermediate Algebra",
+                         *           "description": "Build on basic concepts",
+                         *           "recommendationReason": "Next in your learning sequence",
+                         *           "confidenceScore": 85,
+                         *           "estimatedCompletionTime": 20,
+                         *           "difficulty": "medium",
+                         *           "xpReward": 15,
+                         *           "order": 2,
+                         *           "isUnlocked": true,
+                         *           "prerequisites": [
+                         *             "Basic Arithmetic"
+                         *           ]
+                         *         },
+                         *         "personalizedMessage": "Great progress! You're building strong foundations. Based on your progress, we recommend focusing on 'Intermediate Algebra' next.",
+                         *         "learningGoals": [
+                         *           "Achieve 85% accuracy consistently",
+                         *           "Focus on strengthening skills in: hard"
+                         *         ]
+                         *       },
+                         *       "timestamp": "2025-08-09T10:30:00.000Z"
+                         *     } */
+                        "application/json": components["schemas"]["SuccessResponse"] & {
+                            data?: components["schemas"]["AdaptiveLearningPath"];
+                        };
+                    };
+                };
+                400: components["responses"]["BadRequest"];
+                500: components["responses"]["InternalServerError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -1258,6 +1371,134 @@ export interface components {
         };
         HealthResponse: components["schemas"]["SuccessResponse"] & {
             data?: components["schemas"]["HealthStatus"];
+        };
+        LearningPattern: {
+            /**
+             * @description User's average score percentage
+             * @example 75.5
+             */
+            averageScore: number;
+            /**
+             * @description Problems completed per minute
+             * @example 1.2
+             */
+            learningSpeed: number;
+            /**
+             * @description Difficulty levels where user struggles
+             * @example [
+             *       "hard"
+             *     ]
+             */
+            strugglingAreas: string[];
+            /**
+             * @description Difficulty levels where user excels
+             * @example [
+             *       "easy",
+             *       "medium"
+             *     ]
+             */
+            strongAreas: string[];
+            /**
+             * @description User's optimal difficulty level
+             * @example medium
+             * @enum {string}
+             */
+            preferredDifficulty: "easy" | "medium" | "hard";
+            /**
+             * @description How consistent the learner is (0-100)
+             * @example 68
+             */
+            consistencyScore: number;
+        };
+        LessonRecommendation: {
+            /**
+             * @description Unique lesson identifier
+             * @example lesson-2
+             */
+            lessonId: string;
+            /**
+             * @description Lesson title
+             * @example Intermediate Algebra
+             */
+            title: string;
+            /**
+             * @description Lesson description
+             * @example Build on basic concepts
+             */
+            description: string;
+            /**
+             * @description Why this lesson is recommended
+             * @example Next in your learning sequence
+             */
+            recommendationReason: string;
+            /**
+             * @description Confidence in recommendation (0-100)
+             * @example 85
+             */
+            confidenceScore: number;
+            /**
+             * @description Estimated completion time in minutes
+             * @example 20
+             */
+            estimatedCompletionTime: number;
+            /**
+             * @description Lesson difficulty level
+             * @example medium
+             */
+            difficulty: string;
+            /**
+             * @description XP reward for completing lesson
+             * @example 15
+             */
+            xpReward: number;
+            /**
+             * @description Lesson order in curriculum
+             * @example 2
+             */
+            order: number;
+            /**
+             * @description Whether lesson is accessible
+             * @example true
+             */
+            isUnlocked: boolean;
+            /**
+             * @description Required lessons before this one
+             * @example [
+             *       "Basic Arithmetic"
+             *     ]
+             */
+            prerequisites: string[];
+        };
+        AdaptiveLearningPath: {
+            /**
+             * @description User ID for recommendations
+             * @example 1
+             */
+            userId: string;
+            /**
+             * Format: date-time
+             * @description When recommendations were generated
+             * @example 2025-08-09T10:30:00.000Z
+             */
+            generatedAt: string;
+            learningPattern: components["schemas"]["LearningPattern"];
+            /** @description List of recommended lessons */
+            recommendations: components["schemas"]["LessonRecommendation"][];
+            /** @description Top recommended lesson */
+            nextSuggestedLesson?: components["schemas"]["LessonRecommendation"] & unknown;
+            /**
+             * @description Personalized message for the user
+             * @example Great progress! You're building strong foundations.
+             */
+            personalizedMessage: string;
+            /**
+             * @description Suggested learning goals
+             * @example [
+             *       "Achieve 85% accuracy consistently",
+             *       "Focus on strengthening skills in: hard"
+             *     ]
+             */
+            learningGoals: string[];
         };
         User: {
             /**

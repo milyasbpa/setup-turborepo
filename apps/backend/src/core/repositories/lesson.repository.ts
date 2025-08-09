@@ -28,6 +28,29 @@ export interface LessonQueryOptions {
  */
 export class LessonRepository {
   /**
+   * Get user progress for all lessons
+   */
+  static async getUserProgress(userId: string) {
+    try {
+      return await prisma.userProgress.findMany({
+        where: { userId },
+        include: {
+          lesson: {
+            select: { id: true, title: true, order: true }
+          }
+        },
+        orderBy: { lesson: { order: 'asc' } }
+      });
+    } catch (error) {
+      LoggerService.error('Failed to get user progress', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        userId,
+      });
+      throw error;
+    }
+  }
+
+  /**
    * Get all lessons with optional user progress
    */
   static async findAllWithProgress(userId?: string): Promise<LessonWithProgress[]> {

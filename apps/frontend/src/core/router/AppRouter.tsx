@@ -11,6 +11,7 @@ const LessonsListPage = lazy(() => import('@/features/lessons/pages/LessonsListP
 const LessonDetailPage = lazy(() => import('@/features/lessons/pages/LessonDetailPage'));
 const ProfilePage = lazy(() => import('@/features/profile/pages/ProfilePage'));
 const ResultsPage = lazy(() => import('@/features/results/pages/ResultsPage'));
+const RecommendationsPage = lazy(() => import('@/features/recommendations/pages/RecommendationsPage'));
 
 const NotFoundPage = lazy(() => import('@/core/layout/NotFoundPage'));
 
@@ -69,6 +70,10 @@ export const router = createBrowserRouter([
         path: 'results',
         element: <ResultsPage />,
       },
+      {
+        path: 'recommendations',
+        element: <RecommendationsPage />,
+      },
       // Internationalized routes with language prefix
       {
         path: ':lang',
@@ -97,6 +102,10 @@ export const router = createBrowserRouter([
           {
             path: 'results',
             element: <ResultsPage />,
+          },
+          {
+            path: 'recommendations',
+            element: <RecommendationsPage />,
           },
         ],
       },

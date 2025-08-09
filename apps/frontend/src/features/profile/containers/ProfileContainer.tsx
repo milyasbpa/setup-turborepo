@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserProfile, useUserStats } from '../context/ProfileContext';
 import { ProfileHeader, StatsCards, AchievementBadges } from '../components';
+import { QuickRecommendationsWidget } from '../components/QuickRecommendationsWidget';
 import { ErrorMessage, Button, LoadingCard } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
 
@@ -96,6 +97,12 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({
 
       {/* Achievements */}
       <AchievementBadges stats={stats} />
+
+      {/* Recommendations Widget */}
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">AI Recommendations</h2>
+        <QuickRecommendationsWidget />
+      </div>
 
       {/* Quick Actions */}
       <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">

@@ -10,6 +10,7 @@ export const ROUTES = {
   LESSON_DETAIL: "/lessons/:id",
   PROFILE: "/profile",
   RESULTS: "/results",
+  RECOMMENDATIONS: "/recommendations",
 
   NOT_FOUND: "*",
 } as const;
@@ -21,6 +22,7 @@ export const I18N_ROUTES = {
   LESSON_DETAIL: "/:lang?/lessons/:id",
   PROFILE: "/:lang?/profile",
   RESULTS: "/:lang?/results",
+  RECOMMENDATIONS: "/:lang?/recommendations",
 
   NOT_FOUND: "*",
 } as const;
@@ -76,6 +78,7 @@ export const routeUtils = {
       "/lessons/:id": "Lesson Details",
       "/profile": "Profile",
       "/results": "Results",
+      "/recommendations": "Learning Recommendations",
       "/home": "Home",
       "/users": "Users",
       "/users/:id": "User Details",

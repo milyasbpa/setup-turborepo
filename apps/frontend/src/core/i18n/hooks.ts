@@ -107,6 +107,7 @@ export function useLocalizedRoutes() {
     lessonDetail: (id: string | number) => getLocalizedPath(`/lessons/${id}`),
     profile: getLocalizedPath('/profile'),
     results: getLocalizedPath('/results'),
+    recommendations: getLocalizedPath('/recommendations'),
     
     // Legacy Routes
     home: getLocalizedPath('/home'),

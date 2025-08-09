@@ -971,6 +971,204 @@
           }
         ]
       },
+      "LearningPattern": {
+        "type": "object",
+        "required": [
+          "averageScore",
+          "learningSpeed",
+          "strugglingAreas",
+          "strongAreas",
+          "preferredDifficulty",
+          "consistencyScore"
+        ],
+        "properties": {
+          "averageScore": {
+            "type": "number",
+            "description": "User's average score percentage",
+            "example": 75.5
+          },
+          "learningSpeed": {
+            "type": "number",
+            "description": "Problems completed per minute",
+            "example": 1.2
+          },
+          "strugglingAreas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Difficulty levels where user struggles",
+            "example": [
+              "hard"
+            ]
+          },
+          "strongAreas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Difficulty levels where user excels",
+            "example": [
+              "easy",
+              "medium"
+            ]
+          },
+          "preferredDifficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "description": "User's optimal difficulty level",
+            "example": "medium"
+          },
+          "consistencyScore": {
+            "type": "number",
+            "description": "How consistent the learner is (0-100)",
+            "example": 68
+          }
+        }
+      },
+      "LessonRecommendation": {
+        "type": "object",
+        "required": [
+          "lessonId",
+          "title",
+          "description",
+          "recommendationReason",
+          "confidenceScore",
+          "estimatedCompletionTime",
+          "difficulty",
+          "xpReward",
+          "order",
+          "isUnlocked",
+          "prerequisites"
+        ],
+        "properties": {
+          "lessonId": {
+            "type": "string",
+            "description": "Unique lesson identifier",
+            "example": "lesson-2"
+          },
+          "title": {
+            "type": "string",
+            "description": "Lesson title",
+            "example": "Intermediate Algebra"
+          },
+          "description": {
+            "type": "string",
+            "description": "Lesson description",
+            "example": "Build on basic concepts"
+          },
+          "recommendationReason": {
+            "type": "string",
+            "description": "Why this lesson is recommended",
+            "example": "Next in your learning sequence"
+          },
+          "confidenceScore": {
+            "type": "number",
+            "description": "Confidence in recommendation (0-100)",
+            "example": 85
+          },
+          "estimatedCompletionTime": {
+            "type": "number",
+            "description": "Estimated completion time in minutes",
+            "example": 20
+          },
+          "difficulty": {
+            "type": "string",
+            "description": "Lesson difficulty level",
+            "example": "medium"
+          },
+          "xpReward": {
+            "type": "number",
+            "description": "XP reward for completing lesson",
+            "example": 15
+          },
+          "order": {
+            "type": "number",
+            "description": "Lesson order in curriculum",
+            "example": 2
+          },
+          "isUnlocked": {
+            "type": "boolean",
+            "description": "Whether lesson is accessible",
+            "example": true
+          },
+          "prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Required lessons before this one",
+            "example": [
+              "Basic Arithmetic"
+            ]
+          }
+        }
+      },
+      "AdaptiveLearningPath": {
+        "type": "object",
+        "required": [
+          "userId",
+          "generatedAt",
+          "learningPattern",
+          "recommendations",
+          "personalizedMessage",
+          "learningGoals"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User ID for recommendations",
+            "example": "1"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When recommendations were generated",
+            "example": "2025-08-09T10:30:00.000Z"
+          },
+          "learningPattern": {
+            "$ref": "#/components/schemas/LearningPattern"
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LessonRecommendation"
+            },
+            "description": "List of recommended lessons"
+          },
+          "nextSuggestedLesson": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LessonRecommendation"
+              },
+              {
+                "nullable": true
+              }
+            ],
+            "description": "Top recommended lesson"
+          },
+          "personalizedMessage": {
+            "type": "string",
+            "description": "Personalized message for the user",
+            "example": "Great progress! You're building strong foundations."
+          },
+          "learningGoals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Suggested learning goals",
+            "example": [
+              "Achieve 85% accuracy consistently",
+              "Focus on strengthening skills in: hard"
+            ]
+          }
+        }
+      },
       "User": {
         "type": "object",
         "required": [
@@ -1582,6 +1780,126 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/recommendations": {
+      "get": {
+        "summary": "Get adaptive learning path recommendations",
+        "description": "Generate personalized lesson recommendations based on user's learning patterns and performance",
+        "tags": [
+          "Recommendations"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "User ID for personalized recommendations (defaults to demo user)",
+            "example": "1"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "description": "Maximum number of recommendations to return",
+            "example": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recommendations generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AdaptiveLearningPath"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "message": "Learning path recommendations generated successfully",
+                  "data": {
+                    "userId": "1",
+                    "generatedAt": "2025-08-09T10:30:00.000Z",
+                    "learningPattern": {
+                      "averageScore": 75.5,
+                      "learningSpeed": 1.2,
+                      "strugglingAreas": [
+                        "hard"
+                      ],
+                      "strongAreas": [
+                        "easy",
+                        "medium"
+                      ],
+                      "preferredDifficulty": "medium",
+                      "consistencyScore": 68
+                    },
+                    "recommendations": [
+                      {
+                        "lessonId": "lesson-2",
+                        "title": "Intermediate Algebra",
+                        "description": "Build on basic concepts",
+                        "recommendationReason": "Next in your learning sequence",
+                        "confidenceScore": 85,
+                        "estimatedCompletionTime": 20,
+                        "difficulty": "medium",
+                        "xpReward": 15,
+                        "order": 2,
+                        "isUnlocked": true,
+                        "prerequisites": [
+                          "Basic Arithmetic"
+                        ]
+                      }
+                    ],
+                    "nextSuggestedLesson": {
+                      "lessonId": "lesson-2",
+                      "title": "Intermediate Algebra",
+                      "description": "Build on basic concepts",
+                      "recommendationReason": "Next in your learning sequence",
+                      "confidenceScore": 85,
+                      "estimatedCompletionTime": 20,
+                      "difficulty": "medium",
+                      "xpReward": 15,
+                      "order": 2,
+                      "isUnlocked": true,
+                      "prerequisites": [
+                        "Basic Arithmetic"
+                      ]
+                    },
+                    "personalizedMessage": "Great progress! You're building strong foundations. Based on your progress, we recommend focusing on 'Intermediate Algebra' next.",
+                    "learningGoals": [
+                      "Achieve 85% accuracy consistently",
+                      "Focus on strengthening skills in: hard"
+                    ]
+                  },
+                  "timestamp": "2025-08-09T10:30:00.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
