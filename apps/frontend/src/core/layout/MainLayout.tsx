@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { BookOpen, User, Home, Users, Calculator } from 'lucide-react';
 import { NetworkStatus } from '@/core/pwa';
 import { useTranslation, useLocalizedRoutes, LanguageSwitcher } from '@/core/i18n';
 import { SkipToContent, AccessibilityAnnouncer } from '@/core/seo';
@@ -18,11 +19,11 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   const { routes } = useLocalizedRoutes();
 
   const navigationItems = [
-    { path: routes.lessons, label: t('lessons', { defaultValue: 'Lessons' }), icon: '📚' },
-    { path: routes.profile, label: t('profile', { defaultValue: 'Profile' }), icon: '👤' },
+    { path: routes.lessons, label: t('lessons', { defaultValue: 'Lessons' }), icon: BookOpen },
+    { path: routes.profile, label: t('profile', { defaultValue: 'Profile' }), icon: User },
     // Legacy items (can be hidden or removed)
-    { path: routes.home, label: t('home'), icon: '🏠' },
-    { path: routes.users, label: t('users'), icon: '👥' },
+    { path: routes.home, label: t('home'), icon: Home },
+    { path: routes.users, label: t('users'), icon: Users },
   ];
 
   return (
@@ -36,7 +37,10 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <div className="w-full max-w-full mx-0 px-3 sm:px-4 lg:px-6 flex items-center justify-between h-14 sm:h-16 gap-2 sm:gap-4">
           <div className="flex-shrink-0">
             <Link to={routes.lessons} className="text-white no-underline">
-              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold m-0 whitespace-nowrap">🧮 MathQuest</h1>
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold m-0 whitespace-nowrap flex items-center gap-2">
+                <Calculator className="w-6 h-6 sm:w-7 sm:h-7" />
+                MathQuest
+              </h1>
             </Link>
           </div>
           
@@ -60,7 +64,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                         : 'text-white/90 hover:bg-white/15 hover:text-white hover:-translate-y-0.5'
                     }`}
                   >
-                    <span className="text-base sm:text-lg flex-shrink-0">{item.icon}</span>
+                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                     <span className="text-xs sm:text-sm min-w-0 overflow-hidden text-ellipsis hidden xs:inline">{item.label}</span>
                     {(location.pathname === item.path || location.pathname.endsWith(item.path)) && (
                       <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-5 h-0.5 bg-yellow-400 rounded-sm"></span>

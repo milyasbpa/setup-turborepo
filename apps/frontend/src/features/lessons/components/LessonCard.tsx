@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Check, Clock, Play, ChevronRight } from 'lucide-react';
 import type { Lesson } from '@/core/api';
 import { Card, ProgressBar, Badge } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
@@ -93,59 +94,23 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, className = '' }
               <div className="flex items-center space-x-2">
                 {isCompleted ? (
                   <>
-                    <svg
-                      className="w-4 h-4 text-green-600"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                    <Check className="w-4 h-4 text-green-600" />
                     <span className="text-sm font-semibold text-green-600">{t('completed')}</span>
                   </>
                 ) : isInProgress ? (
                   <>
-                    <svg
-                      className="w-4 h-4 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
+                    <Clock className="w-4 h-4 text-blue-600" />
                     <span className="text-sm font-semibold text-blue-600">{t('continueLesson')}</span>
                   </>
                 ) : (
                   <>
-                    <svg
-                      className="w-4 h-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 12l5 5L20 7"
-                      />
-                    </svg>
+                    <Play className="w-4 h-4 text-gray-400" />
                     <span className="text-sm font-semibold text-indigo-600">{t('startLesson')}</span>
                   </>
                 )}
               </div>
               <div className="text-indigo-500 transition-transform duration-200 transform translate-x-0 group-hover:translate-x-1">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <ChevronRight className="w-4 h-4" />
               </div>
             </div>
           </div>

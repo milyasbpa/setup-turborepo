@@ -1,4 +1,5 @@
 import React from 'react';
+import { CheckCircle, Clock, BookOpen } from 'lucide-react';
 import { useLessonList } from '../context/LessonsContext';
 import { LessonCard, LessonCardSkeleton } from '../components/LessonCard';
 import { EmptyLessonsState } from '../fragments/LessonsListFragment';
@@ -87,20 +88,29 @@ export const LessonsListContainer: React.FC<LessonsListContainerProps> = ({
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="text-2xl font-bold text-green-600">
-              {Array.isArray(lessons) ? lessons.filter(l => l.progress?.isCompleted).length : 0}
+            <div className="flex items-center justify-center mb-2">
+              <CheckCircle className="w-6 h-6 text-green-600 mr-2" />
+              <div className="text-2xl font-bold text-green-600">
+                {Array.isArray(lessons) ? lessons.filter(l => l.progress?.isCompleted).length : 0}
+              </div>
             </div>
             <div className="text-sm text-gray-600">{t('completed')}</div>
           </div>
           <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="text-2xl font-bold text-yellow-600">
-              {Array.isArray(lessons) ? lessons.filter(l => l.progress && (l.progress.score > 0 && !l.progress.isCompleted)).length : 0}
+            <div className="flex items-center justify-center mb-2">
+              <Clock className="w-6 h-6 text-yellow-600 mr-2" />
+              <div className="text-2xl font-bold text-yellow-600">
+                {Array.isArray(lessons) ? lessons.filter(l => l.progress && (l.progress.score > 0 && !l.progress.isCompleted)).length : 0}
+              </div>
             </div>
             <div className="text-sm text-gray-600">{t('progress.inProgress', { defaultValue: 'In Progress' })}</div>
           </div>
           <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-            <div className="text-2xl font-bold text-indigo-600">
-              {Array.isArray(lessons) ? lessons.length : 0}
+            <div className="flex items-center justify-center mb-2">
+              <BookOpen className="w-6 h-6 text-indigo-600 mr-2" />
+              <div className="text-2xl font-bold text-indigo-600">
+                {Array.isArray(lessons) ? lessons.length : 0}
+              </div>
             </div>
             <div className="text-sm text-gray-600">{t('progress.totalLessons', { defaultValue: 'Total Lessons' })}</div>
           </div>
