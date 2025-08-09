@@ -26,7 +26,7 @@ export interface ApiError {
 
 // Lesson Types
 export interface Lesson {
-  id: number;
+  id: string;
   title: string;
   description: string;
   difficulty: 'EASY' | 'MEDIUM' | 'HARD';
@@ -36,7 +36,7 @@ export interface Lesson {
 }
 
 export interface LessonListItem {
-  id: number;
+  id: string;
   title: string;
   description: string;
   difficulty: 'EASY' | 'MEDIUM' | 'HARD';
@@ -45,7 +45,7 @@ export interface LessonListItem {
 }
 
 export interface Problem {
-  id: number;
+  id: string;
   question: string;
   type: 'MULTIPLE_CHOICE' | 'INPUT';
   options?: ProblemOption[];
@@ -65,7 +65,7 @@ export interface SubmissionRequest {
 }
 
 export interface Answer {
-  problemId: number;
+  problemId: string;
   answer: string;
 }
 

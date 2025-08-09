@@ -4,12 +4,17 @@ import { apiClient } from '@/core/api';
 
 // Types
 export interface Problem {
-  id: number;
+  id: string;
   question: string;
-  type: 'multiple-choice' | 'input' | 'true-false';
-  options?: string[];
-  correctAnswer?: number | string;
-  placeholder?: string;
+  problemType: 'multiple_choice' | 'input' | 'true_false';
+  order: number;
+  difficulty: string;
+  options?: Array<{
+    id: string;
+    optionText: string;
+    order: number;
+  }>;
+  correctAnswer?: string;
   explanation?: string;
 }
 
@@ -30,15 +35,15 @@ export interface LessonDetail {
 
 export interface LessonsDetailState {
   currentProblemIndex: number;
-  userAnswers: Record<number, string | number>;
-  completedProblems: number[];
+  userAnswers: Record<string, string | number>;
+  completedProblems: string[];
 }
 
 // Actions
 type LessonsDetailAction =
   | { type: 'SET_CURRENT_PROBLEM'; payload: number }
-  | { type: 'SET_USER_ANSWER'; payload: { problemId: number; answer: string | number } }
-  | { type: 'MARK_PROBLEM_COMPLETED'; payload: number }
+  | { type: 'SET_USER_ANSWER'; payload: { problemId: string; answer: string | number } }
+  | { type: 'MARK_PROBLEM_COMPLETED'; payload: string }
   | { type: 'RESET_LESSON' };
 
 // Initial state
@@ -88,10 +93,10 @@ interface LessonsDetailContextType {
   };
   actions: {
     setCurrentProblem: (index: number) => void;
-    setUserAnswer: (problemId: number, answer: string | number) => void;
-    markProblemCompleted: (problemId: number) => void;
+    setUserAnswer: (problemId: string, answer: string | number) => void;
+    markProblemCompleted: (problemId: string) => void;
     resetLesson: () => void;
-    checkAnswer: (problemId: number) => boolean;
+    checkAnswer: (problemId: string) => boolean;
     getProgress: () => number;
     canProceedToNext: () => boolean;
   };
@@ -112,77 +117,58 @@ export const LessonsDetailProvider: React.FC<LessonsDetailProviderProps> = ({ ch
   const lessonQuery = useQuery({
     queryKey: ['lesson', lessonId],
     queryFn: async () => {
-      try {
-        // Try to fetch from API first
-        const response = await apiClient.GET('/api/lessons/{id}', {
-          params: { path: { id: lessonId } }
-        });
+      const response = await apiClient.GET('/api/lessons/{id}', {
+        params: { path: { id: lessonId } }
+      });
 
-        if (response.data?.data) {
-          // API returned data but let's use mock data for problems since API doesn't have them yet
-          throw new Error('Using mock data for development');
-        } else {
-          throw new Error('Lesson not found');
-        }
-      } catch (error) {
-        console.warn('API fetch failed, using mock data:', error);
-        
-        // Fallback to mock data
-        const mockLesson: LessonDetail = {
-          id: lessonId,
-          title: 'Basic Arithmetic',
-          description: 'Master addition and subtraction with fun problems',
-          difficulty: 'Intermediate',
-          duration: '30 minutes',
-          status: 'in-progress',
-          progress: 0,
-          problems: [
-            {
-              id: 1,
-              question: 'What is 2 + 3?',
-              type: 'multiple-choice',
-              options: ['4', '5', '6', '7'],
-              correctAnswer: 1,
-              explanation: '2 + 3 = 5. Count 2, then add 3 more: 3, 4, 5.'
-            },
-            {
-              id: 2,
-              question: 'What is 4 + 1?',
-              type: 'multiple-choice',
-              options: ['3', '4', '5', '6'],
-              correctAnswer: 2,
-              explanation: '4 + 1 = 5. Starting from 4, add 1 more to get 5.'
-            },
-            {
-              id: 3,
-              question: 'Calculate: 6 + 2',
-              type: 'input',
-              placeholder: 'Enter your answer',
-              correctAnswer: 8,
-              explanation: '6 + 2 = 8. Count up from 6: 7, 8.'
-            }
-          ],
-          tags: ['arithmetic', 'addition', 'basic-math'],
-          prerequisites: ['Number Recognition'],
-        };
-
-        return mockLesson;
+      if (response.error) {
+        throw new Error('Failed to fetch lesson');
       }
+
+      if (!response.data?.data) {
+        throw new Error('Lesson not found');
+      }
+
+      // Transform backend response to match our interface
+      const backendLesson = response.data.data;
+      const transformedLesson: LessonDetail = {
+        id: backendLesson.id,
+        title: backendLesson.title,
+        description: backendLesson.description,
+        difficulty: 'Intermediate', // Default since backend doesn't have this field
+        duration: '30 minutes', // Default since backend doesn't have this field
+        status: 'in-progress',
+        progress: 0,
+        problems: backendLesson.problems.map((problem: any) => ({
+          id: problem.id,
+          question: problem.question,
+          problemType: problem.problemType,
+          order: problem.order,
+          difficulty: problem.difficulty,
+          options: problem.options || [],
+          correctAnswer: problem.correctAnswer,
+          explanation: problem.explanation,
+        })),
+        tags: ['arithmetic', 'addition', 'basic-math'],
+        prerequisites: ['Number Recognition'],
+      };
+
+      return transformedLesson;
     },
-    retry: false, // Disable retry to prevent multiple calls
+    retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes (replaces cacheTime)
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 
   const setCurrentProblem = useCallback((index: number) => {
     dispatch({ type: 'SET_CURRENT_PROBLEM', payload: index });
   }, []);
 
-  const setUserAnswer = useCallback((problemId: number, answer: string | number) => {
+  const setUserAnswer = useCallback((problemId: string, answer: string | number) => {
     dispatch({ type: 'SET_USER_ANSWER', payload: { problemId, answer } });
   }, []);
 
-  const markProblemCompleted = useCallback((problemId: number) => {
+  const markProblemCompleted = useCallback((problemId: string) => {
     if (!state.completedProblems.includes(problemId)) {
       dispatch({ type: 'MARK_PROBLEM_COMPLETED', payload: problemId });
     }
@@ -192,7 +178,7 @@ export const LessonsDetailProvider: React.FC<LessonsDetailProviderProps> = ({ ch
     dispatch({ type: 'RESET_LESSON' });
   }, []);
 
-  const checkAnswer = useCallback((problemId: number): boolean => {
+  const checkAnswer = useCallback((problemId: string): boolean => {
     const problem = lessonQuery.data?.problems.find(p => p.id === problemId);
     const userAnswer = state.userAnswers[problemId];
     

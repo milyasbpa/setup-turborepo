@@ -62,14 +62,14 @@ export const lessonService = {
 
   /**
    * Submit lesson answers and get results
-   * POST /api/lessons/:id
+   * POST /api/lessons/:id/submit
    */
   submitLesson: async (
     lessonId: string | number,
     submission: SubmitLessonRequest,
     userId: number = 1
   ): Promise<SubmitLessonResponse> => {
-    const { data, error } = await apiClient.POST('/api/lessons/{id}', {
+    const { data, error } = await apiClient.POST('/api/lessons/{id}/submit', {
       params: {
         path: { id: lessonId.toString() },
         query: { userId: userId.toString() }

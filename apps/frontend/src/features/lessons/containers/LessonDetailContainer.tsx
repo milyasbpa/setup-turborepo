@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/core/components";
 import { useLocalizedRoutes } from "@/core/i18n";
 import { useLessonsDetail } from "../context/LessonsDetailContext";
+import { useMutation } from "@tanstack/react-query";
+import { lessonService } from "@/core/api/services-openapi";
 
 /**
  * Lesson Detail Container Props
@@ -25,10 +27,42 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
   const { state, lessonQuery, actions } = useLessonsDetail();
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [finished, setFinished] = useState(false);
-  const [incorrectProblems, setIncorrectProblems] = useState<number[]>([]); // store indices of incorrect answers
+  const [submissionResult, setSubmissionResult] = useState<any>(null);
+
+  // Mutation for submitting the entire lesson at the end
+  const submitLessonMutation = useMutation({
+    mutationFn: async () => {
+      if (!lessonQuery.data) throw new Error('No lesson data');
+      
+      // Prepare answers in the format expected by backend
+      const answers = lessonQuery.data.problems.map(problem => ({
+        problemId: problem.id,
+        answer: state.userAnswers[problem.id]?.toString() || ''
+      }));
+
+      // Submit lesson to backend
+      const result = await lessonService.submitLesson(
+        lessonQuery.data.id,
+        {
+          answers,
+          attemptId: `attempt-${Date.now()}` // Generate unique attempt ID
+        },
+        1 // Default user ID
+      );
+
+      return result;
+    },
+    onSuccess: (result) => {
+      setSubmissionResult(result);
+      setFinished(true);
+    },
+    onError: (error) => {
+      console.error('Failed to submit lesson:', error);
+      // Still show finished state even if submission fails
+      setFinished(true);
+    }
+  });
 
   if (lessonQuery.isLoading) {
     return (
@@ -61,6 +95,10 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
   // Show lesson content when loaded
   if (lessonQuery.data) {
     if (!finished) {
+      // Current problem flow - no checking, just next/finish
+      const canProceed = state.userAnswers[lessonQuery.data.problems[currentIndex].id] !== undefined;
+      const isLastProblem = currentIndex + 1 >= lessonQuery.data.problems.length;
+
       return (
         <div className={`max-w-2xl mx-auto ${className}`}>
           <nav className="mb-4">
@@ -91,14 +129,14 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
                 Problem {currentIndex + 1}:{" "}
                 {lessonQuery.data.problems[currentIndex].question}
               </h2>
-              {lessonQuery.data.problems[currentIndex].type ===
-              "multiple-choice" ? (
+              {lessonQuery.data.problems[currentIndex].problemType ===
+              "multiple_choice" ? (
                 <div className="space-y-2">
                   {lessonQuery.data.problems[currentIndex].options?.map(
-                    (option: string, optIndex: number) => {
+                    (option: any) => {
                       return (
                         <label
-                          key={optIndex}
+                          key={option.id}
                           className="flex items-center space-x-3 cursor-pointer"
                         >
                           <input
@@ -106,22 +144,21 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
                             name={`problem-${
                               lessonQuery.data!.problems[currentIndex].id
                             }`}
-                            value={optIndex}
+                            value={option.optionText}
                             checked={
                               state.userAnswers[
                                 lessonQuery.data!.problems[currentIndex].id
-                              ] === optIndex
+                              ] === option.optionText
                             }
                             onChange={(e) =>
                               actions.setUserAnswer(
                                 lessonQuery.data!.problems[currentIndex].id,
-                                parseInt(e.target.value)
+                                e.target.value
                               )
                             }
                             className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"
-                            disabled={showFeedback}
                           />
-                          <span className="text-gray-700">{option}</span>
+                          <span className="text-gray-700">{option.optionText}</span>
                         </label>
                       );
                     }
@@ -130,9 +167,7 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
               ) : (
                 <input
                   type="text"
-                  placeholder={
-                    lessonQuery.data.problems[currentIndex].placeholder
-                  }
+                  placeholder="Enter your answer"
                   value={
                     state.userAnswers[
                       lessonQuery.data!.problems[currentIndex].id
@@ -145,78 +180,42 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
                     )
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  disabled={showFeedback}
                 />
               )}
               <div className="mt-4 flex items-center gap-2">
-                {!showFeedback ? (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => {
-                      const pid = lessonQuery.data!.problems[currentIndex].id;
-                      const correct = actions.checkAnswer(pid);
-                      setIsCorrect(correct);
-                      setShowFeedback(true);
-                      if (correct) actions.markProblemCompleted(pid);
-                      else
-                        setIncorrectProblems((prev) => [...prev, currentIndex]);
-                    }}
-                  >
-                    Check Answer
-                  </Button>
-                ) : (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => {
-                      setShowFeedback(false);
-                      setIsCorrect(null);
-                      if (
-                        currentIndex + 1 <
-                        lessonQuery.data!.problems.length
-                      ) {
-                        setCurrentIndex(currentIndex + 1);
-                      } else {
-                        setFinished(true);
-                      }
-                    }}
-                  >
-                    {currentIndex + 1 < lessonQuery.data!.problems.length
-                      ? "Next"
-                      : "Finish"}
-                  </Button>
-                )}
-                {showFeedback && (
-                  <span
-                    className={
-                      isCorrect
-                        ? "text-green-600 font-medium"
-                        : "text-red-600 font-medium"
+                <Button
+                  variant="primary"
+                  size="sm"
+                  disabled={!canProceed || submitLessonMutation.isPending}
+                  onClick={() => {
+                    if (isLastProblem) {
+                      // Submit the entire lesson to backend
+                      submitLessonMutation.mutate();
+                    } else {
+                      // Move to next problem
+                      setCurrentIndex(currentIndex + 1);
                     }
-                  >
-                    {isCorrect ? "Correct! ✅" : "Incorrect. ❌"}
+                  }}
+                >
+                  {submitLessonMutation.isPending 
+                    ? 'Submitting...'
+                    : isLastProblem 
+                      ? 'Finish Lesson' 
+                      : 'Next'
+                  }
+                </Button>
+                {!canProceed && (
+                  <span className="text-gray-500 text-sm">
+                    Please answer the question to continue
                   </span>
                 )}
               </div>
-              {lessonQuery.data.problems[currentIndex].explanation &&
-                isCorrect &&
-                showFeedback && (
-                  <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                    <h4 className="font-medium text-blue-900 mb-1">
-                      Explanation:
-                    </h4>
-                    <p className="text-blue-800 text-sm">
-                      {lessonQuery.data.problems[currentIndex].explanation}
-                    </p>
-                  </div>
-                )}
             </div>
           </div>
         </div>
       );
     } else {
-      // Finished state
+      // Finished state with backend submission results
       return (
         <div className={`max-w-2xl mx-auto ${className}`}>
           <nav className="mb-4">
@@ -235,32 +234,56 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
             <p className="text-gray-700 mb-4">
               You finished all problems. Great job!
             </p>
-            <div className="mb-4">
-              <span className="text-lg font-semibold">Result: </span>
-              <span className="text-green-700 font-bold">
-                {lessonQuery.data.problems.length - incorrectProblems.length}{" "}
-                correct
-              </span>
-              <span className="text-gray-500">
-                {" "}
-                / {lessonQuery.data.problems.length} total
-              </span>
-            </div>
-            {incorrectProblems.length > 0 && (
-              <div className="mb-4">
-                <span className="text-red-600 font-medium">
-                  You got {incorrectProblems.length} wrong:
-                </span>
-                <ul className="text-left mt-2 ml-4 list-disc text-sm text-gray-700">
-                  {incorrectProblems.map((idx) => (
-                    <li key={idx}>
-                      Problem {idx + 1}:{" "}
-                      {lessonQuery.data!.problems[idx].question}
-                    </li>
-                  ))}
-                </ul>
+            
+            {submissionResult && (
+              <div className="mb-6 space-y-3">
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-lg font-semibold text-green-800">
+                    XP Earned: +{submissionResult.xpEarned}
+                  </div>
+                  <div className="text-sm text-green-600">
+                    Total XP: {submissionResult.totalXp}
+                  </div>
+                </div>
+                
+                {submissionResult.streak && (
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <div className="text-lg font-semibold text-blue-800">
+                      🔥 Streak: {submissionResult.streak.current} days
+                    </div>
+                    {submissionResult.streak.updated && (
+                      <div className="text-sm text-blue-600">Streak updated!</div>
+                    )}
+                  </div>
+                )}
+                
+                {submissionResult.lesson && (
+                  <div className="bg-purple-50 p-4 rounded-lg">
+                    <div className="text-lg font-semibold text-purple-800">
+                      Score: {submissionResult.lesson.score}%
+                    </div>
+                    <div className="text-sm text-purple-600">
+                      {submissionResult.lesson.completed ? 'Lesson Completed!' : 'Keep practicing!'}
+                    </div>
+                  </div>
+                )}
+                
+                {submissionResult.results && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="font-semibold text-gray-800 mb-2">Results:</h3>
+                    <div className="text-sm space-y-1">
+                      {submissionResult.results.map((result: any, idx: number) => (
+                        <div key={idx} className={`flex justify-between ${result.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                          <span>Problem {idx + 1}</span>
+                          <span>{result.isCorrect ? '✅' : '❌'} (+{result.xpEarned} XP)</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
+            
             <Button variant="primary" onClick={() => navigate(routes.lessons)}>
               Back to Lessons
             </Button>

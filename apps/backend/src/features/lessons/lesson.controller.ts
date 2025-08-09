@@ -139,6 +139,7 @@ import {
  *       500:
  *         $ref: '#/components/responses/InternalServerError'
  *
+ * /api/lessons/{id}/submit:
  *   post:
  *     summary: Submit lesson answers
  *     description: Submit answers for a lesson and get results with XP and streak calculation (idempotent)
