@@ -2,7 +2,6 @@ import { AppRouter } from '@/core/router/AppRouter';
 import { QueryProvider } from '@/core/query';
 import { UpdatePrompt, InstallPrompt } from '@/core/pwa';
 import { SplashScreen, useSplashScreen } from '@/core/pwa/SplashScreen';
-import './App.css';
 
 /**
  * Main App Component
