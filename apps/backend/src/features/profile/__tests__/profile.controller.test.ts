@@ -47,16 +47,16 @@ describe('ProfileController', () => {
         lastName: 'User',
         displayName: 'Test User',
         avatar: null,
-        totalXp: 100,
-        currentStreak: 5,
-        bestStreak: 10,
-        lastActivityDate: new Date('2023-01-01T00:00:00Z'),
-        progressPercentage: 60,
-        completedLessons: 3,
+        xp: 100,
+        streak: {
+          current: 5,
+          longest: 10,
+          lastActiveDate: '2023-01-01',
+        },
+        lessonsCompleted: 3,
         totalLessons: 5,
-        isVerified: true,
-        isActive: true,
-        createdAt: new Date('2023-01-01T00:00:00Z'),
+        rank: 'Novice',
+        joinedAt: new Date('2023-01-01T00:00:00Z'),
       };
 
       MockedProfileService.getUserProfile.mockResolvedValue(mockProfile);

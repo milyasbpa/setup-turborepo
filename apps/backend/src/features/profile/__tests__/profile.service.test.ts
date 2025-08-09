@@ -118,16 +118,16 @@ describe('ProfileService', () => {
         lastName: 'Doe',
         displayName: 'John Doe',
         avatar: 'avatar.jpg',
-        totalXp: 150,
-        currentStreak: 5,
-        bestStreak: 8,
-        lastActivityDate: new Date('2024-01-15'),
-        progressPercentage: 30, // 3/10 * 100
-        completedLessons: 3,
+        xp: 150,
+        streak: {
+          current: 5,
+          longest: 8,
+          lastActiveDate: '2024-01-15',
+        },
+        lessonsCompleted: 3,
         totalLessons: 10,
-        isVerified: true,
-        isActive: true,
-        createdAt: new Date('2024-01-01'),
+        rank: 'Novice', // 150 XP = Novice rank (needs 200 for Intermediate)
+        joinedAt: new Date('2024-01-01'),
       });
 
       expect(mockLogger.logService).toHaveBeenCalledWith(
@@ -165,10 +165,10 @@ describe('ProfileService', () => {
       const result = await ProfileService.getUserProfile(userId);
 
       // Assert
-      expect(result.progressPercentage).toBe(0);
-      expect(result.completedLessons).toBe(0);
+      expect(result.lessonsCompleted).toBe(0);
       expect(result.totalLessons).toBe(10);
-      expect(result.totalXp).toBe(0);
+      expect(result.xp).toBe(0);
+      expect(result.rank).toBe('Beginner');
     });
 
     it('should handle case when no lessons exist', async () => {
@@ -199,9 +199,9 @@ describe('ProfileService', () => {
       const result = await ProfileService.getUserProfile(userId);
 
       // Assert
-      expect(result.progressPercentage).toBe(0);
+      expect(result.lessonsCompleted).toBe(0);
       expect(result.totalLessons).toBe(0);
-      expect(result.completedLessons).toBe(0);
+      expect(result.lessonsCompleted).toBe(0);
     });
 
     it('should use default userId when not provided', async () => {

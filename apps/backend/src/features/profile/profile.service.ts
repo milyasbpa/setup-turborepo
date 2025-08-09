@@ -1,26 +1,7 @@
 import { UserRepository } from '../../core/repositories/user.repository';
 import { LoggerService } from '../../core/logger/logger.service';
 import { prisma } from '../../core/database';
-
-export interface UserProfileDto {
-  id: string;
-  email: string;
-  username: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  displayName: string | null;
-  avatar: string | null;
-  totalXp: number;
-  currentStreak: number;
-  bestStreak: number;
-  lastActivityDate: Date | null;
-  progressPercentage: number;
-  completedLessons: number;
-  totalLessons: number;
-  isVerified: boolean;
-  isActive: boolean;
-  createdAt: Date;
-}
+import { UserProfileDto, calculateRank } from './dtos/profile.dto';
 
 /**
  * Profile Service
@@ -86,16 +67,16 @@ export class ProfileService {
         lastName: user.lastName,
         displayName: user.displayName,
         avatar: user.avatar,
-        totalXp: user.totalXp,
-        currentStreak: user.currentStreak,
-        bestStreak: user.bestStreak,
-        lastActivityDate: user.lastActivityDate,
-        progressPercentage,
-        completedLessons,
+        xp: user.totalXp,
+        streak: {
+          current: user.currentStreak,
+          longest: user.bestStreak,
+          lastActiveDate: user.lastActivityDate ? user.lastActivityDate.toISOString().split('T')[0] : null,
+        },
+        lessonsCompleted: completedLessons,
         totalLessons,
-        isVerified: user.isVerified,
-        isActive: user.isActive,
-        createdAt: user.createdAt,
+        rank: calculateRank(user.totalXp),
+        joinedAt: user.createdAt,
       };
     } catch (error) {
       LoggerService.error('Failed to get user profile', {
