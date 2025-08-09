@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { lessonService, QUERY_KEYS } from '@/core/api';
 import { LessonsProvider } from '../context/LessonsContext';
 import { ErrorScreen, LoadingScreen } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
+import { useLessons } from '../context/LessonsContext';
 
 /**
  * Lessons List Fragment Props
@@ -14,65 +13,46 @@ interface LessonsListFragmentProps {
 }
 
 /**
+ * Lessons List Content
+ * Handles loading and error states for lessons list
+ */
+const LessonsListContent: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { t } = useTranslation('lessons');
+  const { lessonsQuery } = useLessons();
+  
+  // Handle loading state
+  if (lessonsQuery.isLoading) {
+    return <LoadingScreen message="Loading lessons..." />;
+  }
+
+  // Handle error state
+  if (lessonsQuery.error) {
+    return (
+      <ErrorScreen
+        error={lessonsQuery.error}
+        title={t('error.failedToLoad')}
+        onRetry={() => lessonsQuery.refetch()}
+      />
+    );
+  }
+
+  return <>{children}</>;
+};
+
+/**
  * Lessons List Fragment
- * Handles API integration for lessons list with React Query
- * Provides loading, error, and success states to children via context
+ * Provides lessons context and handles loading/error states
+ * Follows the same pattern as LessonsDetailContext
  */
 export const LessonsListFragment: React.FC<LessonsListFragmentProps> = ({
   children,
   userId = 1,
 }) => {
-  const { t } = useTranslation('lessons');
-  const {
-    data: lessons = [],
-    isLoading,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: [...QUERY_KEYS.LESSONS, userId],
-    queryFn: () => lessonService.getAllLessons(userId),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-  });
-
-  // Handle loading state
-  if (isLoading) {
-    return <LoadingScreen message="Loading lessons..." />;
-  }
-
-  // Handle error state
-  if (error) {
-    return (
-      <ErrorScreen
-        error={error}
-        title={t('error.failedToLoad')}
-        onRetry={() => refetch()}
-      />
-    );
-  }
-
-  // Enhanced context value with actual data
-  const contextValue = {
-    lessons,
-    lessonsLoading: isLoading,
-    lessonsError: error ? (error as Error).message : null,
-    
-    currentLesson: null,
-    currentLessonLoading: false,
-    currentLessonError: null,
-    
-    submissionLoading: false,
-    submissionError: null,
-    lastSubmissionResult: null,
-    
-    refetchLessons: refetch,
-    refetchCurrentLesson: () => {},
-    clearSubmissionResult: () => {},
-  };
-
   return (
-    <LessonsProvider value={contextValue}>
-      {children}
+    <LessonsProvider userId={userId}>
+      <LessonsListContent>
+        {children}
+      </LessonsListContent>
     </LessonsProvider>
   );
 };

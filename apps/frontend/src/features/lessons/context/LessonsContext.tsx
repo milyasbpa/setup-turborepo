@@ -1,80 +1,71 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { lessonService, QUERY_KEYS } from '@/core/api';
 import type { 
-  Lesson, 
-  LessonWithProblems, 
-  SubmitLessonResponse,
+  Lesson,
 } from '@/core/api';
 
 /**
  * Lessons Context Types
  */
-interface LessonsContextValue {
-  // Lesson list state
-  lessons: Lesson[];
-  lessonsLoading: boolean;
-  lessonsError: string | null;
-  
-  // Current lesson state
-  currentLesson: LessonWithProblems | null;
-  currentLessonLoading: boolean;
-  currentLessonError: string | null;
-  
-  // Submission state
-  submissionLoading: boolean;
-  submissionError: string | null;
-  lastSubmissionResult: SubmitLessonResponse | null;
-  
-  // Actions
-  refetchLessons: () => void;
-  refetchCurrentLesson: () => void;
-  clearSubmissionResult: () => void;
-  submitLesson?: (answers: Array<{ problemId: string; answer: string }>) => Promise<SubmitLessonResponse>;
+interface LessonsContextType {
+  lessonsQuery: {
+    data: Lesson[] | undefined;
+    isLoading: boolean;
+    error: Error | null;
+    refetch: () => void;
+  };
+  actions: {
+    // Add any lesson list specific actions here in the future
+  };
 }
 
 /**
  * Lessons Context
  */
-const LessonsContext = createContext<LessonsContextValue | null>(null);
+const LessonsContext = createContext<LessonsContextType | undefined>(undefined);
 
 /**
  * Lessons Context Provider Props
  */
 interface LessonsProviderProps {
   children: ReactNode;
-  value?: LessonsContextValue;
+  userId?: number;
 }
 
 /**
  * Lessons Context Provider
- * Provides lesson-related state and actions to child components
+ * Provides lesson list data and actions to child components
+ * Follows the same pattern as LessonsDetailContext
  */
 export const LessonsProvider: React.FC<LessonsProviderProps> = ({ 
   children, 
-  value: providedValue 
+  userId = 1 
 }) => {
-  // Default value when no value is provided
-  const defaultValue: LessonsContextValue = {
-    lessons: [],
-    lessonsLoading: false,
-    lessonsError: null,
-    
-    currentLesson: null,
-    currentLessonLoading: false,
-    currentLessonError: null,
-    
-    submissionLoading: false,
-    submissionError: null,
-    lastSubmissionResult: null,
-    
-    refetchLessons: () => {},
-    refetchCurrentLesson: () => {},
-    clearSubmissionResult: () => {},
-  };
+  // React Query for lessons data
+  const lessonsQuery = useQuery({
+    queryKey: [...QUERY_KEYS.LESSONS, userId],
+    queryFn: () => lessonService.getAllLessons(userId),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
 
-  const value = providedValue || defaultValue;
+  const actions = useMemo(() => ({
+    // Add lesson list specific actions here in the future
+  }), []);
+
+  const contextValue = useMemo(() => ({
+    lessonsQuery: {
+      data: lessonsQuery.data,
+      isLoading: lessonsQuery.isLoading,
+      error: lessonsQuery.error,
+      refetch: lessonsQuery.refetch,
+    },
+    actions,
+  }), [lessonsQuery.data, lessonsQuery.isLoading, lessonsQuery.error, lessonsQuery.refetch, actions]);
 
   return (
-    <LessonsContext.Provider value={value}>
+    <LessonsContext.Provider value={contextValue}>
       {children}
     </LessonsContext.Provider>
   );
@@ -83,9 +74,9 @@ export const LessonsProvider: React.FC<LessonsProviderProps> = ({
 /**
  * Hook to use Lessons Context
  */
-export const useLessons = (): LessonsContextValue => {
+export const useLessons = (): LessonsContextType => {
   const context = useContext(LessonsContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useLessons must be used within a LessonsProvider');
   }
   return context;
@@ -93,52 +84,15 @@ export const useLessons = (): LessonsContextValue => {
 
 /**
  * Hook for lesson list operations
+ * Provides convenient access to lessons data
  */
 export const useLessonList = () => {
-  const { lessons, lessonsLoading, lessonsError, refetchLessons } = useLessons();
+  const { lessonsQuery } = useLessons();
   
   return {
-    lessons,
-    isLoading: lessonsLoading,
-    error: lessonsError,
-    refetch: refetchLessons,
-  };
-};
-
-/**
- * Hook for current lesson operations
- */
-export const useCurrentLesson = () => {
-  const { 
-    currentLesson, 
-    currentLessonLoading, 
-    currentLessonError, 
-    refetchCurrentLesson 
-  } = useLessons();
-  
-  return {
-    lesson: currentLesson,
-    isLoading: currentLessonLoading,
-    error: currentLessonError,
-    refetch: refetchCurrentLesson,
-  };
-};
-
-/**
- * Hook for lesson submission operations
- */
-export const useLessonSubmission = () => {
-  const { 
-    submissionLoading, 
-    submissionError, 
-    lastSubmissionResult, 
-    clearSubmissionResult 
-  } = useLessons();
-  
-  return {
-    isSubmitting: submissionLoading,
-    error: submissionError,
-    lastResult: lastSubmissionResult,
-    clearResult: clearSubmissionResult,
+    lessons: lessonsQuery.data || [],
+    isLoading: lessonsQuery.isLoading,
+    error: lessonsQuery.error,
+    refetch: lessonsQuery.refetch,
   };
 };
