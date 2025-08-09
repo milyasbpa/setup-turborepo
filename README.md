@@ -8,7 +8,7 @@ This monorepo includes the following packages and apps:
 
 ### 🏗️ Apps
 - **`backend`** - Express.js TypeScript API server with math learning features (Port 3002)
-- **`frontend`** - Vite React TypeScript application with i18n support (Port 3000)
+- **`frontend`** - Vite React TypeScript application with i18n support (Port 5173)
 
 ### 📦 Packages
 - **`@repo/eslint-config`** - Shared ESLint configurations
@@ -516,12 +516,12 @@ nvm use 18
 
 **❌ Port already in use**
 ```bash
-# Kill processes on ports 3000 and 3002
-lsof -ti:3000,3002 | xargs kill -9
+# Kill processes on ports 5173 and 3002
+lsof -ti:5173,3002 | xargs kill -9
 
 # Or change ports in the config files:
 # - apps/backend/.env (PORT=3002)
-# - apps/frontend/vite.config.ts (port: 3000)
+# - apps/frontend/vite.config.ts (port: 5173)
 ```
 
 **❌ Dependencies not installing**
@@ -562,15 +562,15 @@ npm run dev
 
 This project includes comprehensive documentation for advanced features:
 
-### 🔄 React Query (TanStack Query)
-- **Location**: `apps/frontend/REACT_QUERY_SETUP.md`
-- **Features**: Advanced state management, caching, mutations, optimistic updates
-- **Usage**: Type-safe hooks, centralized query keys, automatic invalidation
+### 🌐 Frontend Documentation
+- **Location**: [Frontend README](./apps/frontend/README.md)
+- **Features**: Complete frontend setup guide including React Query, PWA, i18n, environment configuration
+- **Includes**: Progressive Web App setup, TanStack Query configuration, internationalization, styling, SEO, deployment
 
-### 📱 Progressive Web App (PWA)
-- **Location**: `apps/frontend/PWA_SETUP.md`
-- **Features**: Offline support, push notifications, service workers, install prompts
-- **Key Points**: Manual update control, network awareness, notification system
+### 🔧 Backend Documentation
+- **Location**: [Backend README](./apps/backend/README.md)
+- **Features**: Complete backend setup guide including Express.js, Prisma, PostgreSQL, Docker integration
+- **Includes**: API documentation, database setup, seeding system, architecture patterns, testing guides
 
 ### 🏗️ Scalable Architecture
 - **Core/Features Pattern**: Separation of concerns with `/core` for shared functionality
@@ -578,7 +578,7 @@ This project includes comprehensive documentation for advanced features:
 - **TypeScript**: Strict typing throughout the application
 - **Error Boundaries**: Graceful error handling and user feedback
 
-Read the individual documentation files for detailed implementation guides and best practices.
+Read the [Frontend README](./apps/frontend/README.md) and [Backend README](./apps/backend/README.md) for detailed implementation guides and best practices.
 
 ## 🌐 Internationalization (i18n)
 
