@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from '@/core/i18n';
+import { Environment } from '@/core/config/environment';
 
 export interface PageSEOData {
   title: string;
@@ -43,15 +44,15 @@ export const usePageSEO = (defaultData?: Partial<PageSEOData>) => {
       }),
       description: t(`${pageKey}.description`, { 
         defaultValue: t('seo.defaultDescription', { 
-          defaultValue: 'Modern React application with TypeScript and i18n support' 
+          defaultValue: Environment.appDescription
         })
       }),
       keywords: t(`${pageKey}.keywords`, { 
         defaultValue: t('seo.defaultKeywords', { 
-          defaultValue: 'React, TypeScript, Vite, modern web app' 
+          defaultValue: Environment.seoKeywords
         })
       }),
-      canonical: `${import.meta.env.VITE_BASE_URL || 'http://localhost:5175'}${location.pathname}`,
+      canonical: Environment.getFullUrl(location.pathname),
       breadcrumbs: generateBreadcrumbs(pathSegments)
     };
   };
@@ -94,19 +95,21 @@ export const usePageTracking = () => {
 
   useEffect(() => {
     // Track page view (integrate with your analytics)
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      (window as any).gtag('config', 'GA_MEASUREMENT_ID', {
+    if (Environment.shouldShowAnalytics && Environment.gaMeasurementId && typeof window !== 'undefined' && 'gtag' in window) {
+      (window as any).gtag('config', Environment.gaMeasurementId, {
         page_path: location.pathname + location.search,
       });
     }
 
     // Track for other analytics services
-    if (typeof window !== 'undefined' && 'fbq' in window) {
+    if (Environment.shouldShowAnalytics && Environment.fbPixelId && typeof window !== 'undefined' && 'fbq' in window) {
       (window as any).fbq('track', 'PageView');
     }
 
-    // Custom analytics tracking
-    console.log(`Page view: ${location.pathname}${location.search}`);
+    // Custom analytics tracking (only in development or when debug is enabled)
+    if (Environment.debugMode) {
+      console.log(`Page view: ${location.pathname}${location.search}`);
+    }
   }, [location]);
 };
 
@@ -115,15 +118,13 @@ export const usePageTracking = () => {
  */
 export const useOpenGraphImages = () => {
   const generateOGImage = () => {
-    const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5175';
-    
     // You can implement dynamic OG image generation here
     // For now, return static image paths
     const images = {
-      default: `${baseUrl}/og-image.png`,
-      home: `${baseUrl}/og-home.png`,
-      users: `${baseUrl}/og-users.png`,
-      about: `${baseUrl}/og-about.png`
+      default: Environment.getFullUrl(Environment.ogImage),
+      home: Environment.getFullUrl('/og-home.png'),
+      users: Environment.getFullUrl('/og-users.png'),
+      about: Environment.getFullUrl('/og-about.png')
     };
 
     return images.default;
@@ -139,21 +140,19 @@ export const useCanonicalURL = () => {
   const location = useLocation();
 
   const getCanonicalURL = () => {
-    const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5175';
     const pathWithoutLang = location.pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '');
     
     // Always use the default language path for canonical
-    return `${baseUrl}${pathWithoutLang || '/'}`;
+    return Environment.getFullUrl(pathWithoutLang || '/');
   };
 
   const getAlternateURLs = () => {
-    const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5175';
     const pathWithoutLang = location.pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '');
     
     return {
-      'en': `${baseUrl}${pathWithoutLang || '/'}`,
-      'id': `${baseUrl}/id${pathWithoutLang || '/'}`,
-      'x-default': `${baseUrl}${pathWithoutLang || '/'}`
+      'en': Environment.getFullUrl(pathWithoutLang || '/'),
+      'id': Environment.getFullUrl(`/id${pathWithoutLang || '/'}`),
+      'x-default': Environment.getFullUrl(pathWithoutLang || '/')
     };
   };
 
@@ -165,6 +164,9 @@ export const useCanonicalURL = () => {
  */
 export const usePerformanceTracking = () => {
   useEffect(() => {
+    // Only track performance in development or when debug is enabled
+    if (!Environment.debugMode) return;
+
     // Track basic performance metrics
     if (typeof window !== 'undefined' && 'performance' in window) {
       // Track page load time

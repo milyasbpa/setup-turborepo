@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Environment } from '@/core/config/environment';
 
 /**
  * Base API Configuration
@@ -7,8 +8,8 @@ import axios from 'axios';
 
 // Create axios instance with default config
 export const apiClient = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
+  baseURL: Environment.apiBasePath,
+  timeout: Environment.apiTimeout,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,14 +25,14 @@ apiClient.interceptors.request.use(
     }
 
     // Log request in development
-    if (import.meta.env.DEV) {
+    if (Environment.debugMode) {
       console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`);
     }
 
     return config;
   },
   (error) => {
-    if (import.meta.env.DEV) {
+    if (Environment.debugMode) {
       console.error('❌ API Request Error:', error);
     }
     return Promise.reject(error);
@@ -42,7 +43,7 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => {
     // Log response in development
-    if (import.meta.env.DEV) {
+    if (Environment.debugMode) {
       console.log(`✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url}`, response.data);
     }
 
@@ -50,7 +51,7 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Log error in development
-    if (import.meta.env.DEV) {
+    if (Environment.debugMode) {
       console.error('❌ API Response Error:', error.response?.data || error.message);
     }
 
@@ -86,6 +87,9 @@ export const API_ENDPOINTS = {
   // Profile endpoints
   PROFILE: '/profile',
   PROFILE_STATS: '/profile/stats',
+  
+  // Recommendations endpoints
+  RECOMMENDATIONS: '/recommendations',
   
   // User endpoints (legacy)
   USERS: '/users',
@@ -149,6 +153,13 @@ export const apiUtils = {
    * Check if we're in development mode
    */
   isDevelopment: (): boolean => {
-    return import.meta.env.DEV;
+    return Environment.isDevelopment;
+  },
+
+  /**
+   * Get full API URL for a given endpoint
+   */
+  getApiUrl: (endpoint: string): string => {
+    return Environment.getApiUrl(endpoint);
   },
 };

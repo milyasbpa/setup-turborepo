@@ -1,11 +1,12 @@
 import createClient, { type Middleware } from 'openapi-fetch';
 import type { paths } from './schema';
+import { Environment } from '@/core/config/environment';
 
 /**
  * Create OpenAPI client with base configuration
  */
 export const apiClient = createClient<paths>({
-  baseUrl: '/',
+  baseUrl: Environment.isLocalhost ? '/' : Environment.apiUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -29,13 +30,13 @@ const authMiddleware: Middleware = {
  */
 const loggingMiddleware: Middleware = {
   onRequest({ request }) {
-    if (import.meta.env.DEV) {
+    if (Environment.debugMode) {
       console.log(`🚀 API Request: ${request.method} ${request.url}`);
     }
     return request;
   },
   onResponse({ response }) {
-    if (import.meta.env.DEV) {
+    if (Environment.debugMode) {
       console.log(`✅ API Response: ${response.status} ${response.url}`);
     }
     return response;
@@ -54,7 +55,7 @@ const errorMiddleware: Middleware = {
     }
 
     // Log server errors in development
-    if (response.status >= 500 && import.meta.env.DEV) {
+    if (response.status >= 500 && Environment.debugMode) {
       console.error('Server error occurred');
     }
 

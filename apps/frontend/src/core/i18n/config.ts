@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { Environment } from '@/core/config/environment';
 
 // Import translation resources
 import enCommon from './locales/en/common.json';
@@ -31,7 +32,7 @@ export const SUPPORTED_LANGUAGES = {
   },
 } as const;
 
-export const DEFAULT_LANGUAGE = 'en';
+export const DEFAULT_LANGUAGE = Environment.defaultLanguage as keyof typeof SUPPORTED_LANGUAGES;
 export const FALLBACK_LANGUAGE = 'en';
 
 export type SupportedLanguage = keyof typeof SUPPORTED_LANGUAGES;
@@ -62,7 +63,7 @@ i18n
     resources,
     fallbackLng: FALLBACK_LANGUAGE,
     defaultNS: 'common',
-    debug: import.meta.env.DEV,
+    debug: Environment.i18nDebug,
 
     // Language detection options
     detection: {
@@ -86,9 +87,9 @@ i18n
     keySeparator: '.',
 
     // Save missing translations
-    saveMissing: import.meta.env.DEV,
+    saveMissing: Environment.i18nDebug,
     missingKeyHandler: (lng, ns, key) => {
-      if (import.meta.env.DEV) {
+      if (Environment.i18nDebug) {
         console.warn(`Missing translation: ${lng}:${ns}:${key}`);
       }
     },
