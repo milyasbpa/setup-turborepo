@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
@@ -9,9 +8,7 @@ import './styles/design-system.css'
 import './core/i18n/config'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <HelmetProvider>
-      <App />
-    </HelmetProvider>
-  </StrictMode>,
+  <HelmetProvider>
+    <App />
+  </HelmetProvider>,
 )

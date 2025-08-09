@@ -1,9 +1,4 @@
 import React, { ReactNode } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { lessonService, QUERY_KEYS, apiUtils } from '@/core/api';
-import type { SubmitLessonRequest, SubmitLessonResponse } from '@/core/api';
-import { LessonsProvider } from '../context/LessonsContext';
-import { ErrorScreen, LoadingScreen } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
 
 /**
@@ -17,114 +12,14 @@ interface LessonDetailFragmentProps {
 
 /**
  * Lesson Detail Fragment
- * Handles API integration for lesson details and submissions
- * Provides lesson data and submission functionality to children via context
+ * Simple wrapper component for lesson detail children
+ * Data comes from LessonsDetailContext provider
  */
 export const LessonDetailFragment: React.FC<LessonDetailFragmentProps> = ({
   children,
-  lessonId,
-  userId = 1,
 }) => {
-  const { t } = useTranslation('lessons');
-  const queryClient = useQueryClient();
-
-  // Fetch lesson details
-  const {
-    data: lesson,
-    isLoading: lessonLoading,
-    error: lessonError,
-    refetch: refetchLesson,
-  } = useQuery({
-    queryKey: QUERY_KEYS.LESSON_DETAIL(lessonId),
-    queryFn: () => lessonService.getLessonById(lessonId),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-  });
-
-  // Submission mutation
-  const submissionMutation = useMutation({
-    mutationFn: (submission: SubmitLessonRequest) => 
-      lessonService.submitLesson(lessonId, submission, userId),
-    onSuccess: (result: SubmitLessonResponse) => {
-      // Invalidate and refetch related queries
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.LESSONS });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.PROFILE });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.PROFILE_STATS });
-      
-      console.log('Lesson submitted successfully:', result);
-    },
-    onError: (error) => {
-      console.error('Lesson submission failed:', error);
-    },
-  });
-
-  // Handle loading state
-  if (lessonLoading) {
-    return <LoadingScreen message="Loading lesson..." />;
-  }
-
-  // Handle error state
-  if (lessonError) {
-    return (
-      <ErrorScreen
-        error={lessonError as Error}
-        title={t('error.failedToLoadLesson')}
-        onRetry={() => refetchLesson()}
-      />
-    );
-  }
-
-  // Handle lesson not found
-  if (!lesson) {
-    return (
-      <ErrorScreen
-        error={t('error.lessonNotFound')}
-        title={t('error.lessonNotFoundTitle')}
-        onRetry={() => refetchLesson()}
-      />
-    );
-  }
-
-  // Submit lesson function
-  const submitLesson = async (answers: Array<{ problemId: string; answer: string }>) => {
-    const submission: SubmitLessonRequest = {
-      attemptId: apiUtils.generateAttemptId(),
-      answers,
-    };
-    
-    return submissionMutation.mutateAsync(submission);
-  };
-
-  // Clear submission result
-  const clearSubmissionResult = () => {
-    submissionMutation.reset();
-  };
-
-  // Enhanced context value with lesson data and submission functionality
-  const contextValue = {
-    lessons: [], // Not applicable for lesson detail
-    lessonsLoading: false,
-    lessonsError: null,
-    
-    currentLesson: lesson,
-    currentLessonLoading: lessonLoading,
-    currentLessonError: lessonError ? (lessonError as Error).message : null,
-    
-    submissionLoading: submissionMutation.isPending,
-    submissionError: submissionMutation.error ? apiUtils.getErrorMessage(submissionMutation.error) : null,
-    lastSubmissionResult: submissionMutation.data || null,
-    
-    refetchLessons: () => {},
-    refetchCurrentLesson: refetchLesson,
-    clearSubmissionResult,
-    submitLesson, // Add submit function to context
-  };
-
-  return (
-    <LessonsProvider value={contextValue}>
-      {children}
-    </LessonsProvider>
-  );
+  // Just render children - all data and functionality comes from LessonsDetailContext
+  return <>{children}</>;
 };
 
 /**

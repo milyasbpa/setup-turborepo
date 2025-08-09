@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from '@/core/i18n';
 import { LessonDetailFragment } from '../fragments/LessonDetailFragment';
 import { LessonDetailContainer } from '../containers/LessonDetailContainer';
+import { LessonsDetailProvider } from '../context/LessonsDetailContext';
 
 /**
  * Lesson Detail Page
@@ -24,14 +25,16 @@ const LessonDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <LessonDetailFragment lessonId={id}>
-          <LessonDetailContainer />
-        </LessonDetailFragment>
+    <LessonsDetailProvider lessonId={id}>
+      <div className="min-h-screen bg-gray-50">
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <LessonDetailFragment lessonId={id}>
+            <LessonDetailContainer />
+          </LessonDetailFragment>
+        </div>
       </div>
-    </div>
+    </LessonsDetailProvider>
   );
 };
 
