@@ -1,8 +1,8 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import type { 
-  LessonListItem, 
   Lesson, 
-  SubmissionResponse,
+  LessonWithProblems, 
+  SubmitLessonResponse,
 } from '@/core/api';
 
 /**
@@ -10,25 +10,25 @@ import type {
  */
 interface LessonsContextValue {
   // Lesson list state
-  lessons: LessonListItem[];
+  lessons: Lesson[];
   lessonsLoading: boolean;
   lessonsError: string | null;
   
   // Current lesson state
-  currentLesson: Lesson | null;
+  currentLesson: LessonWithProblems | null;
   currentLessonLoading: boolean;
   currentLessonError: string | null;
   
   // Submission state
   submissionLoading: boolean;
   submissionError: string | null;
-  lastSubmissionResult: SubmissionResponse | null;
+  lastSubmissionResult: SubmitLessonResponse | null;
   
   // Actions
   refetchLessons: () => void;
   refetchCurrentLesson: () => void;
   clearSubmissionResult: () => void;
-  submitLesson?: (answers: Array<{ problemId: number; answer: string }>) => Promise<SubmissionResponse>;
+  submitLesson?: (answers: Array<{ problemId: string; answer: string }>) => Promise<SubmitLessonResponse>;
 }
 
 /**

@@ -24,7 +24,7 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
   const { isSubmitting, error: submissionError, lastResult } = useLessonSubmission();
   const { submitLesson } = useLessons();
   
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [showResults, setShowResults] = useState(false);
 
   if (isLoading || !lesson) {
@@ -53,7 +53,7 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
     );
   }
 
-  const handleAnswerChange = (problemId: number, answer: string) => {
+  const handleAnswerChange = (problemId: string, answer: string) => {
     setAnswers(prev => ({
       ...prev,
       [problemId]: answer,
@@ -81,8 +81,14 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
     answers[problem.id] && answers[problem.id].trim() !== ''
   ) && submitLesson;
 
+  const getDifficultyFromOrder = (order: number): string => {
+    if (order <= 3) return 'easy';
+    if (order <= 6) return 'medium';
+    return 'hard';
+  };
+
   const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
+    switch (difficulty.toUpperCase()) {
       case 'EASY': return 'success';
       case 'MEDIUM': return 'warning';
       case 'HARD': return 'danger';
@@ -91,7 +97,7 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
   };
 
   const handleContinue = () => {
-    if (lastResult?.lessonCompleted) {
+    if (lastResult?.lesson.completed) {
       navigate('/results', { 
         state: { 
           submissionResult: lastResult,
@@ -110,7 +116,7 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
       correctAnswer: result.correctAnswer,
     };
     return acc;
-  }, {} as Record<number, { isCorrect: boolean; correctAnswer: string }>) || {};
+  }, {} as Record<string, { isCorrect: boolean; correctAnswer: string }>) || {};
 
   return (
     <div className={`max-w-4xl mx-auto ${className}`}>
@@ -138,10 +144,10 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
             </p>
           </div>
           <Badge 
-            variant={getDifficultyColor(lesson.difficulty) as any}
+            variant={getDifficultyColor(getDifficultyFromOrder(lesson.order)) as any}
             size="md"
           >
-            {lesson.difficulty.charAt(0) + lesson.difficulty.slice(1).toLowerCase()}
+            {getDifficultyFromOrder(lesson.order).charAt(0).toUpperCase() + getDifficultyFromOrder(lesson.order).slice(1)}
           </Badge>
         </div>
       </div>
@@ -194,15 +200,15 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
               {lastResult && (
                 <>
                   <div className="text-green-600 font-semibold">
-                    +{lastResult.xpGained} XP
+                    +{lastResult.xpEarned} XP
                   </div>
                   <div className="text-sm text-gray-600">
                     {lastResult.results.filter(r => r.isCorrect).length} / {lastResult.results.length} correct
                   </div>
-                  {lastResult.streakCount > 0 && (
-                    <div className="text-sm text-orange-600 font-medium">
-                      🔥 {lastResult.streakCount} day streak
-                    </div>
+                  {lastResult.streak.current > 0 && (
+                    <p className="text-yellow-600 font-medium">
+                      🔥 {lastResult.streak.current} day streak
+                    </p>
                   )}
                 </>
               )}
@@ -214,7 +220,7 @@ export const LessonDetailContainer: React.FC<LessonDetailContainerProps> = ({
               >
                 Back to Lessons
               </Button>
-              {lastResult?.lessonCompleted && (
+              {lastResult?.lesson.completed && (
                 <Button
                   onClick={handleContinue}
                   size="lg"

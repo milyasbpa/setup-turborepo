@@ -3,13 +3,28 @@
  * Centralized exports for all API-related functionality
  */
 
-// Client and configuration
-export { apiClient, API_ENDPOINTS } from './client';
+// OpenAPI-based client and services (new implementation)
+export { default as apiClient, extractData, getErrorMessage } from './client-openapi';
+export { lessonService, profileService, healthService, apiUtils } from './services-openapi';
 
-// Services
-export { lessonService, profileService, healthService, apiUtils } from './services';
+// Legacy client (keeping for backward compatibility during migration)
+export { apiClient as legacyApiClient, API_ENDPOINTS } from './client';
+export { lessonService as legacyLessonService, profileService as legacyProfileService, healthService as legacyHealthService, apiUtils as legacyApiUtils } from './services';
 
-// Types
+// Types from OpenAPI schema
+export type {
+  Lesson,
+  LessonWithProblems,
+  Problem,
+  ProblemOption,
+  SubmitLessonRequest,
+  SubmitLessonResponse,
+  UserProfile,
+  UserStats,
+  HealthStatus,
+} from './services-openapi';
+
+// Legacy types (keeping for backward compatibility)
 export type {
   // Base types
   ApiResponse,
@@ -20,23 +35,11 @@ export type {
   BaseComponentProps,
   WithLoadingProps,
   
-  // Lesson types
-  Lesson,
-  LessonListItem,
-  Problem,
-  ProblemOption,
-  SubmissionRequest,
+  // Legacy lesson types
   Answer,
-  SubmissionResponse,
   ProblemResult,
-  LessonStats,
   
-  // Profile types
-  UserProfile,
-  UserStats,
-  
-  // Health types
-  HealthStatus,
+  // Legacy health types
   DetailedHealthStatus,
 } from './types';
 

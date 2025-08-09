@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { lessonService, QUERY_KEYS, apiUtils } from '@/core/api';
-import type { SubmissionRequest, SubmissionResponse } from '@/core/api';
+import type { SubmitLessonRequest, SubmitLessonResponse } from '@/core/api';
 import { LessonsProvider } from '../context/LessonsContext';
 import { ErrorScreen, LoadingScreen } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
@@ -43,9 +43,9 @@ export const LessonDetailFragment: React.FC<LessonDetailFragmentProps> = ({
 
   // Submission mutation
   const submissionMutation = useMutation({
-    mutationFn: (submission: SubmissionRequest) => 
+    mutationFn: (submission: SubmitLessonRequest) => 
       lessonService.submitLesson(lessonId, submission, userId),
-    onSuccess: (result: SubmissionResponse) => {
+    onSuccess: (result: SubmitLessonResponse) => {
       // Invalidate and refetch related queries
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.LESSONS });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.PROFILE });
@@ -86,8 +86,8 @@ export const LessonDetailFragment: React.FC<LessonDetailFragmentProps> = ({
   }
 
   // Submit lesson function
-  const submitLesson = async (answers: Array<{ problemId: number; answer: string }>) => {
-    const submission: SubmissionRequest = {
+  const submitLesson = async (answers: Array<{ problemId: string; answer: string }>) => {
+    const submission: SubmitLessonRequest = {
       attemptId: apiUtils.generateAttemptId(),
       answers,
     };

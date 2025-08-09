@@ -57,16 +57,16 @@ export const ProblemItem: React.FC<ProblemComponentProps> = ({
       </div>
 
       {/* Multiple Choice Options */}
-      {problem.type === 'MULTIPLE_CHOICE' && problem.options && (
+      {problem.problemType === 'multiple_choice' && problem.options && (
         <div className="space-y-2">
           {problem.options.map((option) => {
-            const isSelected = localValue === option.value;
+            const isSelected = localValue === option.optionText;
             const isDisabled = disabled || showResult;
             
             let optionClasses = 'w-full p-3 text-left border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500';
             
             if (showResult) {
-              if (option.value === correctAnswer) {
+              if (option.optionText === correctAnswer) {
                 optionClasses += ' bg-green-100 border-green-500 text-green-800';
               } else if (isSelected && !isCorrect) {
                 optionClasses += ' bg-red-100 border-red-500 text-red-800';
@@ -86,7 +86,7 @@ export const ProblemItem: React.FC<ProblemComponentProps> = ({
                 key={option.id}
                 type="button"
                 className={optionClasses}
-                onClick={() => !isDisabled && handleInputChange(option.value)}
+                onClick={() => !isDisabled && handleInputChange(option.optionText)}
                 disabled={isDisabled}
               >
                 <div className="flex items-center">
@@ -106,7 +106,7 @@ export const ProblemItem: React.FC<ProblemComponentProps> = ({
                       <div className="w-2 h-2 bg-white rounded-full m-auto" />
                     )}
                   </div>
-                  <span className="font-medium">{option.text}</span>
+                  <span className="font-medium">{option.optionText}</span>
                 </div>
               </button>
             );
@@ -115,7 +115,7 @@ export const ProblemItem: React.FC<ProblemComponentProps> = ({
       )}
 
       {/* Input Field */}
-      {problem.type === 'INPUT' && (
+      {problem.problemType === 'input' && (
         <div>
           <label htmlFor={`problem-${problem.id}`} className="block text-sm font-medium text-gray-700 mb-2">
             {t('lesson.enterAnswer')}

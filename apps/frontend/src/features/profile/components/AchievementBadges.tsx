@@ -26,21 +26,21 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({
       title: 'First Steps',
       description: 'Complete your first lesson',
       icon: '🎯',
-      earned: stats.lessonsCompleted >= 1,
+      earned: stats.totalLessonsCompleted >= 1,
     },
     {
       id: 'streak_3',
       title: 'Getting Started',
       description: 'Maintain a 3-day streak',
       icon: '🔥',
-      earned: stats.bestStreak >= 3,
+      earned: stats.streak.longest >= 3,
     },
     {
       id: 'streak_7',
       title: 'Week Warrior',
       description: 'Maintain a 7-day streak',
       icon: '⭐',
-      earned: stats.bestStreak >= 7,
+      earned: stats.streak.longest >= 7,
     },
     {
       id: 'xp_1000',
@@ -61,7 +61,7 @@ export const AchievementBadges: React.FC<AchievementBadgesProps> = ({
       title: 'Master Student',
       description: 'Complete all available lessons',
       icon: '👑',
-      earned: stats.lessonsCompleted >= stats.totalLessons && stats.totalLessons > 0,
+      earned: stats.totalLessonsCompleted >= 10, // Assume master at 10 lessons
     },
   ];
 

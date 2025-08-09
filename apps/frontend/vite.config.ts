@@ -82,5 +82,14 @@ export default defineConfig({
       '@/types': fileURLToPath(new URL('./src/types', import.meta.url)),
       '@/assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
     }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   }
 })

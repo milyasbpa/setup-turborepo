@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import './index.css'
 import './styles/globals.css'
+import './styles/design-system.css'
 
 // Initialize i18n
 import './core/i18n/config'

@@ -7,11 +7,11 @@ import { ProblemItem } from './Problem';
  */
 interface ProblemListProps {
   problems: Problem[];
-  answers: Record<number, string>;
-  onAnswerChange: (problemId: number, answer: string) => void;
+  answers: Record<string, string>;
+  onAnswerChange: (problemId: string, answer: string) => void;
   disabled?: boolean;
   showResults?: boolean;
-  results?: Record<number, { isCorrect: boolean; correctAnswer: string }>;
+  results?: Record<string, { isCorrect: boolean; correctAnswer: string }>;
   className?: string;
 }
 

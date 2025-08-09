@@ -21,20 +21,26 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   className = '' 
 }) => {
   const { t } = useTranslation('profile');
+  
+  // Calculate progress percentage
+  const progressPercentage = profile.totalLessons > 0 
+    ? (profile.lessonsCompleted / profile.totalLessons) * 100 
+    : 0;
+
   return (
     <Card className={`${className}`}>
       <div className="flex items-center space-x-6">
         {/* Avatar */}
         <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
           <span className="text-2xl font-bold text-white">
-            {profile.username.charAt(0).toUpperCase()}
+            {profile.username?.charAt(0).toUpperCase() || 'U'}
           </span>
         </div>
 
         {/* Basic Info */}
         <div className="flex-1">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
-            {profile.username}
+            {profile.username || 'Anonymous User'}
           </h1>
           <p className="text-gray-600 mb-3">{profile.email}</p>
           
@@ -42,11 +48,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <div className="flex items-center space-x-6 text-sm">
             <div className="flex items-center space-x-1">
               <span className="text-2xl">⚡</span>
-              <span className="font-medium">{apiUtils.formatXP(profile.totalXp)}</span>
+              <span className="font-medium">{apiUtils.formatXP(profile.xp)}</span>
             </div>
             <div className="flex items-center space-x-1">
               <span className="text-2xl">🔥</span>
-              <span className="font-medium">{apiUtils.formatStreak(profile.currentStreak)}</span>
+              <span className="font-medium">{apiUtils.formatStreak(profile.streak.current)}</span>
             </div>
             <div className="flex items-center space-x-1">
               <span className="text-2xl">📚</span>
@@ -78,14 +84,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 strokeWidth="8"
                 fill="transparent"
                 strokeDasharray={`${2 * Math.PI * 40}`}
-                strokeDashoffset={`${2 * Math.PI * 40 * (1 - profile.progressPercentage / 100)}`}
+                strokeDashoffset={`${2 * Math.PI * 40 * (1 - progressPercentage / 100)}`}
                 className="text-blue-600 transition-all duration-300"
                 strokeLinecap="round"
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-lg font-bold text-gray-900">
-                {Math.round(profile.progressPercentage)}%
+                {Math.round(progressPercentage)}%
               </span>
             </div>
           </div>

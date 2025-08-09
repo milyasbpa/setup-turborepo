@@ -23,7 +23,8 @@ export const lessonService = {
     const response = await apiClient.get(API_ENDPOINTS.LESSONS, {
       params: { userId }
     });
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data || [];
   },
 
   /**
@@ -32,7 +33,8 @@ export const lessonService = {
    */
   getLessonById: async (id: string | number): Promise<Lesson> => {
     const response = await apiClient.get(API_ENDPOINTS.LESSON_DETAIL(id));
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 
   /**
@@ -51,7 +53,8 @@ export const lessonService = {
         params: { userId }
       }
     );
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 
   /**
@@ -60,7 +63,8 @@ export const lessonService = {
    */
   getLessonStats: async (): Promise<LessonStats> => {
     const response = await apiClient.get(API_ENDPOINTS.LESSON_STATS);
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 };
 
@@ -76,7 +80,8 @@ export const profileService = {
     const response = await apiClient.get(API_ENDPOINTS.PROFILE, {
       params: { userId }
     });
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 
   /**
@@ -87,7 +92,8 @@ export const profileService = {
     const response = await apiClient.get(API_ENDPOINTS.PROFILE_STATS, {
       params: { userId }
     });
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 };
 
@@ -101,7 +107,8 @@ export const healthService = {
    */
   getHealthStatus: async (): Promise<HealthStatus> => {
     const response = await apiClient.get(API_ENDPOINTS.HEALTH);
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 
   /**
@@ -110,7 +117,8 @@ export const healthService = {
    */
   getDetailedHealthStatus: async (): Promise<DetailedHealthStatus> => {
     const response = await apiClient.get(`${API_ENDPOINTS.HEALTH}/detailed`);
-    return response.data;
+    // Backend wraps response in { success, data, message, timestamp }
+    return response.data.data;
   },
 };
 

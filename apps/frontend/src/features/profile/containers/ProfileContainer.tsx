@@ -103,16 +103,16 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({
           <div>
             <h3 className="text-xl font-semibold mb-2">Ready for more challenges?</h3>
             <p className="opacity-90">
-              {stats.lessonsCompleted >= stats.totalLessons 
+              {stats.totalLessonsCompleted >= 10 // Assume 10 lessons total for demo
                 ? "You've completed all available lessons! Check back for new content."
-                : `${stats.totalLessons - stats.lessonsCompleted} lessons remaining to master math.`
+                : `${10 - stats.totalLessonsCompleted} lessons remaining to master math.`
               }
             </p>
           </div>
           <div className="flex space-x-3">
             <Link to="/lessons">
               <Button variant="secondary">
-                {stats.lessonsCompleted >= stats.totalLessons ? 'Review Lessons' : 'Continue Learning'}
+                {stats.totalLessonsCompleted >= 10 ? 'Review Lessons' : 'Continue Learning'}
               </Button>
             </Link>
           </div>
@@ -120,9 +120,9 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({
       </div>
 
       {/* Last Activity Info */}
-      {stats.lastActivityDate && (
+      {stats.streak.lastActiveDate && (
         <div className="text-center text-sm text-gray-500">
-          Last activity: {new Date(stats.lastActivityDate).toLocaleDateString()}
+          Last activity: {new Date(stats.streak.lastActiveDate).toLocaleDateString()}
         </div>
       )}
     </div>

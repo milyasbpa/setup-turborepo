@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import type { SubmissionResponse } from '@/core/api';
+import type { SubmitLessonResponse } from '@/core/api';
 import { Card, Button, ProgressBar } from '@/core/components';
 import { apiUtils } from '@/core/api';
 import { useTranslation } from '@/core/i18n';
@@ -16,7 +16,7 @@ const ResultsPage: React.FC = () => {
   const { t } = useTranslation('results');
 
   // Get submission result from location state
-  const submissionResult = location.state?.submissionResult as SubmissionResponse | undefined;
+  const submissionResult = location.state?.submissionResult as SubmitLessonResponse | undefined;
   const lessonTitle = location.state?.lessonTitle as string | undefined;
 
   // Redirect if no result data
@@ -38,7 +38,7 @@ const ResultsPage: React.FC = () => {
     return null; // Will redirect
   }
 
-  const correctAnswers = submissionResult.results.filter(r => r.isCorrect).length;
+  const correctAnswers = submissionResult.results.filter((r: any) => r.isCorrect).length;
   const totalQuestions = submissionResult.results.length;
   const scorePercentage = (correctAnswers / totalQuestions) * 100;
 
@@ -49,7 +49,7 @@ const ResultsPage: React.FC = () => {
         <div className="text-center mb-8">
           <div className="text-6xl mb-4 animate-bounce">🎉</div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            {submissionResult.lessonCompleted ? t('celebration.lessonCompleted') : t('celebration.greatProgress')}
+            {submissionResult.lesson.completed ? t('celebration.lessonCompleted') : t('celebration.greatProgress')}
           </h1>
           <p className="text-xl text-gray-600">
             {lessonTitle && `"${lessonTitle}"`}
@@ -64,7 +64,7 @@ const ResultsPage: React.FC = () => {
             <div className={`text-3xl font-bold text-yellow-600 mb-2 transition-all duration-1000 ${
               showAnimation ? 'scale-110' : 'scale-100'
             }`}>
-              +{submissionResult.xpGained}
+              +{submissionResult.xpEarned}
             </div>
             <p className="text-gray-600">{t('stats.xpGained')}</p>
             <p className="text-sm text-gray-500 mt-1">
@@ -94,21 +94,21 @@ const ResultsPage: React.FC = () => {
             <div className={`text-3xl font-bold text-orange-600 mb-2 transition-all duration-1000 delay-500 ${
               showAnimation ? 'scale-110' : 'scale-100'
             }`}>
-              {submissionResult.streakCount}
+              {submissionResult.streak.current}
             </div>
             <p className="text-gray-600">{t('stats.streak')}</p>
             <p className="text-sm text-gray-500 mt-1">
-              {submissionResult.streakCount === 1 ? t('stats.keepItUp') : t('stats.amazingConsistency')}
+              {submissionResult.streak.current === 1 ? t('stats.keepItUp') : t('stats.amazingConsistency')}
             </p>
           </Card>
         </div>
 
         {/* Progress Bar */}
-        {submissionResult.lessonCompleted && (
+        {submissionResult.lesson.completed && (
           <Card className="mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('progress.lessonProgress')}</h3>
             <ProgressBar 
-              progress={submissionResult.completionPercentage}
+              progress={submissionResult.lesson.score}
               color="green"
               size="lg"
               className={`transition-all duration-2000 delay-700 ${
@@ -122,7 +122,7 @@ const ResultsPage: React.FC = () => {
         <Card className="mb-8">
           <h3 className="text-lg font-semibold text-gray-900 mb-6">{t('progress.problemResults')}</h3>
           <div className="space-y-4">
-            {submissionResult.results.map((result, index) => (
+            {submissionResult.results.map((result: any, index: number) => (
               <div
                 key={result.problemId}
                 className={`flex items-center justify-between p-4 rounded-lg transition-all duration-500 ${
