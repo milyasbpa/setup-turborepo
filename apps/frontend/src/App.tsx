@@ -18,7 +18,7 @@ function App() {
       {/* Splash Screen - shown when app is installed as PWA */}
       <SplashScreen 
         isVisible={isVisible}
-        appName="TurboApp"
+        appName="MathLearn"
         appTagline="Modern PWA Experience"
         logoText="TA"
         onComplete={onComplete}

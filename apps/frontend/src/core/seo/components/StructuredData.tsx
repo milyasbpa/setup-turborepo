@@ -29,18 +29,18 @@ export const StructuredData = ({ type, data }: StructuredDataProps) => {
 export const createOrganizationSchema = (baseUrl: string) => ({
   type: 'Organization' as const,
   data: {
-    name: 'TurboApp',
+    name: 'MathLearn',
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    description: 'Modern React application with TypeScript and i18n support',
+    description: 'Interactive mathematics learning platform with personalized lessons and gamified exercises',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      email: 'support@turboapp.com'
+      email: 'support@mathlearn.app'
     },
     sameAs: [
-      'https://github.com/milyasbpa/setup-turborepo',
-      'https://twitter.com/turboapp'
+      'https://github.com/milyasbpa/mathlearn-platform',
+      'https://twitter.com/mathlearn_app'
     ]
   }
 });
@@ -48,9 +48,9 @@ export const createOrganizationSchema = (baseUrl: string) => ({
 export const createWebSiteSchema = (baseUrl: string, searchUrl?: string) => ({
   type: 'WebSite' as const,
   data: {
-    name: 'TurboApp',
+    name: 'MathLearn',
     url: baseUrl,
-    description: 'Modern React application with comprehensive features',
+    description: 'Interactive math learning platform with comprehensive educational features',
     inLanguage: ['en-US', 'id-ID'],
     ...(searchUrl && {
       potentialAction: {
@@ -100,7 +100,7 @@ export const createArticleSchema = (article: {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'TurboApp',
+      name: 'MathLearn',
       logo: {
         '@type': 'ImageObject',
         url: `${new URL(article.url).origin}/logo.png`

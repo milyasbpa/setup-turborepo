@@ -26,8 +26,8 @@ export default defineConfig(({ command, mode }) => {
           type: 'module',
         },
         manifest: {
-          name: env.VITE_APP_NAME || 'Turborepo Frontend App',
-          short_name: env.VITE_APP_SHORT_NAME || 'TurboApp',
+          name: env.VITE_APP_NAME || 'MathLearn - Math Learning App',
+          short_name: env.VITE_APP_SHORT_NAME || 'MathLearn',
           description: env.VITE_APP_DESCRIPTION || 'A modern React application with PWA capabilities',
           theme_color: env.VITE_PWA_THEME_COLOR || '#61dafb',
           background_color: env.VITE_PWA_BACKGROUND_COLOR || '#282c34',

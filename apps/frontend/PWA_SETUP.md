@@ -40,8 +40,8 @@ VitePWA({
     type: 'module',
   },
   manifest: {
-    name: 'Turborepo Frontend App',
-    short_name: 'TurboApp',
+    name: 'MathLearn - Interactive Math Learning Platform',
+    short_name: 'MathLearn',
     description: 'A modern React application with PWA capabilities',
     theme_color: '#61dafb',
     background_color: '#282c34',
@@ -138,9 +138,9 @@ function App() {
     return (
       <SplashScreen 
         isVisible={isVisible}
-        appName="TurboApp"
+        appName="MathLearn"
         appTagline="Modern PWA Experience"
-        logoText="TA"
+        logoText="ML"
         onComplete={onComplete}
       />
     );
@@ -235,8 +235,8 @@ This ensures:
 ## 📱 PWA Manifest Features
 
 ### App Identity
-- **Name**: "Turborepo Frontend App"
-- **Short Name**: "TurboApp"
+- **Name**: "MathLearn - Interactive Math Learning Platform"
+- **Short Name**: "MathLearn"
 - **Theme Color**: `#61dafb` (React blue)
 - **Background Color**: `#282c34` (Dark theme)
 
@@ -301,9 +301,9 @@ function App() {
     return (
       <SplashScreen 
         isVisible={isVisible}
-        appName="TurboApp"
+        appName="MathLearn"
         appTagline="Modern PWA Experience"
-        logoText="TA"
+        logoText="ML"
         onComplete={onComplete}
       />
     );

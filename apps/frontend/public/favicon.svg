@@ -4,5 +4,5 @@
   <circle cx="256" cy="256" r="20" fill="#282c34"/>
   <ellipse cx="256" cy="256" rx="120" ry="40" stroke="#282c34" stroke-width="8" fill="none" transform="rotate(60 256 256)"/>
   <ellipse cx="256" cy="256" rx="120" ry="40" stroke="#282c34" stroke-width="8" fill="none" transform="rotate(-60 256 256)"/>
-  <text x="256" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#282c34">TurboApp</text>
+  <text x="256" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#282c34">MathLearn</text>
 </svg>

@@ -11,9 +11,9 @@ interface SplashScreenProps {
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
   isVisible = true,
-  appName = 'TurboApp',
-  appTagline = 'Modern PWA Experience',
-  logoText = 'TA',
+  appName = 'MathLearn',
+  appTagline = 'Interactive Math Learning',
+  logoText = 'ML',
   duration = 2500,
   onComplete
 }) => {

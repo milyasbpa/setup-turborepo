@@ -1,10 +1,10 @@
-# 🚀 Turborepo Math Learning App
+# 🧮 MathLearn - Interactive Math Learning Platform
 
 A modern monorepo setup featuring a **Duolingo-style math learning app** with **Express.js TypeScript backend** and **Vite React TypeScript frontend**, powered by Turborepo for efficient development and building.
 
 ## 📋 What's Inside?
 
-This Turborepo includes the following packages and apps:
+This monorepo includes the following packages and apps:
 
 ### 🏗️ Apps
 - **`backend`** - Express.js TypeScript API server with math learning features (Port 3002)
@@ -25,8 +25,8 @@ This Turborepo includes the following packages and apps:
 
 1. **Clone the repository**:
 ```bash
-git clone https://github.com/milyasbpa/setup-turborepo.git
-cd setup-turborepo
+git clone https://github.com/milyasbpa/mathlearn-platform.git
+cd mathlearn-platform
 ```
 
 2. **Install all dependencies**:
@@ -792,13 +792,13 @@ const HomePage = () => {
   return (
     <>
       <SEOHead
-        title="Welcome to TurboApp"
+        title="Welcome to MathLearn"
         description="A modern React application with TypeScript and i18n support"
-        keywords="react, typescript, vite, i18n, turborepo"
+        keywords="react, typescript, vite, i18n, math learning"
         canonical="/"
       />
       <main>
-        <h1>Welcome to TurboApp</h1>
+        <h1>Welcome to MathLearn</h1>
       </main>
     </>
   );
@@ -813,7 +813,7 @@ const ArticlePage = () => {
   return (
     <>
       <SEOHead
-        title="My Article - TurboApp"
+        title="My Article - MathLearn"
         description="An informative article about web development"
         canonical="/articles/my-article"
         openGraph={{
@@ -1353,8 +1353,8 @@ export default defineConfig({
 #### **Day 1: Environment Setup**
 ```bash
 # 1. Clone and setup (< 15 minutes)
-git clone https://github.com/milyasbpa/setup-turborepo.git
-cd setup-turborepo
+git clone https://github.com/milyasbpa/mathlearn-platform.git
+cd mathlearn-platform
 ./quick-setup.sh
 
 # 2. Verify everything works

@@ -105,7 +105,7 @@ export function InstallPrompt({ onInstall, onDismiss }: InstallPromptProps) {
           
           {/* Content */}
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Install TurboApp
+            Install MathLearn
           </h3>
           <p className="text-sm text-gray-600 mb-6">
             Install our app for a better experience with offline access and faster loading.

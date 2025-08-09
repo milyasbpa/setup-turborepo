@@ -21,10 +21,10 @@ This document provides a comprehensive overview of all environment variables use
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
 | `VITE_BASE_URL` | `string` | `http://localhost:5173` | Base URL for the application |
-| `VITE_APP_NAME` | `string` | `Turborepo Math Learning App` | Full application name |
-| `VITE_APP_SHORT_NAME` | `string` | `TurboApp` | Short application name for PWA |
+| `VITE_APP_NAME` | `string` | `MathLearn - Interactive Math Learning Platform` | Full application name |
+| `VITE_APP_SHORT_NAME` | `string` | `MathLearn` | Short application name for PWA |
 | `VITE_APP_DESCRIPTION` | `string` | `A modern React application with PWA capabilities` | Application description |
-| `VITE_SITE_NAME` | `string` | `TurboApp` | Site name for SEO and branding |
+| `VITE_SITE_NAME` | `string` | `MathLearn` | Site name for SEO and branding |
 
 ### Example Configuration
 ```bash
@@ -104,8 +104,8 @@ VITE_SW_REGISTER_TYPE=autoUpdate
 |----------|------|---------|-------------|
 | `VITE_SEO_KEYWORDS` | `string` | `React,TypeScript,Vite,Math Learning,Education,PWA,i18n` | Default SEO keywords |
 | `VITE_OG_IMAGE` | `string` | `/og-image.png` | Open Graph image path |
-| `VITE_TWITTER_SITE` | `string` | `@turboapp` | Twitter site handle |
-| `VITE_TWITTER_CREATOR` | `string` | `@turboapp` | Twitter creator handle |
+| `VITE_TWITTER_SITE` | `string` | `@mathlearnapp` | Twitter site handle |
+| `VITE_TWITTER_CREATOR` | `string` | `@mathlearnapp` | Twitter creator handle |
 
 ### Example Configuration
 ```bash
@@ -226,7 +226,7 @@ VITE_ENABLE_SECURE_HEADERS=true
 ```bash
 # Application
 VITE_BASE_URL=http://localhost:5173
-VITE_APP_NAME=TurboApp Development
+VITE_APP_NAME=MathLearn Development
 
 # API
 VITE_API_URL=http://localhost:3002
@@ -249,7 +249,7 @@ VITE_ANALYTICS_DEV_ENABLED=false
 ```bash
 # Application
 VITE_BASE_URL=https://staging.myapp.com
-VITE_APP_NAME=TurboApp Staging
+VITE_APP_NAME=MathLearn Staging
 
 # API
 VITE_API_URL=https://api-staging.myapp.com
@@ -273,7 +273,7 @@ VITE_ANALYTICS_DEV_ENABLED=true
 ```bash
 # Application
 VITE_BASE_URL=https://myapp.com
-VITE_APP_NAME=TurboApp
+VITE_APP_NAME=MathLearn
 
 # API
 VITE_API_URL=https://api.myapp.com

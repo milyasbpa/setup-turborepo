@@ -104,10 +104,10 @@ export function getEnvironmentConfig(): EnvironmentConfig {
   return {
     // Application Configuration
     baseUrl: import.meta.env.VITE_BASE_URL || 'http://localhost:5173',
-    appName: import.meta.env.VITE_APP_NAME || 'Turborepo Math Learning App',
-    appShortName: import.meta.env.VITE_APP_SHORT_NAME || 'TurboApp',
+    appName: import.meta.env.VITE_APP_NAME || 'MathLearn - Interactive Math Learning Platform',
+    appShortName: import.meta.env.VITE_APP_SHORT_NAME || 'MathLearn',
     appDescription: import.meta.env.VITE_APP_DESCRIPTION || 'A modern React application with PWA capabilities',
-    siteName: import.meta.env.VITE_SITE_NAME || 'TurboApp',
+    siteName: import.meta.env.VITE_SITE_NAME || 'MathLearn',
 
     // API Configuration
     apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3002',
@@ -132,8 +132,8 @@ export function getEnvironmentConfig(): EnvironmentConfig {
     // SEO & Social Media
     seoKeywords: import.meta.env.VITE_SEO_KEYWORDS || 'React,TypeScript,Vite,Math Learning,Education,PWA,i18n',
     ogImage: import.meta.env.VITE_OG_IMAGE || '/og-image.png',
-    twitterSite: import.meta.env.VITE_TWITTER_SITE || '@turboapp',
-    twitterCreator: import.meta.env.VITE_TWITTER_CREATOR || '@turboapp',
+    twitterSite: import.meta.env.VITE_TWITTER_SITE || '@mathlearn_app',
+    twitterCreator: import.meta.env.VITE_TWITTER_CREATOR || '@mathlearn_app',
 
   // Analytics Configuration
   gaMeasurementId: import.meta.env.VITE_GA_MEASUREMENT_ID || '',
