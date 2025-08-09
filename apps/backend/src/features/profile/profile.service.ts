@@ -92,7 +92,6 @@ export class ProfileService {
    */
   static async getUserStats(userId: string = '1') {
     LoggerService.logService('ProfileService', `getUserStats(${userId})`, true);
-    
     try {
       const [user, userProgress, submissions] = await Promise.all([
         UserRepository.findById(userId),
@@ -110,7 +109,7 @@ export class ProfileService {
         prisma.submission.findMany({
           where: { userId },
           orderBy: { createdAt: 'desc' },
-          take: 10, // Last 10 submissions
+          take: 10,
         }),
       ]);
 
@@ -118,32 +117,39 @@ export class ProfileService {
         throw new Error('User not found');
       }
 
-      // Calculate additional stats
-      const totalAttempts = userProgress.reduce((sum, progress) => sum + progress.attemptsCount, 0);
-      const averageScore = userProgress.length > 0 
+      // Calculate stats for DTO
+      const totalXp = user.totalXp || 0;
+      const xpThisWeek = 0; // TODO: implement real calculation
+      const xpThisMonth = 0; // TODO: implement real calculation
+      const totalLessonsCompleted = userProgress.filter(p => p.isCompleted).length;
+      const totalProblemsCompleted = submissions.length; // or another logic if available
+      const averageScore = userProgress.length > 0
         ? Math.round(userProgress.reduce((sum, progress) => sum + progress.bestScore, 0) / userProgress.length)
         : 0;
+      const streak = {
+        current: user.currentStreak || 0,
+        longest: user.bestStreak || 0,
+        lastActiveDate: user.lastActivityDate ? user.lastActivityDate.toISOString().split('T')[0] : null,
+      };
+      const timeSpent = {
+        totalMinutes: 0, // TODO: implement real calculation
+        thisWeekMinutes: 0, // TODO: implement real calculation
+        averagePerSession: 0, // TODO: implement real calculation
+      };
+  const achievements: import('./dtos/profile.dto').AchievementDto[] = [];
+  const weeklyProgress: import('./dtos/profile.dto').DailyProgressDto[] = [];
 
       return {
-        profile: {
-          totalXp: user.totalXp,
-          currentStreak: user.currentStreak,
-          bestStreak: user.bestStreak,
-          lastActivityDate: user.lastActivityDate,
-        },
-        progress: {
-          completedLessons: userProgress.filter(p => p.isCompleted).length,
-          totalLessons: userProgress.length,
-          averageScore,
-          totalAttempts,
-        },
-        recentActivity: submissions.map(submission => ({
-          id: submission.id,
-          lessonId: submission.lessonId,
-          isCorrect: submission.isCorrect,
-          xpEarned: submission.xpEarned,
-          submittedAt: submission.submittedAt,
-        })),
+        totalXp,
+        xpThisWeek,
+        xpThisMonth,
+        totalLessonsCompleted,
+        totalProblemsCompleted,
+        averageScore,
+        streak,
+        timeSpent,
+        achievements,
+        weeklyProgress,
       };
     } catch (error) {
       LoggerService.error('Failed to get user stats', {

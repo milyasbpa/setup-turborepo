@@ -351,34 +351,24 @@ describe('ProfileService', () => {
       });
 
       expect(result).toEqual({
-        profile: {
-          totalXp: 200,
-          currentStreak: 7,
-          bestStreak: 10,
-          lastActivityDate: new Date('2024-01-15'),
+        totalXp: 200,
+        xpThisWeek: 0,
+        xpThisMonth: 0,
+        totalLessonsCompleted: 2,
+        totalProblemsCompleted: 2,
+        averageScore: 88,
+        streak: {
+          current: 7,
+          longest: 10,
+          lastActiveDate: '2024-01-15',
         },
-        progress: {
-          completedLessons: 2, // Both progress items are completed
-          totalLessons: 2, // Total progress items
-          averageScore: 88, // (85 + 90) / 2 = 87.5 rounded to 88
-          totalAttempts: 3, // 2 + 1
+        timeSpent: {
+          totalMinutes: 0,
+          thisWeekMinutes: 0,
+          averagePerSession: 0,
         },
-        recentActivity: [
-          {
-            id: 'submission-1',
-            lessonId: 'lesson-1',
-            isCorrect: true,
-            xpEarned: 10,
-            submittedAt: new Date('2024-01-15'),
-          },
-          {
-            id: 'submission-2',
-            lessonId: 'lesson-2',
-            isCorrect: true,
-            xpEarned: 15,
-            submittedAt: new Date('2024-01-14'),
-          },
-        ],
+        achievements: [],
+        weeklyProgress: [],
       });
 
       expect(mockLogger.logService).toHaveBeenCalledWith(
@@ -407,11 +397,11 @@ describe('ProfileService', () => {
       const result = await ProfileService.getUserStats(userId);
 
       // Assert
-      expect(result.progress.totalAttempts).toBe(0);
-      expect(result.progress.averageScore).toBe(0);
-      expect(result.progress.completedLessons).toBe(0);
-      expect(result.progress.totalLessons).toBe(0);
-      expect(result.recentActivity).toEqual([]);
+  expect(result.totalProblemsCompleted).toBe(0);
+  expect(result.averageScore).toBe(0);
+  expect(result.totalLessonsCompleted).toBe(0);
+  expect(result.achievements).toEqual([]);
+  expect(result.weeklyProgress).toEqual([]);
     });
 
     it('should use default userId when not provided', async () => {
@@ -434,7 +424,7 @@ describe('ProfileService', () => {
 
       // Assert
       expect(mockUserRepository.findById).toHaveBeenCalledWith(defaultUserId);
-      expect(result.profile.totalXp).toBe(100);
+  expect(result.totalXp).toBe(100);
     });
 
     it('should throw error when user not found', async () => {

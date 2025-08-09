@@ -84,27 +84,24 @@ describe('ProfileController', () => {
   describe('GET /profile/stats/:id', () => {
     it('should return user stats', async () => {
       const mockStats = {
-        profile: {
-          totalXp: 500,
-          currentStreak: 7,
-          bestStreak: 15,
-          lastActivityDate: new Date('2023-01-01T00:00:00Z'),
+        totalXp: 500,
+        xpThisWeek: 0,
+        xpThisMonth: 0,
+        totalLessonsCompleted: 12,
+        totalProblemsCompleted: 1,
+        averageScore: 88,
+        streak: {
+          current: 7,
+          longest: 15,
+          lastActiveDate: '2023-01-01',
         },
-        progress: {
-          completedLessons: 12,
-          totalLessons: 20,
-          averageScore: 88.5,
-          totalAttempts: 15,
+        timeSpent: {
+          totalMinutes: 0,
+          thisWeekMinutes: 0,
+          averagePerSession: 0,
         },
-        recentActivity: [
-          {
-            id: '1',
-            lessonId: 'lesson-1',
-            isCorrect: true,
-            xpEarned: 50,
-            submittedAt: new Date('2023-01-01T00:00:00Z'),
-          },
-        ],
+        achievements: [],
+        weeklyProgress: [],
       };
 
       MockedProfileService.getUserStats.mockResolvedValue(mockStats);
