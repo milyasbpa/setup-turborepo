@@ -103,7 +103,7 @@ export function useLocalizedRoutes() {
   
   const routes = useMemo(() => ({
     // Math Learning App Routes (Primary)
-    lessons: getLocalizedPath('/lessons'),
+    lessons: getLocalizedPath('/'),
     lessonDetail: (id: string | number) => getLocalizedPath(`/lessons/${id}`),
     profile: getLocalizedPath('/profile'),
     results: getLocalizedPath('/results'),
