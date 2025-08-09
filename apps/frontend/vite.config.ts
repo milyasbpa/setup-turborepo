@@ -68,15 +68,6 @@ export default defineConfig(({ mode }) => {
         }
       }
     },
-    preview: {
-      proxy: {
-        [env.VITE_API_BASE_PATH || '/api']: {
-          target: env.VITE_API_URL || 'http://localhost:3002',
-          changeOrigin: true,
-          secure: false,
-        }
-      }
-    },
     build: {
       rollupOptions: {
         external: (id) => {

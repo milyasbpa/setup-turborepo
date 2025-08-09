@@ -183,10 +183,6 @@ export const Environment = {
   ...env,
 
   // Computed properties
-  get isLocalhost(): boolean {
-    return this.baseUrl.includes('localhost') || this.baseUrl.includes('127.0.0.1');
-  },
-
   get isHttps(): boolean {
     return this.baseUrl.startsWith('https://');
   },

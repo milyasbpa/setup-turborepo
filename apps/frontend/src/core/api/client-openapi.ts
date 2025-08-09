@@ -1,14 +1,14 @@
-import createClient, { type Middleware } from 'openapi-fetch';
-import type { paths } from './schema';
-import { Environment } from '@/core/config/environment';
+import createClient, { type Middleware } from "openapi-fetch";
+import type { paths } from "./schema";
+import { Environment } from "@/core/config/environment";
 
 /**
  * Create OpenAPI client with base configuration
  */
 export const apiClient = createClient<paths>({
-  baseUrl: Environment.isLocalhost ? '/' : Environment.apiUrl,
+  baseUrl: Environment.apiUrl,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -17,9 +17,9 @@ export const apiClient = createClient<paths>({
  */
 const authMiddleware: Middleware = {
   onRequest({ request }) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (token) {
-      request.headers.set('Authorization', `Bearer ${token}`);
+      request.headers.set("Authorization", `Bearer ${token}`);
     }
     return request;
   },
@@ -50,13 +50,13 @@ const errorMiddleware: Middleware = {
   onResponse({ response }) {
     // Handle 401 errors
     if (response.status === 401) {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem("authToken");
       // Could dispatch logout action here if using state management
     }
 
     // Log server errors in development
     if (response.status >= 500 && Environment.debugMode) {
-      console.error('Server error occurred');
+      console.error("Server error occurred");
     }
 
     return response;
@@ -72,7 +72,9 @@ apiClient.use(errorMiddleware);
  * Helper function to extract data from API response
  * Backend wraps responses in { success, data, message, timestamp }
  */
-export function extractData<T>(response: { data?: { success?: boolean; data?: T } }): T | null {
+export function extractData<T>(response: {
+  data?: { success?: boolean; data?: T };
+}): T | null {
   return response.data?.data || null;
 }
 
@@ -83,7 +85,7 @@ export function getErrorMessage(error: any): string {
   if (error?.message) {
     return error.message;
   }
-  return 'An unexpected error occurred';
+  return "An unexpected error occurred";
 }
 
 export default apiClient;
