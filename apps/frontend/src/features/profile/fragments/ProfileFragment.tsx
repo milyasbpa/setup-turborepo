@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { profileService, QUERY_KEYS } from '@/core/api';
-import { ProfileProvider } from '../context/ProfileContext';
+import { ProfileProvider, useUserProfile, useUserStats } from '../context/ProfileContext';
 import { ErrorScreen, LoadingScreen } from '@/core/components';
 import { useTranslation } from '@/core/i18n';
 
@@ -14,40 +12,13 @@ interface ProfileFragmentProps {
 }
 
 /**
- * Profile Fragment
- * Handles API integration for user profile and stats with React Query
- * Provides loading, error, and success states to children via context
+ * Profile Fragment Inner Component
+ * Handles loading, error, and success states based on context data
  */
-export const ProfileFragment: React.FC<ProfileFragmentProps> = ({
-  children,
-  userId = 1,
-}) => {
+const ProfileFragmentInner: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { t } = useTranslation('profile');
-  // Fetch user profile
-  const {
-    data: profile,
-    isLoading: profileLoading,
-    error: profileError,
-    refetch: refetchProfile,
-  } = useQuery({
-    queryKey: [...QUERY_KEYS.PROFILE, userId],
-    queryFn: () => profileService.getUserProfile(userId),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-  });
-
-  // Fetch user stats
-  const {
-    data: stats,
-    isLoading: statsLoading,
-    error: statsError,
-    refetch: refetchStats,
-  } = useQuery({
-    queryKey: [...QUERY_KEYS.PROFILE_STATS, userId],
-    queryFn: () => profileService.getUserStats(userId),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-  });
+  const { isLoading: profileLoading, error: profileError, refetch: refetchProfile } = useUserProfile();
+  const { isLoading: statsLoading, error: statsError, refetch: refetchStats } = useUserStats();
 
   // Handle loading state
   if (profileLoading || statsLoading) {
@@ -69,23 +40,23 @@ export const ProfileFragment: React.FC<ProfileFragmentProps> = ({
     );
   }
 
-  // Enhanced context value with actual data
-  const contextValue = {
-    profile: profile || null,
-    profileLoading,
-    profileError: profileError ? (profileError as Error).message : null,
-    
-    stats: stats || null,
-    statsLoading,
-    statsError: statsError ? (statsError as Error).message : null,
-    
-    refetchProfile,
-    refetchStats,
-  };
+  return <>{children}</>;
+};
 
+/**
+ * Profile Fragment
+ * Provides ProfileProvider wrapper and handles UI states
+ * Follows the same pattern as other context-based fragments
+ */
+export const ProfileFragment: React.FC<ProfileFragmentProps> = ({
+  children,
+  userId = 1,
+}) => {
   return (
-    <ProfileProvider value={contextValue}>
-      {children}
+    <ProfileProvider userId={userId}>
+      <ProfileFragmentInner>
+        {children}
+      </ProfileFragmentInner>
     </ProfileProvider>
   );
 };

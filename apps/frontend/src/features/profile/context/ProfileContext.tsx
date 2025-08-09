@@ -1,4 +1,6 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { profileService, QUERY_KEYS } from '@/core/api';
 import type { 
   UserProfile, 
   UserStats,
@@ -7,61 +9,88 @@ import type {
 /**
  * Profile Context Types
  */
-interface ProfileContextValue {
-  // Profile state
-  profile: UserProfile | null;
-  profileLoading: boolean;
-  profileError: string | null;
-  
-  // Stats state
-  stats: UserStats | null;
-  statsLoading: boolean;
-  statsError: string | null;
-  
-  // Actions
-  refetchProfile: () => void;
-  refetchStats: () => void;
+interface ProfileContextType {
+  profileQuery: {
+    data: UserProfile | undefined;
+    isLoading: boolean;
+    error: Error | null;
+    refetch: () => void;
+  };
+  statsQuery: {
+    data: UserStats | undefined;
+    isLoading: boolean;
+    error: Error | null;
+    refetch: () => void;
+  };
+  actions: {
+    // Add any profile specific actions here in the future
+  };
 }
 
 /**
  * Profile Context
  */
-const ProfileContext = createContext<ProfileContextValue | null>(null);
+const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 /**
  * Profile Context Provider Props
  */
 interface ProfileProviderProps {
   children: ReactNode;
-  value?: ProfileContextValue;
+  userId?: number;
 }
 
 /**
  * Profile Context Provider
  * Provides profile-related state and actions to child components
+ * Follows the same pattern as LessonsContext and LessonsDetailContext
  */
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ 
   children, 
-  value: providedValue 
+  userId = 1 
 }) => {
-  // Default value when no value is provided
-  const defaultValue: ProfileContextValue = {
-    profile: null,
-    profileLoading: false,
-    profileError: null,
-    
-    stats: null,
-    statsLoading: false,
-    statsError: null,
-    
-    refetchProfile: () => {},
-    refetchStats: () => {},
-  };
+  // React Query for profile data
+  const profileQuery = useQuery({
+    queryKey: [...QUERY_KEYS.PROFILE, userId],
+    queryFn: () => profileService.getUserProfile(userId),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
 
-  const value = providedValue || defaultValue;
+  // React Query for stats data
+  const statsQuery = useQuery({
+    queryKey: [...QUERY_KEYS.PROFILE_STATS, userId],
+    queryFn: () => profileService.getUserStats(userId),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
+
+  const actions = useMemo(() => ({
+    // Add profile specific actions here in the future
+  }), []);
+
+  const contextValue = useMemo(() => ({
+    profileQuery: {
+      data: profileQuery.data,
+      isLoading: profileQuery.isLoading,
+      error: profileQuery.error,
+      refetch: profileQuery.refetch,
+    },
+    statsQuery: {
+      data: statsQuery.data,
+      isLoading: statsQuery.isLoading,
+      error: statsQuery.error,
+      refetch: statsQuery.refetch,
+    },
+    actions,
+  }), [
+    profileQuery.data, profileQuery.isLoading, profileQuery.error, profileQuery.refetch,
+    statsQuery.data, statsQuery.isLoading, statsQuery.error, statsQuery.refetch,
+    actions
+  ]);
 
   return (
-    <ProfileContext.Provider value={value}>
+    <ProfileContext.Provider value={contextValue}>
       {children}
     </ProfileContext.Provider>
   );
@@ -70,9 +99,9 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
 /**
  * Hook to use Profile Context
  */
-export const useProfile = (): ProfileContextValue => {
+export const useProfile = (): ProfileContextType => {
   const context = useContext(ProfileContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useProfile must be used within a ProfileProvider');
   }
   return context;
@@ -80,28 +109,30 @@ export const useProfile = (): ProfileContextValue => {
 
 /**
  * Hook for profile operations
+ * Provides convenient access to profile data
  */
 export const useUserProfile = () => {
-  const { profile, profileLoading, profileError, refetchProfile } = useProfile();
+  const { profileQuery } = useProfile();
   
   return {
-    profile,
-    isLoading: profileLoading,
-    error: profileError,
-    refetch: refetchProfile,
+    profile: profileQuery.data || null,
+    isLoading: profileQuery.isLoading,
+    error: profileQuery.error,
+    refetch: profileQuery.refetch,
   };
 };
 
 /**
  * Hook for stats operations
+ * Provides convenient access to stats data
  */
 export const useUserStats = () => {
-  const { stats, statsLoading, statsError, refetchStats } = useProfile();
+  const { statsQuery } = useProfile();
   
   return {
-    stats,
-    isLoading: statsLoading,
-    error: statsError,
-    refetch: refetchStats,
+    stats: statsQuery.data || null,
+    isLoading: statsQuery.isLoading,
+    error: statsQuery.error,
+    refetch: statsQuery.refetch,
   };
 };
