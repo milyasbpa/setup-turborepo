@@ -9,186 +9,63 @@ const NotFoundPage = () => {
   const { t } = useTranslation('common');
   const { routes } = useLocalizedRoutes();
   return (
-    <div className="not-found-page">
-      <div className="not-found-content">
-        <div className="not-found-icon">🔍</div>
-        <h1 className="not-found-title">{t('notFoundPage.title')}</h1>
-        <p className="not-found-message">
+    <div className="flex items-center justify-center min-h-[60vh] p-8">
+      <div className="text-center max-w-2xl bg-white/10 p-12 rounded-xl backdrop-blur-md mx-4 md:p-8 md:mx-4">
+        <div className="text-7xl mb-4 opacity-80 md:text-6xl">🔍</div>
+        <h1 className="text-4xl mb-4 bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent font-bold md:text-3xl">
+          {t('notFoundPage.title')}
+        </h1>
+        <p className="text-lg mb-10 text-gray-300 leading-relaxed">
           {t('notFoundPage.message')}
         </p>
         
-        <div className="not-found-actions">
-          <Link to={routes.lessons} className="home-button">
+        <div className="flex gap-4 justify-center mb-8 flex-wrap md:flex-col md:items-center">
+          <Link 
+            to={routes.lessons} 
+            className="px-6 py-3 bg-cyan-400 text-slate-800 rounded-lg font-medium no-underline transition-all duration-300 inline-flex items-center gap-2 hover:bg-cyan-500 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-800 md:w-full md:max-w-xs md:justify-center"
+          >
             📚 {t('navigation:lessons', { ns: 'navigation' })}
           </Link>
-          <Link to={routes.profile} className="profile-button">
-            � {t('navigation:profile', { ns: 'navigation' })}
+          <Link 
+            to={routes.profile} 
+            className="px-6 py-3 bg-transparent text-cyan-400 border-2 border-cyan-400 rounded-lg font-medium no-underline transition-all duration-300 inline-flex items-center gap-2 hover:bg-cyan-400 hover:text-slate-800 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-800 md:w-full md:max-w-xs md:justify-center"
+          >
+            👤 {t('navigation:profile', { ns: 'navigation' })}
           </Link>
         </div>
 
-        <div className="helpful-links">
-          <h3>{t('notFoundPage.popularPages')}</h3>
-          <ul>
-            <li><Link to={routes.lessons}>{t('navigation:lessons', { ns: 'navigation' })}</Link></li>
-            <li><Link to={routes.profile}>{t('navigation:profile', { ns: 'navigation' })}</Link></li>
-            <li><Link to={routes.results}>{t('navigation:results', { ns: 'navigation' })}</Link></li>
+        <div className="border-t border-cyan-400/20 pt-8 mt-8">
+          <h3 className="text-cyan-400 mb-4 text-xl font-medium">
+            {t('notFoundPage.popularPages')}
+          </h3>
+          <ul className="list-none p-0 m-0 flex justify-center gap-8 md:flex-col md:gap-4">
+            <li className="m-0">
+              <Link 
+                to={routes.lessons}
+                className="text-gray-300 no-underline py-2 px-4 rounded-md transition-all duration-300 hover:text-cyan-400 hover:bg-cyan-400/10"
+              >
+                {t('navigation:lessons', { ns: 'navigation' })}
+              </Link>
+            </li>
+            <li className="m-0">
+              <Link 
+                to={routes.profile}
+                className="text-gray-300 no-underline py-2 px-4 rounded-md transition-all duration-300 hover:text-cyan-400 hover:bg-cyan-400/10"
+              >
+                {t('navigation:profile', { ns: 'navigation' })}
+              </Link>
+            </li>
+            <li className="m-0">
+              <Link 
+                to={routes.results}
+                className="text-gray-300 no-underline py-2 px-4 rounded-md transition-all duration-300 hover:text-cyan-400 hover:bg-cyan-400/10"
+              >
+                {t('navigation:results', { ns: 'navigation' })}
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
-
-      <style>{`
-        .not-found-page {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 60vh;
-          padding: 2rem;
-        }
-
-        .not-found-content {
-          text-align: center;
-          max-width: 600px;
-          background: rgba(255, 255, 255, 0.1);
-          padding: 3rem;
-          border-radius: 12px;
-          backdrop-filter: blur(10px);
-        }
-
-        .not-found-icon {
-          font-size: 5rem;
-          margin-bottom: 1rem;
-          opacity: 0.8;
-        }
-
-        .not-found-title {
-          font-size: 2.5rem;
-          margin-bottom: 1rem;
-          color: #61dafb;
-          background: linear-gradient(45deg, #61dafb, #98d8c8);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .not-found-message {
-          font-size: 1.1rem;
-          margin-bottom: 2.5rem;
-          color: #ccc;
-          line-height: 1.6;
-        }
-
-        .not-found-actions {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          margin-bottom: 2rem;
-          flex-wrap: wrap;
-        }
-
-        .home-button,
-        .profile-button {
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 500;
-          transition: all 0.3s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .home-button {
-          background: #61dafb;
-          color: #282c34;
-        }
-
-        .home-button:hover {
-          background: #21a1c4;
-          transform: translateY(-2px);
-        }
-
-        .profile-button {
-          background: transparent;
-          color: #61dafb;
-          border: 2px solid #61dafb;
-        }
-
-        .profile-button:hover {
-          background: #61dafb;
-          color: #282c34;
-          transform: translateY(-2px);
-        }
-
-        .helpful-links {
-          border-top: 1px solid rgba(97, 218, 251, 0.2);
-          padding-top: 2rem;
-          margin-top: 2rem;
-        }
-
-        .helpful-links h3 {
-          color: #61dafb;
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
-        }
-
-        .helpful-links ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: flex;
-          justify-content: center;
-          gap: 2rem;
-        }
-
-        .helpful-links li {
-          margin: 0;
-        }
-
-        .helpful-links a {
-          color: #ccc;
-          text-decoration: none;
-          padding: 0.5rem 1rem;
-          border-radius: 6px;
-          transition: all 0.3s ease;
-        }
-
-        .helpful-links a:hover {
-          color: #61dafb;
-          background: rgba(97, 218, 251, 0.1);
-        }
-
-        @media (max-width: 768px) {
-          .not-found-content {
-            padding: 2rem;
-            margin: 1rem;
-          }
-
-          .not-found-title {
-            font-size: 2rem;
-          }
-
-          .not-found-icon {
-            font-size: 4rem;
-          }
-
-          .not-found-actions {
-            flex-direction: column;
-            align-items: center;
-          }
-
-          .home-button,
-          .profile-button {
-            width: 100%;
-            max-width: 250px;
-            justify-content: center;
-          }
-
-          .helpful-links ul {
-            flex-direction: column;
-            gap: 1rem;
-          }
-        }
-      `}</style>
     </div>
   );
 };

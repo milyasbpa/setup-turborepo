@@ -26,20 +26,24 @@ const ErrorFallback = ({ error, onRetry }: ErrorFallbackProps) => {
   const { routes } = useLocalizedRoutes();
 
   return (
-    <div className="error-boundary">
-      <div className="error-content">
-        <div className="error-icon">⚠️</div>
-        <h1>{t('error.title', { defaultValue: 'Oops! Something went wrong' })}</h1>
-        <p className="error-message">
+    <div className="min-h-screen flex items-center justify-center bg-slate-800 text-white p-8">
+      <div className="text-center max-w-2xl bg-white/10 p-12 rounded-xl backdrop-blur-md mx-4">
+        <div className="text-6xl mb-4">⚠️</div>
+        <h1 className="text-3xl font-bold mb-4 text-red-400 md:text-2xl">
+          {t('error.title', { defaultValue: 'Oops! Something went wrong' })}
+        </h1>
+        <p className="text-lg mb-8 text-gray-300 leading-relaxed">
           {t('error.message', { 
             defaultValue: "We're sorry, but something unexpected happened. Please try refreshing the page." 
           })}
         </p>
         
         {import.meta.env.DEV && error && (
-          <details className="error-details">
-            <summary>{t('error.details', { defaultValue: 'Error Details (Development)' })}</summary>
-            <pre className="error-stack">
+          <details className="text-left my-8 bg-black/30 rounded-lg p-4">
+            <summary className="cursor-pointer text-cyan-400 mb-4 hover:text-cyan-300">
+              {t('error.details', { defaultValue: 'Error Details (Development)' })}
+            </summary>
+            <pre className="text-red-400 text-sm overflow-x-auto whitespace-pre-wrap break-words">
               <strong>Error:</strong> {error.message}
               {error.stack && (
                 <>
@@ -53,139 +57,21 @@ const ErrorFallback = ({ error, onRetry }: ErrorFallbackProps) => {
           </details>
         )}
         
-        <div className="error-actions">
-          <button onClick={onRetry} className="retry-button">
+        <div className="flex gap-4 justify-center flex-wrap md:flex-col md:items-center">
+          <button 
+            onClick={onRetry} 
+            className="px-6 py-3 bg-cyan-400 text-slate-800 rounded-lg font-medium text-base border-none cursor-pointer transition-all duration-300 hover:bg-cyan-500 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-800 md:w-full md:max-w-xs"
+          >
             {t('tryAgain')}
           </button>
-          <Link to={routes.home} className="home-button">
+          <Link 
+            to={routes.home} 
+            className="px-6 py-3 bg-transparent text-cyan-400 border-2 border-cyan-400 rounded-lg font-medium text-base no-underline transition-all duration-300 hover:bg-cyan-400 hover:text-slate-800 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-800 md:w-full md:max-w-xs"
+          >
             {t('goHome')}
           </Link>
         </div>
       </div>
-
-      <style>{`
-        .error-boundary {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #282c34;
-          color: white;
-          padding: 2rem;
-        }
-
-        .error-content {
-          text-align: center;
-          max-width: 600px;
-          background: rgba(255, 255, 255, 0.1);
-          padding: 3rem;
-          border-radius: 12px;
-          backdrop-filter: blur(10px);
-        }
-
-        .error-icon {
-          font-size: 4rem;
-          margin-bottom: 1rem;
-        }
-
-        .error-content h1 {
-          font-size: 2rem;
-          margin-bottom: 1rem;
-          color: #ff6b6b;
-        }
-
-        .error-message {
-          font-size: 1.1rem;
-          margin-bottom: 2rem;
-          color: #ccc;
-          line-height: 1.6;
-        }
-
-        .error-details {
-          text-align: left;
-          margin: 2rem 0;
-          background: rgba(0, 0, 0, 0.3);
-          border-radius: 8px;
-          padding: 1rem;
-        }
-
-        .error-details summary {
-          cursor: pointer;
-          color: #61dafb;
-          margin-bottom: 1rem;
-        }
-
-        .error-stack {
-          color: #ff6b6b;
-          font-size: 0.9rem;
-          overflow-x: auto;
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-
-        .error-actions {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        .retry-button,
-        .home-button {
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 500;
-          transition: all 0.3s ease;
-          border: none;
-          cursor: pointer;
-          font-size: 1rem;
-        }
-
-        .retry-button {
-          background: #61dafb;
-          color: #282c34;
-        }
-
-        .retry-button:hover {
-          background: #21a1c4;
-          transform: translateY(-2px);
-        }
-
-        .home-button {
-          background: transparent;
-          color: #61dafb;
-          border: 2px solid #61dafb;
-        }
-
-        .home-button:hover {
-          background: #61dafb;
-          color: #282c34;
-          transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-          .error-content {
-            padding: 2rem;
-            margin: 1rem;
-          }
-
-          .error-content h1 {
-            font-size: 1.5rem;
-          }
-
-          .error-actions {
-            flex-direction: column;
-            align-items: center;
-          }
-
-          .retry-button,
-          .home-button {
-            width: 100%;
-            max-width: 200px;
-          }
-        }
-      `}</style>
     </div>
   );
 };
