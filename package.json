@@ -9,7 +9,10 @@
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "prepare": "husky",
-    "commitlint": "commitlint --edit --verbose"
+    "commitlint": "commitlint --edit --verbose",
+    "api:export": "cd apps/backend && npm run export-openapi",
+    "api:generate": "cd apps/frontend && npm run generate-types",
+    "api:update": "npm run api:export && npm run api:generate"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

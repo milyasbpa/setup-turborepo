@@ -7,14 +7,16 @@ async function main() {
   try {
     console.log('🚀 Exporting OpenAPI specification...');
     
-    const outputPath = process.argv[2] || path.join(process.cwd(), 'openapi.json');
+    // Default path to turbo root level for shared access
+    const defaultPath = path.join(process.cwd(), '../../openapi.json');
+    const outputPath = process.argv[2] || defaultPath;
     const exportedFile = exportOpenApiSpec(outputPath);
     
     console.log('✅ OpenAPI specification exported successfully!');
     console.log(`📁 File location: ${exportedFile}`);
     console.log('📖 You can use this file to:');
     console.log('  - Import into Postman or Insomnia');
-    console.log('  - Generate client SDKs');
+    console.log('  - Generate client SDKs in frontend');
     console.log('  - Share API documentation');
     console.log('  - Validate API compliance');
     

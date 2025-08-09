@@ -17,6 +17,7 @@
     "test:no-threshold": "jest --coverage --passWithNoTests",
     "test:debug": "jest --detectOpenHandles --verbose",
     "export-openapi": "tsx src/scripts/export-openapi.ts",
+    "export-openapi:watch": "tsx watch src/scripts/export-openapi.ts",
     "db:setup": "./scripts/setup-db.sh",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
