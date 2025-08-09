@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from '@/core/i18n';
 
 interface LearningPatternProps {
   pattern: {
@@ -12,10 +13,12 @@ interface LearningPatternProps {
 }
 
 const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
+  const { t } = useTranslation('recommendations');
+  
   const getSpeedLabel = (speed: number) => {
-    if (speed < 0.8) return 'Methodical';
-    if (speed > 1.2) return 'Fast';
-    return 'Steady';
+    if (speed < 0.8) return t('insights.speed.slow');
+    if (speed > 1.2) return t('insights.speed.fast');
+    return t('insights.speed.medium');
   };
 
   const getScoreColor = (score: number) => {
@@ -36,14 +39,14 @@ const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
   return (
     <div className="learning-pattern-card bg-white rounded-lg shadow p-6 mb-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        📊 Your Learning Pattern
+        📊 {t('insights.title')}
       </h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Average Score */}
         <div className="stat-item">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Average Score</span>
+            <span className="text-sm text-gray-600">{t('insights.averageScore')}</span>
             <span className={`text-lg font-bold ${getScoreColor(pattern.averageScore)}`}>
               {pattern.averageScore.toFixed(1)}%
             </span>
@@ -62,7 +65,7 @@ const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
         {/* Learning Speed */}
         <div className="stat-item">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Learning Speed</span>
+            <span className="text-sm text-gray-600">{t('insights.learningSpeed')}</span>
             <span className="text-lg font-bold text-blue-600">
               {getSpeedLabel(pattern.learningSpeed)}
             </span>
@@ -75,7 +78,7 @@ const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
         {/* Consistency Score */}
         <div className="stat-item">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Consistency</span>
+            <span className="text-sm text-gray-600">{t('insights.consistency')}</span>
             <span className={`text-lg font-bold ${getScoreColor(pattern.consistencyScore)}`}>
               {pattern.consistencyScore}%
             </span>
@@ -95,7 +98,7 @@ const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Strong Areas */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-2">💪 Strong Areas</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-2">💪 {t('insights.strongAreas')}</h4>
           <div className="flex flex-wrap gap-2">
             {pattern.strongAreas.map((area, index) => (
               <span
@@ -110,7 +113,7 @@ const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
 
         {/* Struggling Areas */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-2">📈 Growth Areas</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-2">📈 {t('insights.growthAreas')}</h4>
           <div className="flex flex-wrap gap-2">
             {pattern.strugglingAreas.map((area, index) => (
               <span
@@ -126,9 +129,9 @@ const LearningPatternCard: React.FC<LearningPatternProps> = ({ pattern }) => {
 
       {/* Preferred Difficulty */}
       <div className="mt-4">
-        <h4 className="text-sm font-medium text-gray-900 mb-2">🎯 Preferred Difficulty</h4>
+        <h4 className="text-sm font-medium text-gray-900 mb-2">🎯 {t('insights.preferredDifficulty')}</h4>
         <span className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${getDifficultyColor(pattern.preferredDifficulty)}`}>
-          {pattern.preferredDifficulty}
+          {t(`insights.difficulty.${pattern.preferredDifficulty}`)}
         </span>
       </div>
     </div>

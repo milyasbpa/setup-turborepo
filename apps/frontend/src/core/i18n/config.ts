@@ -9,12 +9,14 @@ import enNavigation from './locales/en/navigation.json';
 import enLessons from './locales/en/lessons.json';
 import enProfile from './locales/en/profile.json';
 import enResults from './locales/en/results.json';
+import enRecommendations from './locales/en/recommendations.json';
 
 import idCommon from './locales/id/common.json';
 import idNavigation from './locales/id/navigation.json';
 import idLessons from './locales/id/lessons.json';
 import idProfile from './locales/id/profile.json';
 import idResults from './locales/id/results.json';
+import idRecommendations from './locales/id/recommendations.json';
 
 // Supported languages configuration
 export const SUPPORTED_LANGUAGES = {
@@ -45,6 +47,7 @@ const resources = {
     lessons: enLessons,
     profile: enProfile,
     results: enResults,
+    recommendations: enRecommendations,
   },
   id: {
     common: idCommon,
@@ -52,6 +55,7 @@ const resources = {
     lessons: idLessons,
     profile: idProfile,
     results: idResults,
+    recommendations: idRecommendations,
   },
 };
 

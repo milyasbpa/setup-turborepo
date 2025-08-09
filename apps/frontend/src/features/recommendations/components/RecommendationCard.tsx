@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '@/core/i18n';
 import type { LessonRecommendation } from '@/core/api/services-openapi';
 
 interface RecommendationCardProps {
@@ -15,6 +16,8 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   isNext = false,
   isHighlighted = false,
 }) => {
+  const { t } = useTranslation('recommendations');
+  
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {
       case 'easy': return 'bg-green-100 text-green-800';
@@ -30,15 +33,6 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     return 'text-red-600';
   };
 
-  const formatTime = (minutes: number) => {
-    if (minutes < 60) {
-      return `${minutes}m`;
-    }
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return remainingMinutes === 0 ? `${hours}h` : `${hours}h ${remainingMinutes}m`;
-  };
-
   const cardClasses = `
     bg-white rounded-lg shadow-md transition-all duration-200 hover:shadow-lg border
     ${isHighlighted ? 'ring-2 ring-blue-500 border-blue-200' : 'border-gray-200'}
@@ -49,7 +43,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     <div className={cardClasses}>
       {isNext && (
         <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-bl-lg font-medium">
-          Next
+          {t('nextLesson.priority')}
         </div>
       )}
       
@@ -65,7 +59,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             </h3>
           </div>
           <div className="flex items-center space-x-1 ml-2">
-            <span className="text-xs text-gray-500">confidence:</span>
+            <span className="text-xs text-gray-500">{t('nextLesson.confidence')}:</span>
             <span className={`text-sm font-bold ${getConfidenceColor(recommendation.confidenceScore)}`}>
               {recommendation.confidenceScore}%
             </span>
@@ -91,17 +85,17 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              {formatTime(recommendation.estimatedCompletionTime)}
+              {t('duration.minutes', { count: recommendation.estimatedCompletionTime })}
             </span>
             <span className="flex items-center">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              {recommendation.xpReward} XP
+              {t('duration.xp', { count: recommendation.xpReward })}
             </span>
           </div>
           <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${getDifficultyColor(recommendation.difficulty)}`}>
-            {recommendation.difficulty}
+            {t(`difficulty.${recommendation.difficulty.toLowerCase()}`)}
           </span>
         </div>
 
@@ -116,7 +110,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             }
           `}
         >
-          {isNext ? 'Start Now' : 'View Lesson'}
+          {isNext ? t('recommendations.startNow') : t('recommendations.viewLesson')}
         </Link>
       </div>
     </div>

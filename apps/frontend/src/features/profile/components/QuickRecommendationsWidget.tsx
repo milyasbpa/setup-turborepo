@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Target, ArrowRight, TrendingUp } from 'lucide-react';
 import { useLocalizedRoutes } from '@/core/i18n';
-import { useRecommendations } from '../../recommendations/hooks/useRecommendations';
+import { useRecommendationsDirect } from '../../recommendations/hooks/useRecommendations';
 
 /**
  * Quick Recommendations Widget for Profile Page
@@ -10,7 +10,7 @@ import { useRecommendations } from '../../recommendations/hooks/useRecommendatio
  */
 export const QuickRecommendationsWidget: React.FC = () => {
   const { routes } = useLocalizedRoutes();
-  const { data: learningPath, isLoading } = useRecommendations({ 
+  const { data: learningPath, isLoading } = useRecommendationsDirect({ 
     userId: 1, 
     limit: 2 
   });

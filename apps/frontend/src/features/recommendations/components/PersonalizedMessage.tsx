@@ -1,10 +1,13 @@
 import React from 'react';
+import { useTranslation } from '@/core/i18n';
 
 interface PersonalizedMessageProps {
   message: string;
 }
 
 const PersonalizedMessage: React.FC<PersonalizedMessageProps> = ({ message }) => {
+  const { t } = useTranslation('recommendations');
+  
   return (
     <div className="personalized-message bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
       <div className="flex items-start">
@@ -27,7 +30,7 @@ const PersonalizedMessage: React.FC<PersonalizedMessageProps> = ({ message }) =>
         </div>
         <div className="ml-3">
           <h3 className="text-sm font-medium text-blue-800 mb-1">
-            Personalized Insight
+            {t('personalizedMessage.title')}
           </h3>
           <p className="text-sm text-blue-700 leading-relaxed">
             {message}

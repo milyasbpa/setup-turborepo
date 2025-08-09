@@ -1,0 +1,61 @@
+{
+  "title": "Jalur Pembelajaran Adaptif Anda",
+  "generatedAt": "Dibuat",
+  "error": {
+    "failedToLoad": "Gagal memuat rekomendasi",
+    "noRecommendations": "Tidak ada rekomendasi tersedia",
+    "noRecommendationsMessage": "Selesaikan beberapa pelajaran untuk mendapatkan rekomendasi personal!"
+  },
+  "insights": {
+    "title": "Wawasan Pembelajaran",
+    "averageScore": "Skor Rata-rata",
+    "learningSpeed": "Kecepatan Belajar",
+    "consistency": "Konsistensi",
+    "strongAreas": "Area Kuat",
+    "growthAreas": "Area Berkembang",
+    "preferredDifficulty": "Tingkat Kesulitan Pilihan",
+    "speed": {
+      "slow": "Metodis",
+      "medium": "Stabil",
+      "fast": "Cepat"
+    },
+    "difficulty": {
+      "easy": "Mudah",
+      "medium": "Sedang",
+      "hard": "Sulit"
+    }
+  },
+  "nextLesson": {
+    "title": "Pelajaran Selanjutnya yang Direkomendasikan",
+    "priority": "Prioritas",
+    "confidence": "keyakinan"
+  },
+  "recommendations": {
+    "title": "Pelajaran yang Direkomendasikan",
+    "count": "rekomendasi",
+    "viewLesson": "Lihat Pelajaran",
+    "startNow": "Mulai Sekarang",
+    "revisit": "Ulangi pelajaran ini untuk meningkatkan skor Anda dari",
+    "buildConfidence": "Bangun kepercayaan diri dengan pelajaran fundamental ini",
+    "strengthen": "Perkuat keterampilan tingkat menengah Anda"
+  },
+  "goals": {
+    "title": "Tujuan Pembelajaran Anda",
+    "improve": "Tingkatkan akurasi hingga {{target}} atau lebih tinggi",
+    "focus": "Fokus pada penguatan keterampilan dalam: {{skills}}",
+    "work": "Bekerja untuk mengalahkan rekor terbaik Anda selama {{streak}} hari"
+  },
+  "difficulty": {
+    "easy": "Mudah",
+    "medium": "Sedang",
+    "hard": "Sulit"
+  },
+  "duration": {
+    "minutes": "{{count}}m",
+    "xp": "{{count}} XP"
+  },
+  "personalizedMessage": {
+    "title": "Pesan Personal",
+    "default": "Berdasarkan kemajuan Anda, kami merekomendasikan untuk fokus pada pelajaran di bawah ini untuk meningkatkan keterampilan matematika Anda."
+  }
+}

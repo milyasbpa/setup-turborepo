@@ -2,13 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import { recommendationService } from '@/core/api/services-openapi';
 import type { AdaptiveLearningPath } from '@/core/api/services-openapi';
 
-interface UseRecommendationsOptions {
+interface UseRecommendationsDirectOptions {
   userId?: number;
   limit?: number;
   enabled?: boolean;
 }
 
-export const useRecommendations = (options: UseRecommendationsOptions = {}) => {
+/**
+ * Direct React Query hook for recommendations
+ * @deprecated Use RecommendationsContext with useAdaptiveLearningPath instead
+ */
+export const useRecommendationsDirect = (options: UseRecommendationsDirectOptions = {}) => {
   const { userId = 1, limit, enabled = true } = options;
 
   return useQuery<AdaptiveLearningPath, Error>({
@@ -21,4 +25,7 @@ export const useRecommendations = (options: UseRecommendationsOptions = {}) => {
   });
 };
 
-export default useRecommendations;
+// Keep the old export for backward compatibility
+export const useRecommendations = useRecommendationsDirect;
+
+export default useRecommendationsDirect;

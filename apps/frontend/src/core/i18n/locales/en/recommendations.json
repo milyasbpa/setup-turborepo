@@ -1,0 +1,61 @@
+{
+  "title": "Your Adaptive Learning Path",
+  "generatedAt": "Generated",
+  "error": {
+    "failedToLoad": "Failed to load recommendations",
+    "noRecommendations": "No recommendations available",
+    "noRecommendationsMessage": "Complete some lessons to get personalized recommendations!"
+  },
+  "insights": {
+    "title": "Learning Insights",
+    "averageScore": "Average Score",
+    "learningSpeed": "Learning Speed",
+    "consistency": "Consistency",
+    "strongAreas": "Strong Areas",
+    "growthAreas": "Growth Areas",
+    "preferredDifficulty": "Preferred Difficulty",
+    "speed": {
+      "slow": "Methodical",
+      "medium": "Steady", 
+      "fast": "Fast"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "nextLesson": {
+    "title": "Recommended Next Lesson",
+    "priority": "Priority",
+    "confidence": "confidence"
+  },
+  "recommendations": {
+    "title": "Recommended Lessons",
+    "count": "recommendations",
+    "viewLesson": "View Lesson",
+    "startNow": "Start Now",
+    "revisit": "Revisit this lesson to improve your score from",
+    "buildConfidence": "Build confidence with this fundamental lesson",
+    "strengthen": "Strengthen your medium level skills"
+  },
+  "goals": {
+    "title": "Your Learning Goals",
+    "improve": "Improve accuracy to {{target}} or higher",
+    "focus": "Focus on strengthening skills in: {{skills}}",
+    "work": "Work towards beating your best streak of {{streak}} days"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "duration": {
+    "minutes": "{{count}}m",
+    "xp": "{{count}} XP"
+  },
+  "personalizedMessage": {
+    "title": "Personalized Message",
+    "default": "Based on your progress, we recommend focusing on the lessons below to improve your math skills."
+  }
+}
