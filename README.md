@@ -9,6 +9,10 @@ This monorepo includes the following packages and apps:
 ###Preview
 Lessons
 ![alt text](image.png)
+Sample Problem
+![alt text](image-8.png)
+Lesson Completed
+![alt text](image-9.png)
 Recommendations
 ![alt text](image-1.png)
 ![alt text](image-2.png)
