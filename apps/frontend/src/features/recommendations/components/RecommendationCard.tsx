@@ -47,18 +47,18 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         </div>
       )}
       
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         {/* Header with rank and confidence */}
         <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center space-x-2">
-            <span className="flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-800 text-sm font-bold rounded-full">
+          <div className="flex items-center space-x-2 flex-1 min-w-0">
+            <span className="flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-800 text-sm font-bold rounded-full flex-shrink-0">
               {rank}
             </span>
-            <h3 className="text-lg font-semibold text-gray-900 truncate">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 min-w-0">
               {recommendation.title}
             </h3>
           </div>
-          <div className="flex items-center space-x-1 ml-2">
+          <div className="flex flex-col items-end ml-2 flex-shrink-0">
             <span className="text-xs text-gray-500">{t('nextLesson.confidence')}:</span>
             <span className={`text-sm font-bold ${getConfidenceColor(recommendation.confidenceScore)}`}>
               {recommendation.confidenceScore}%
@@ -67,19 +67,19 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
           {recommendation.description}
         </p>
 
         {/* Recommendation Reason */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-          <p className="text-blue-800 text-sm font-medium">
+          <p className="text-blue-800 text-sm font-medium leading-relaxed">
             💡 {recommendation.recommendationReason}
           </p>
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600 mb-4 space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-3">
             <span className="flex items-center">
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +94,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
               {t('duration.xp', { count: recommendation.xpReward })}
             </span>
           </div>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${getDifficultyColor(recommendation.difficulty)}`}>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize self-start sm:self-auto ${getDifficultyColor(recommendation.difficulty)}`}>
             {t(`difficulty.${recommendation.difficulty.toLowerCase()}`)}
           </span>
         </div>
@@ -103,7 +103,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
         <Link
           to={`/lessons/${recommendation.lessonId}`}
           className={`
-            block w-full text-center py-3 px-4 rounded-lg font-medium transition-colors
+            block w-full text-center py-3 px-4 rounded-lg font-medium transition-colors text-sm sm:text-base
             ${isNext || isHighlighted 
               ? 'bg-blue-600 text-white hover:bg-blue-700' 
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

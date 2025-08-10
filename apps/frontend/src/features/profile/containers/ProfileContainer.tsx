@@ -76,14 +76,16 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({
   return (
     <div className={`space-y-8 ${className}`}>
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('title')}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t('title')}</h1>
           <p className="text-gray-600">{t('subtitle')}</p>
         </div>
-        <Link to="/lessons">
-          <Button>{t('actions.continueLearning')}</Button>
-        </Link>
+        <div className="flex-shrink-0">
+          <Link to="/lessons">
+            <Button className="w-full sm:w-auto">{t('actions.continueLearning')}</Button>
+          </Link>
+        </div>
       </div>
 
       {/* Profile Header */}
@@ -105,20 +107,20 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Ready for more challenges?</h3>
-            <p className="opacity-90">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-4 sm:p-6 text-white">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+          <div className="flex-1">
+            <h3 className="text-lg sm:text-xl font-semibold mb-2">Ready for more challenges?</h3>
+            <p className="opacity-90 text-sm sm:text-base leading-relaxed">
               {stats.totalLessonsCompleted >= 10 // Assume 10 lessons total for demo
                 ? "You've completed all available lessons! Check back for new content."
                 : `${10 - stats.totalLessonsCompleted} lessons remaining to master math.`
               }
             </p>
           </div>
-          <div className="flex space-x-3">
+          <div className="flex-shrink-0">
             <Link to="/lessons">
-              <Button variant="secondary">
+              <Button variant="secondary" className="w-full sm:w-auto">
                 {stats.totalLessonsCompleted >= 10 ? 'Review Lessons' : 'Continue Learning'}
               </Button>
             </Link>
