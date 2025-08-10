@@ -6,7 +6,7 @@ A modern monorepo setup featuring a **Duolingo-style math learning app** with **
 
 This monorepo includes the following packages and apps:
 
-###Preview
+### Preview
 Lessons
 ![alt text](image.png)
 Sample Problem
