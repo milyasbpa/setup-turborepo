@@ -2521,10 +2521,6 @@ This AI/ML integration strategy transforms MathLearn from a static learning plat
 6. Push to the branch: `git push origin feature/amazing-feature`
 7. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 🙏 Acknowledgments
 
 - [Turborepo](https://turbo.build/) for the amazing monorepo tooling
@@ -2535,4 +2531,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Happy coding!** 🎉
 
-If you encounter any issues or have questions, please open an issue on GitHub.
+If you encounter any issues or have questions, please open an issue on GitHub or reachme on bashirahilyas@gmail.com.
